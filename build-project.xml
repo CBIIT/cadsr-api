@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--************************************************************************
+* This is the a helper build file for the caBIO project that builds the 
+* system once the SDK and custom code is in place. Much of this script
+* is specific to overrides necessary for caBIO.
+*************************************************************************-->
+		
+<project name="caDSR_API_build" default="build-system" basedir="build">
+	
+	<description>Helper build script</description>
+
+	<property name="project.home.dir" value=".." />
+	<property name="project.build.dir" value="${basedir}" />
+	<property name="project.output.dir" value="${project.home.dir}/output" />
+
+	<import file="${project.build.dir}/build.xml" />
+	
+	<property name="custom.src.dir" value="${project.home.dir}/system/src" />
+	<property name="custom.lib.dir" value="${project.home.dir}/lib" />
+	<property name="custom.build.dir" value="${project.build.dir}/custom" />
+	<property name="custom.classes.dir" value="${custom.build.dir}/build" />
+	<property name="custom.docs.dir" value="${custom.build.dir}/docs" />
+	<property name="custom.jar.path" value="${custom.build.dir}/${PROJECT_NAME}-client-framework.jar" />
+
+	
+	<!-- Override default SDK behavior in the main build target -->
+		
+	<target name="build-system" 
+			description="Generate the entire system">
+					
+		<!-- call the SDK -->
+		<antcall target="caCORESDK.build-system" />
+		
+		<!-- take the resulting system from the SDK -->
+		<antcall target="Custom.dist" />
+		
+	</target>
+	
+    <target name="Custom.dist">
+
+		<SDKecho message="${ant.project.name}: Creating distribution"/>
+			
+	  	<copy todir="${project.output.dir}">
+	    	<fileset dir="${package.dir}"/>
+	  	</copy>
+	  		
+    </target>
+	
+	
+</project>
