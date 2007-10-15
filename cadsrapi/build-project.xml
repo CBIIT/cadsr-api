@@ -37,7 +37,16 @@
 		
 	</target>
 	
-    <target name="Custom.dist">
+	<!-- override to increase memory -->
+	<target name="codegen" depends="prepare-codegen,init" description="Runs the Code Generator">
+		<SDKecho message="${ant.project.name}: Running the code generator"/>
+		<java classname="gov.nih.nci.codegen.Generator" failonerror="true" fork="true"  maxmemory="256m">
+			<arg value="${codegen.config.file}" />
+			<classpath refid="codegen.runtime" />
+		</java>
+	</target>
+
+	<target name="Custom.dist">
 
 		<SDKecho message="${ant.project.name}: Creating distribution"/>
 			
@@ -45,7 +54,7 @@
 	    	<fileset dir="${package.dir}"/>
 	  	</copy>
 	  		
-    </target>
+	</target>
 	
 	
 </project>
