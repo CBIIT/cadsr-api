@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--************************************************************************
+* This is the top-level build file for the project. It creates a local copy 
+* of the caCORE SDK, copies this project's custom file versions over top of 
+* it and then calls the build-project.xml ant script to actually build the 
+* system. 
+*************************************************************************-->
+<project name="cadsrapi" default="build:system" basedir=".">
+
+	<property name="download.dir" value="${basedir}/download" />
+	<property name="web.dir" value="${basedir}/web" />
+	<property name="unzip.dir" value="${basedir}/unzip" />
+	<property name="project.build.dir" value="${basedir}/build" />
+	<property name="project.output.dir" value="${basedir}/output" />
+	<property name="common.dir" value="${basedir}/common" />
+	<property name="conf.dir" value="${basedir}/conf" />
+
+	<property file="build.properties" />
+	<property file="${conf.dir}/install.properties" />
+	<property name="project.home" location="${sdk.home.dir}/example-project" />
+	<property name="project.build.home" location="${project.home}/build" />
+
+	<property name="web.dir" value="${basedir}/web" />
+	
+	
+	<property name="project.dist.dir" value="${project.output.dir}/${PROJECT_NAME}" />
+	<property name="package.output.dir" value="${project.dist.dir}/package" />
+	<property name="package.system.dir" value="${package.output.dir}/webapp" />
+	<property name="project.home" location="${sdk.home.dir}/example-project" />
+	<property name="project.target" location="${project.home}/target" />
+	<property name="project.dist" location="${project.target}/dist" />
+	<property name="package.client.dir" location="${project.dist}/exploded/output/${PROJECT_NAME}/package" />
+	<property name="package.local" location="${package.client.dir}/local-client" />
+	<property name="package.remote" location="${package.client.dir}/remote-client" />
+	<property name="package.ws" location="${package.client.dir}/ws-client" />
+	<property name="war.dir" location="${package.client.dir}/server/jboss/server/default/deploy"></property>
+	
+	<property name="project.build.home" location="${project.home}/build" />
+
+	<property name="CADSR.DS.URL" value="${CADSR.DS.TNS.HOST}:${CADSR.DS.TNS.PORT}:${CADSR.DS.TNS.SID}" />
+	<property name="CADSR.DS.USER" value="${CADSR.DS.USER}" />
+	<property name="CADSR.DS.PSWD" value="${CADSR.DS.PSWD}" />
+	<property name="PROJECT_NAME" value="${PROJECT_NAME}" />
+	<filter token="CADSR.DS.URL" value="${CADSR.DS.URL}" />
+	<filter token="CADSR.DS.USER" value="${CADSR.DS.USER}" />
+	<filter token="CADSR.DS.PSWD" value="${CADSR.DS.PSWD}" />
+
+
+	<target name="clean" description="Removes generated files">
+		<delete dir="${project.build.dir}" quiet="true" />
+		<delete dir="${project.output.dir}" quiet="true" />
+	</target>
+
+
+	<target name="customize-sdk">
+		<antcall target="load-sdk" />
+		<antcall target="load-project" />
+	</target>
+
+	<!-- check whether sdk binary file from the common library has been downloaded-->
+	<condition property="cacore-sdk.downloaded">
+		<available file="${download.dir}/${cacore-sdk.binaries.file}" />
+	</condition>
+
+	<!-- download the sdk binary only if it's not yet in the download directory -->
+	<target name="retrieve:cacore-sdk" unless="cacore-sdk.downloaded">
+		<echo message="Retrieving caCORE SDK ..." />
+		<mkdir dir="${download.dir}" />
+		<get src="${cacore-sdk.src.url}" dest="${download.dir}/${cacore-sdk.binaries.file}" />
+	</target>
+
+	<!-- check whether sdk has already been installed at sdk.home.dir -->
+	<condition property="cacore-sdk.installed">
+		<available file="${sdk.home.dir}" />
+	</condition>
+
+	<!-- install sdk only if sdk.home.dir is not empty -->
+	<target name="install:cacore-sdk">
+		<antcall target="retrieve:cacore-sdk" />
+		<mkdir dir="${unzip.dir}" />
+		<unzip src="${download.dir}/SDK-4.4.1-src.zip" dest="${sdk.home.dir}" />
+	</target>
+
+	<target name="load-sdk" depends="install:cacore-sdk" description="Make a local copy of the SDK">
+
+		<mkdir dir="${project.build.dir}" />
+		<mkdir dir="${project.build.dir}/models" />
+
+
+	</target>
+
+	<target name="load-project" description="Copy the project's custom conf files and model over the SDK">
+		<!-- copy model -->
+		<copy todir="${project.home}/models" overwrite="true">
+			<fileset dir="${basedir}/models">
+				<include name="*.xmi" />
+			</fileset>
+		</copy>
+
+
+
+		<!-- copy build folder -->
+
+		<copy todir="${project.build.home}" overwrite="true" filtering="true">
+			<fileset dir="${conf.dir}">
+				<include name="**/*" />
+			</fileset>
+		</copy>
+		<replace file="${project.build.home}/install.properties" token="@CADSR.DS.TNS.HOST@" value="${CADSR.DS.TNS.HOST}" />
+		<replace file="${project.build.home}/install.properties" token="@CADSR.DS.TNS.PORT@" value="${CADSR.DS.TNS.PORT}" />
+		<replace file="${project.build.home}/install.properties" token="@CADSR.DS.TNS.SID@" value="${CADSR.DS.TNS.SID}" />
+		<replace file="${project.build.home}/install.properties" token="@CADSR.DS.USER@" value="${CADSR.DS.USER}" />
+		<replace file="${project.build.home}/install.properties" token="@CADSR.DS.PSWD@" value="${CADSR.DS.PSWD}" />
+
+
+
+	</target>
+	<target name="build:system" description="Builds the entire system. This is used mostly by development team or BDA certification team" depends="retrieve:cacore-sdk,load-sdk,load-project">
+		<ant antfile="${project.build.home}/build.xml" inheritall="false" inheritrefs="false" target="build:SDK" />
+		<antcall target="package-webapp" />
+
+	</target>
+	<target name="unzip:war">
+		<mkdir dir="${web.dir}" />
+		<unzip src="${war.dir}/${PROJECT_NAME}.war" dest="${web.dir}" />
+	</target>
+	<target name="copy-customization">
+		<mkdir dir="${web.dir}" />
+		<copy todir="${web.dir}" overwrite="true">
+			<fileset dir="${common.dir}/customizations/SDK/system/web">
+				<include name="**/*" />
+			</fileset>
+		</copy>
+	</target>
+	<target name="package-webapp" depends="unzip:war,copy-customization">
+		<war destfile="${package.system.dir}\${PROJECT_NAME}.war" webxml="${web.dir}\WEB-INF\web.xml">
+			<manifest>
+				<attribute name="Generated-By" value="caCORE SDK Code Generator" />
+			</manifest>
+
+			<fileset dir="${web.dir}">
+				<include name="**/*" />
+
+			</fileset>
+
+		</war>
+		<copy todir="${project.output.dir}/jboss" overwrite="true">
+			<fileset dir="${common.dir}\oracle-ds">
+				<include name="cadsrapi-oracle-ds.xml" />
+
+			</fileset>
+		</copy>
+		<replace file="${project.output.dir}/jboss/cadsrapi-oracle-ds.xml" token="@CADSR.DS.URL@" value="${CADSR.DS.URL}" />
+		<replace file="${project.output.dir}/jboss/cadsrapi-oracle-ds.xml" token="@CADSR.DS.USER@" value="${CADSR.DS.USER}" />
+		<replace file="${project.output.dir}/jboss/cadsrapi-oracle-ds.xml" token="@CADSR.DS.PSWD@" value="${CADSR.DS.PSWD}" />
+		<copy todir="${project.output.dir}/jboss">
+			<fileset dir="${web.dir}/WEB-INF/lib">
+				<include name="ojdbc14-10.2.0.3.0.jar" />
+			</fileset>
+		</copy>
+	</target>
+
+
+</project>

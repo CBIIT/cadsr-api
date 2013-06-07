@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- ===================================================================== -->
+<!--                                                                       -->
+<!--  JBoss Server Configuration                                           -->
+<!--                                                                       -->
+<!-- ===================================================================== -->
+<!-- $Id: cadsrapi-oracle-ds.xml,v 1.6 2009-01-14 16:05:51 avdicd Exp $ -->
+<!-- ==================================================================== -->
+<!--  Datasource config for Oracle originally from Steven Coy             -->
+<!-- ==================================================================== -->
+
+
+<!--  Make sure that the jndi-name is cadsrAPI as that is the name hibernate -->
+<!--  configuration expects.                                                 -->
+
+<datasources>
+	<local-tx-datasource>
+		<jndi-name>cadsrAPI</jndi-name>
+		<connection-url>jdbc:oracle:thin:@@CADSR.DS.URL@ </connection-url>
+		<driver-class>oracle.jdbc.driver.OracleDriver</driver-class>
+		<user-name>@CADSR.DS.USER@</user-name>
+		<password>@CADSR.DS.PSWD@</password>
+		<exception-sorter-class-name>org.jboss.resource.adapter.jdbc.vendor.OracleExceptionSorter</exception-sorter-class-name>
+        <check-valid-connection-sql>select 1 from dual</check-valid-connection-sql>
+   		<blocking-timeout-millis>10000</blocking-timeout-millis>
+   		<idle-timeout-minutes>20</idle-timeout-minutes>
+   		<max-pool-size>85</max-pool-size>
+   		<min-pool-size>1</min-pool-size>
+	</local-tx-datasource>
+</datasources>
