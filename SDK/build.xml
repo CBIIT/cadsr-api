@@ -144,16 +144,16 @@
 			</fileset>
 
 		</war>
-		<copy todir="${project.output.dir}/jboss" overwrite="true">
+		<copy todir="${project.dist.dir}/jboss" overwrite="true">
 			<fileset dir="${common.dir}\oracle-ds">
 				<include name="cadsrapi-oracle-ds.xml" />
 
 			</fileset>
 		</copy>
-		<replace file="${project.output.dir}/jboss/cadsrapi-oracle-ds.xml" token="@CADSR.DS.URL@" value="${CADSR.DS.URL}" />
-		<replace file="${project.output.dir}/jboss/cadsrapi-oracle-ds.xml" token="@CADSR.DS.USER@" value="${CADSR.DS.USER}" />
-		<replace file="${project.output.dir}/jboss/cadsrapi-oracle-ds.xml" token="@CADSR.DS.PSWD@" value="${CADSR.DS.PSWD}" />
-		<copy todir="${project.output.dir}/jboss">
+		<replace file="${project.dist.dir}/jboss/cadsrapi-oracle-ds.xml" token="@CADSR.DS.URL@" value="${CADSR.DS.URL}" />
+		<replace file="${project.dist.dir}/jboss/cadsrapi-oracle-ds.xml" token="@CADSR.DS.USER@" value="${CADSR.DS.USER}" />
+		<replace file="${project.dist.dir}/jboss/cadsrapi-oracle-ds.xml" token="@CADSR.DS.PSWD@" value="${CADSR.DS.PSWD}" />
+		<copy todir="${project.dist.dir}/jboss">
 			<fileset dir="${web.dir}/WEB-INF/lib">
 				<include name="ojdbc14-10.2.0.3.0.jar" />
 			</fileset>
