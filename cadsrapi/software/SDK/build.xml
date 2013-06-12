@@ -9,7 +9,7 @@
 
 	<property name="download.dir" value="${basedir}/download" />
 	<property name="web.dir" value="${basedir}/web" />
-	<property name="unzip.dir" value="${basedir}/cacore_sdk_411" />
+	<property name="unzip.dir" value="${basedir}/cacore_sdk_441" />
 	<property name="project.build.dir" value="${basedir}/build" />
 	<property name="project.output.dir" value="${basedir}/output" />
 	<property name="common.dir" value="${basedir}/common" />
