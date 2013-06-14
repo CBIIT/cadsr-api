@@ -133,7 +133,7 @@
 		</copy>
 	</target>
 	<target name="package-webapp" depends="unzip:war,copy-customization">
-		<war destfile="${package.system.dir}\${PROJECT_NAME}.war" webxml="${web.dir}\WEB-INF\web.xml">
+		<war destfile="${package.system.dir}\${PROJECT_NAME}.war" webxml="${web.dir}/WEB-INF/web.xml">
 			<manifest>
 				<attribute name="Generated-By" value="caCORE SDK Code Generator" />
 			</manifest>
@@ -145,7 +145,7 @@
 
 		</war>
 		<copy todir="${project.dist.dir}/jboss" overwrite="true">
-			<fileset dir="${common.dir}\oracle-ds">
+			<fileset dir="${common.dir}/oracle-ds">
 				<include name="cadsrapi-oracle-ds.xml" />
 
 			</fileset>
