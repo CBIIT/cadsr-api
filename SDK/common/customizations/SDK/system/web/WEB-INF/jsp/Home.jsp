@@ -152,7 +152,7 @@ CDEs address a significant problem in biomedical data management--the many and v
 																							</li>
 																							<li>
                                                                                                 <a  target="_blank"
-																								    href="docs/index.html">caDSR 4.0
+																								    href="docs/index.html">caDSR 4.0.1
 																									javadocs</a>
 																							</li>
 																						</ul>
