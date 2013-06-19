@@ -137,8 +137,11 @@
 		</copy>
 	</target>
 	<target name="package-webapp" depends="unzip:war,copy-customization,clean">
+		<mkdir dir="${project.output.dir}" />
+		<mkdir dir="${package.output.dir}" />
 		<mkdir dir="${package.system.dir}" />
-		<war destfile="${package.system.dir}/${PROJECT_NAME}.war" basedir="${web.dir}">
+		<war destfile="${package.system.dir}/${PROJECT_NAME}.war" webxml="${web.dir}\WEB-INF\web.xml">
+		
 			<manifest>
 				<attribute name="Generated-By" value="caCORE SDK Code Generator" />
 			</manifest>
