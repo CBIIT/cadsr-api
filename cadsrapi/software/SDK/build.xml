@@ -8,8 +8,8 @@
 <project name="cadsrapi" default="build:system" basedir=".">
 
 	<property name="download.dir" value="${basedir}/download" />
-	<property name="software.dir" value="${sdk.home.dir}/software" />
-	<property name="SDK.dir" value="${basedir}/cacore_sdk_441" />
+	<property name="web.dir" value="${basedir}/web" />
+	<property name="unzip.dir" value="${basedir}/cacore_sdk_441" />
 	<property name="project.build.dir" value="${basedir}/build" />
 	<property name="project.output.dir" value="${basedir}/output" />
 	<property name="common.dir" value="${basedir}/common" />
@@ -49,6 +49,9 @@
 	<target name="clean" description="Removes generated files">
 		<delete dir="${project.build.dir}" quiet="true" />
 		<delete dir="${project.output.dir}" quiet="true" />
+		<delete dir="${package.system.dir}" quiet="true" />
+		
+
 	</target>
 
 
@@ -77,7 +80,7 @@
 	<!-- install sdk only if sdk.home.dir is not empty -->
 	<target name="install:cacore-sdk">
 		<antcall target="retrieve:cacore-sdk" />
-		<mkdir dir="${SDK.dir}" />
+		<mkdir dir="${unzip.dir}" />
 		<unzip src="${download.dir}/SDK-4.4.1-src.zip" dest="${sdk.home.dir}" />
 	</target>
 
@@ -97,11 +100,7 @@
 			</fileset>
 		</copy>
 
-		<copy todir="${sdk.home.dir}/software/workspace/web" overwrite="true">
-						<fileset dir="${common.dir}/customizations/SDK/system/web">
-							<include name="**/*" />
-						</fileset>
-					</copy>
+
 
 		<!-- copy build folder -->
 
@@ -121,41 +120,14 @@
 	</target>
 	<target name="build:system" description="Builds the entire system. This is used mostly by development team or BDA certification team" depends="retrieve:cacore-sdk,load-sdk,load-project">
 		<ant antfile="${project.build.home}/build.xml" inheritall="false" inheritrefs="false" target="build:SDK" />
-		<!--<antcall target="package-webapp" />-->
-		<copy todir="${project.dist.dir}/jboss" overwrite="true">
-					<fileset dir="${common.dir}\oracle-ds">
-						<include name="cadsrapi-oracle-ds.xml" />
+		<antcall target="package-webapp" />
 
-					</fileset>
-				</copy>
-		<replace file="${project.dist.dir}/jboss/cadsrapi-oracle-ds.xml" token="@CADSR.DS.URL@" value="${CADSR.DS.URL}" />
-						<replace file="${project.dist.dir}/jboss/cadsrapi-oracle-ds.xml" token="@CADSR.DS.USER@" value="${CADSR.DS.USER}" />
-						<replace file="${project.dist.dir}/jboss/cadsrapi-oracle-ds.xml" token="@CADSR.DS.PSWD@" value="${CADSR.DS.PSWD}" />
-		<copy todir="${project.dist.dir}/jboss">
-					<fileset dir="${web.dir}/WEB-INF/lib">
-						<include name="ojdbc14-10.2.0.3.0.jar" />
-					</fileset>
-				</copy>
-		<copy todir="${package.system.dir}" overwrite="true">
-							<fileset dir="${war.dir}">
-								<include name="${PROJECT_NAME}.war" />
-
-							</fileset>
-						</copy>
-				
 	</target>
-<!--	<target name="unzip:war">
+	<target name="unzip:war">
+		<delete dir="${web.dir}" quiet="true" />
 		<mkdir dir="${web.dir}" />
-		<unzip src="${war.dir}/${PROJECT_NAME}.war" dest="${web.dir}" />
+		<unzip src="${war.dir}/${PROJECT_NAME}.war" dest="${web.dir}" overwrite="true" />
 	</target>
-	<target name="copy-customization">
-			
-			<copy todir="${software.dir}/workspace/web" overwrite="true">
-				<fileset dir="${common.dir}/customizations/SDK/system/web">
-					<include name="**/*" />
-				</fileset>
-			</copy>
-		</target>
 	<target name="copy-customization">
 		<mkdir dir="${web.dir}" />
 		<copy todir="${web.dir}" overwrite="true">
@@ -164,8 +136,9 @@
 			</fileset>
 		</copy>
 	</target>
-	<target name="package-webapp" depends="unzip:war,copy-customization">
-		<war destfile="${package.system.dir}\${PROJECT_NAME}.war" webxml="${web.dir}\WEB-INF\web.xml">
+	<target name="package-webapp" depends="unzip:war,copy-customization,clean">
+		<mkdir dir="${package.system.dir}" />
+		<war destfile="${package.system.dir}/${PROJECT_NAME}.war" basedir="${web.dir}">
 			<manifest>
 				<attribute name="Generated-By" value="caCORE SDK Code Generator" />
 			</manifest>
@@ -176,8 +149,9 @@
 			</fileset>
 
 		</war>
+			
 		<copy todir="${project.dist.dir}/jboss" overwrite="true">
-			<fileset dir="${common.dir}\oracle-ds">
+			<fileset dir="${common.dir}/oracle-ds">
 				<include name="cadsrapi-oracle-ds.xml" />
 
 			</fileset>
@@ -190,7 +164,7 @@
 				<include name="ojdbc14-10.2.0.3.0.jar" />
 			</fileset>
 		</copy>
-	</target>-->
+	</target>
 
 
 </project>
