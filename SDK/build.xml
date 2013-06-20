@@ -21,10 +21,13 @@
 	<property name="project.build.home" location="${project.home}/build" />
 
 	<property name="web.dir" value="${basedir}/web" />
-	
-	
+
+
 	<property name="project.dist.dir" value="${project.output.dir}/${PROJECT_NAME}" />
 	<property name="package.output.dir" value="${project.dist.dir}/package" />
+	<property name="output.package.local.dir" value="${package.output.dir}/local-client" />
+	<property name="output.package.remote.dir" value="${package.output.dir}/remote-client" />
+	<property name="output.package.ws.dir" value="${package.output.dir}/ws-client" />
 	<property name="package.system.dir" value="${package.output.dir}/webapp" />
 	<property name="project.home" location="${sdk.home.dir}/example-project" />
 	<property name="project.target" location="${project.home}/target" />
@@ -33,8 +36,9 @@
 	<property name="package.local" location="${package.client.dir}/local-client" />
 	<property name="package.remote" location="${package.client.dir}/remote-client" />
 	<property name="package.ws" location="${package.client.dir}/ws-client" />
-	<property name="war.dir" location="${package.client.dir}/server/jboss/server/default/deploy"></property>
-	
+	<property name="war.dir" location="${package.client.dir}/server/jboss/server/default/deploy">
+	</property>
+
 	<property name="project.build.home" location="${project.home}/build" />
 
 	<property name="CADSR.DS.URL" value="${CADSR.DS.TNS.HOST}:${CADSR.DS.TNS.PORT}:${CADSR.DS.TNS.SID}" />
@@ -50,10 +54,8 @@
 		<delete dir="${project.build.dir}" quiet="true" />
 		<delete dir="${project.output.dir}" quiet="true" />
 		<delete dir="${package.system.dir}" quiet="true" />
-		
 
 	</target>
-
 
 	<target name="customize-sdk">
 		<antcall target="load-sdk" />
@@ -84,14 +86,6 @@
 		<unzip src="${download.dir}/SDK-4.4.1-src.zip" dest="${sdk.home.dir}" />
 	</target>
 
-	<target name="load-sdk" depends="install:cacore-sdk" description="Make a local copy of the SDK">
-
-		<mkdir dir="${project.build.dir}" />
-		<mkdir dir="${project.build.dir}/models" />
-
-
-	</target>
-
 	<target name="load-project" description="Copy the project's custom conf files and model over the SDK">
 		<!-- copy model -->
 		<copy todir="${project.home}/models" overwrite="true">
@@ -101,8 +95,7 @@
 		</copy>
 
 
-
-		<!-- copy build folder -->
+		<!-- copy conf folder -->
 
 		<copy todir="${project.build.home}" overwrite="true" filtering="true">
 			<fileset dir="${conf.dir}">
@@ -115,10 +108,8 @@
 		<replace file="${project.build.home}/install.properties" token="@CADSR.DS.USER@" value="${CADSR.DS.USER}" />
 		<replace file="${project.build.home}/install.properties" token="@CADSR.DS.PSWD@" value="${CADSR.DS.PSWD}" />
 
-
-
 	</target>
-	<target name="build:system" description="Builds the entire system. This is used mostly by development team or BDA certification team" depends="retrieve:cacore-sdk,load-sdk,load-project">
+	<target name="build:system" description="Builds the entire system. This is used mostly by development team or BDA certification team" depends="retrieve:cacore-sdk,load-project">
 		<ant antfile="${project.build.home}/build.xml" inheritall="false" inheritrefs="false" target="build:SDK" />
 		<antcall target="package-webapp" />
 
@@ -141,7 +132,7 @@
 		<mkdir dir="${package.output.dir}" />
 		<mkdir dir="${package.system.dir}" />
 		<war destfile="${package.system.dir}/${PROJECT_NAME}.war" webxml="${web.dir}\WEB-INF\web.xml">
-		
+
 			<manifest>
 				<attribute name="Generated-By" value="caCORE SDK Code Generator" />
 			</manifest>
@@ -152,7 +143,7 @@
 			</fileset>
 
 		</war>
-			
+
 		<copy todir="${project.dist.dir}/jboss" overwrite="true">
 			<fileset dir="${common.dir}/oracle-ds">
 				<include name="cadsrapi-oracle-ds.xml" />
@@ -167,6 +158,23 @@
 				<include name="ojdbc14-10.2.0.3.0.jar" />
 			</fileset>
 		</copy>
+		<mkdir dir="${output.package.local.dir}" />
+		<mkdir dir="${output.package.remote.dir}" />
+		<mkdir dir="${output.package.ws.dir}" />
+
+		<copy todir="${output.package.local.dir}">
+			<fileset dir="${package.local}">
+			</fileset>
+		</copy>
+		<copy todir="${output.package.remote.dir}">
+			<fileset dir="${package.remote}">
+			</fileset>
+		</copy>
+		<copy todir="${output.package.ws.dir}">
+			<fileset dir="${package.ws}">
+			</fileset>
+		</copy>
+
 	</target>
 
 
