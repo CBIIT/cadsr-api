@@ -85,6 +85,13 @@
 		<mkdir dir="${unzip.dir}" />
 		<unzip src="${download.dir}/SDK-4.4.1-src.zip" dest="${sdk.home.dir}" />
 	</target>
+	<target name="load-sdk" depends="install:cacore-sdk" description="Make a local copy of the SDK">
+
+		<mkdir dir="${project.build.dir}" />
+		<mkdir dir="${project.build.dir}/models" />
+
+
+	</target>
 
 	<target name="load-project" description="Copy the project's custom conf files and model over the SDK">
 		<!-- copy model -->
@@ -109,7 +116,7 @@
 		<replace file="${project.build.home}/install.properties" token="@CADSR.DS.PSWD@" value="${CADSR.DS.PSWD}" />
 
 	</target>
-	<target name="build:system" description="Builds the entire system. This is used mostly by development team or BDA certification team" depends="retrieve:cacore-sdk,load-project">
+	<target name="build:system" description="Builds the entire system. This is used mostly by development team or BDA certification team" depends="retrieve:cacore-sdk,load-sdk,load-project">
 		<ant antfile="${project.build.home}/build.xml" inheritall="false" inheritrefs="false" target="build:SDK" />
 		<antcall target="package-webapp" />
 
