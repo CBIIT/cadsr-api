@@ -1,0 +1,126 @@
+<!DOCTYPE project>
+<!--
+ Contexttree Ant build 
+ =============================================
+
+ Author: Arth Thitisatanant
+ 
+
+ This build script was created using Ant version 1.6 and Java 1.4.2_06
+-->
+
+<project name="CSVTransformer" default="init" basedir=".">
+  
+  <property name="CSVTransformer.version" value="4.0.0.0"/>
+  <property name="CSVTransformer.build" value="1"/>
+  <property name="project.home" value="."/>
+  <property name="app.name" value="CSVTransformer"/>
+    
+  <!-- Java Source Directories -->
+  <property name="java.src.dir" value="${project.home}/src/transformation"/>
+    
+  <!-- distribute Directories -->
+  <property name="build.dir" value="${project.home}/build"/>
+  <property name="dist.dir" value="${project.home}/dist"/>
+  <property name="classes.build.dir" value="${build.dir}/classes"/>
+  <property name="java.lib.dir" value="${project.home}/lib"/>  
+  <property name="odi.dir" location="${project.home}/ospack" />  
+
+  <!-- =========== CLEAN BUILD AREA ======================= -->
+    <target name="clean">
+          <delete dir="${classes.build.dir}"/>
+          <delete dir="${build.dir}"/>   
+          <delete dir="${dist.dir}"/>          
+    </target>
+    
+    <target name="clean_build_dir">
+          <delete dir="${classes.build.dir}" quiet="false"/>
+          <delete dir="${build.dir}" quiet="false"/>           
+    </target>
+ <!-- =========== END CLEAN BUILD AREA ======================= -->
+ 
+ 
+ <!-- =========== CONFIGURATION ======================= -->
+   <!-- Initialize the system -->
+   <target name="init">
+     <!-- Create build dir -->
+     <!-- Create time stamp -->
+     <tstamp/>
+     <mkdir dir="${build.dir}"/>
+     <mkdir dir="${classes.build.dir}"/>
+     <mkdir dir="${dist.dir}"/>
+   </target>
+   <!-- end init -->
+ <!-- =========== END CONFIGURATION ======================= -->
+
+
+   <!--Set the lib classpath-->
+   <path id="classpath">
+    <fileset dir="${java.lib.dir}">
+      <include name="*.jar"/>
+      <include name="*.zip"/>
+    </fileset>
+   </path>
+   
+   <path id="srcpath">
+         <pathelement location="${java.src.dir}"/>
+   </path>
+   
+   <target name="compile" depends="init">
+      <javac destdir="${classes.build.dir}" debug="on" >
+         <classpath refid="classpath"/>
+         <src refid="srcpath"/>
+      </javac>  
+   </target>
+   
+        <!-- ============ CREATE cadsrutil JAR FILE ================== -->
+        <target name="jar_CSVTransformer" depends="clean,compile">
+            <jar jarfile="${dist.dir}/CSVTransformer.jar">
+              <fileset dir="${classes.build.dir}">
+                <patternset>
+                        <!-- <include name="gov/nih/nci/objectCart/**/*.*"/> -->
+                        <include name="gov/nih/nci/ncicb/**/*.*"/>
+                </patternset>
+              </fileset>           
+           <fileset dir="${java.src.dir}">
+             <patternset>
+               <include name="gov/nih/nci/ncicb/cadsr/common/persistence/dao/jdbc/jndi.properties"/>
+               <include name="gov/nih/nci/ncicb/cadsr/common/jndi.properties"/>
+               <include name="gov/nih/nci/ncicb/cadsr/common/persistence/**/*.xml"/>
+             </patternset>
+           </fileset>      
+            </jar>
+          </target>
+          <!-- =========== END cadsrutil JAR PROCESS ======================= -->
+
+        <!-- ============ copies jar to other tools mentioned in this target ================== -->     
+         <target name="build_copy_jar" depends="jar_CSVTransformer"> 
+                <!-- Each developer should change this to point to their local directory -->
+                        
+                <copy file="${dist.dir}/CSVTransformer.jar" tofile="C:\Workspace\CSVTransformer\target\deploy\CSVTransformer.jar"/>    
+              
+
+         </target>
+    <target name="package-download" description="Packages the project for public distribution and access.">
+        <echo>Building project Open Source Download package ...</echo>
+        <delete dir="${odi.dir}"/>
+        <mkdir dir="${odi.dir}"/>
+        <mkdir dir="${odi.dir}/conf"/>
+        <copy todir="${odi.dir}/conf">
+            <fileset dir="${project.home}/conf"/>
+        </copy>
+        <mkdir dir="${odi.dir}/lib/java"/>
+        <copy todir="${odi.dir}/lib/java">
+            <fileset dir="${project.home}/lib"/>
+        </copy>
+        <mkdir dir="${odi.dir}/src/java"/>
+        <copy todir="${odi.dir}/src/java">
+            <fileset dir="${java.src.dir}"/>
+        </copy>
+        <zip destfile="${dist.dir}/cadsrutil_ospack.zip">
+            <zipfileset dir="${odi.dir}"/>
+        </zip>
+        <tar destfile="${dist.dir}/cadsrutil_ospack.tar.gz" basedir="${odi.dir}" compression="gzip"/>        
+         </target>
+        
+</project>
