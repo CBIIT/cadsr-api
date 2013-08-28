@@ -13,8 +13,8 @@ public class FilesTransformationTest {
 	
 	//File sf = new File("C:/Users/thitisatananta/Documents/TransformerUtility/CDEBrowser/test2.xml"); // source file		
 	
-	File sf = new File("C:/Users/thitisatananta/Documents/TransformerUtility/FormB/test.xml");
-	File tf = new File("C:/Users/thitisatananta/Documents/TransformerUtility/FormB/FormDemo.xslt");
+	File sf = new File("test.xml");
+	File tf = new File("FormDemo.xslt");
 	
 	
 	//String xmlFile = sf.toString();
