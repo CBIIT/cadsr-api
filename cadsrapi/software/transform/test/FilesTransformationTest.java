@@ -9,15 +9,10 @@ import org.junit.Test;
 
 public class FilesTransformationTest {
 
-
-	
-	//File sf = new File("C:/Users/thitisatananta/Documents/TransformerUtility/CDEBrowser/test2.xml"); // source file		
 	
 	File sf = new File("test.xml");
 	File tf = new File("FormDemo.xslt");
 	
-	
-	//String xmlFile = sf.toString();
 	
 	@Test
 	
@@ -25,7 +20,6 @@ public class FilesTransformationTest {
 	
 	
 	{
-		//File sf = new File("C:/Users/thitisatananta/Documents/TransformerUtility/CDEBrowser/test2.xml"); // source file		
 		 StringBuilder sb = new StringBuilder();
 		
 		  sb.append(sf);
