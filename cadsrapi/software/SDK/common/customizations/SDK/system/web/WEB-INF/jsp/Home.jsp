@@ -117,6 +117,8 @@
 																				</tr>
 																				<tr>
 																					<td class="welcomeContent" valign="top">
+											caDSR API domain class browser includes three major components: caDSR domain model, Object Cart model and caDSR UML project model.<br><br>
+											 
                                                                                         caDSR is the Cancer Data Standards Repository of Common Data Elements (CDEs), a database managed at NCICB. CDEs are used as data descriptors (metadata) for NCI-sponsored research.
                                                                                         <br>
                                                                                         <br>
@@ -127,37 +129,52 @@ caCORE objects are represented by UML Models. A UML Model is used to facilitate 
                                                                                         <br>
                                                                                         <br>
 CDEs address a significant problem in biomedical data management--the many and varied ways that similar or identical concepts are described. CDEs provide consistent data descriptors (metadata), making it possible to aggregate and manage both modest-sized and large data sets in order to be able to ask and answer basic questions.
-																						<br>
-																						<br>
-																						References:
-																						<br>
+<br><br><b><u>caDSR domain model:</u></b>
+This is the principal caDSR API, and it is based on the ISO 11179 information model as extended to capture caDSR semantics.
+<br><br>
+			<b><u>Object Cart model:</u></b> <br>
+				The Object Cart application is a an application built on top of the caCORE SDK with the purpose of providing shopping cart type operations for data objects.  
+			    The Object Cart provides a client API that client applications can utilize to create instance of object "carts" to be able to store, retrieve, update, and delete data objects.  
+				Both Java objects adhering to the JavaBean specification and XML documents representing data objects can be passed to the client API.  
 
-																						<ul>
-																							<li>
-																								<a  target="_blank"
-																									href="https://gforge.nci.nih.gov/projects/cadsrdb/">caDSR
-																									Database/API GForge site</a> - Contains news, information,
-																								documents, defects, feedback, and reports
-																							</li>
-																							<li>
-                                                                                                <a  target="_blank"
-																									href="http://ncicb.nci.nih.gov/NCICB/infrastructure/cacore_overview/cadsr">caDSR
-																									Information Home</a> - Contains documents,
-																								information, and downloads for the caDSR
-																							</li>
-																							<li>
-                                                                                                <a  target="_blank"
-																									href="https://wiki.nci.nih.gov/display/caDSR/caDSR+API+4.0.1+Release+Notes">caDSR
-																									4.0.1 Release Notes</a>
-																							</li>
-																							<li>
-                                                                                                <a  target="_blank"
-																								    href="docs/index.html">caDSR 4.0.1
-																									javadocs</a>
-																							</li>
-																						</ul>
-																					</td>
-																				</tr>
+				The initial users of the Object Cart application are the CDE Browser and Forms Builder applications, allowing users to share their collections of objects 
+				(Administered Components, CDEs, etc...) amongst the two applications while keeping the CDE Browser and Forms Builder decoupled.
+
+<br><br><b><u>caDSR UML project model:</u></b></b>
+This API presents a UML Model view of the underlying caDSR metadata. The API objects are mapped to a set of materialized views views in the underlying database.
+
+				<br>
+				<br>
+				References:
+				<br>
+
+				<ul>
+					<li>
+						<a  target="_blank"
+							href="https://gforge.nci.nih.gov/projects/cadsrdb/">caDSR
+							Database/API GForge site</a> - Contains news, information,
+						documents, defects, feedback, and reports
+					</li>
+					<li>
+<a  target="_blank"
+							href="http://ncicb.nci.nih.gov/NCICB/infrastructure/cacore_overview/cadsr">caDSR
+							Information Home</a> - Contains documents,
+						information, and downloads for the caDSR
+					</li>
+					<li>
+<a  target="_blank"
+							href="https://wiki.nci.nih.gov/display/caDSR/caDSR+API+4.1+Release+Notes">caDSR
+							4.1 Release Notes</a>
+					</li>
+					<li>
+<a  target="_blank"
+						    href="docs/index.html">caDSR 4.1
+							javadocs</a>
+					</li>
+				</ul>
+			</td>
+		</tr>
+																			
 																			</table>
 																			<!-- welcome ends -->
 
@@ -299,18 +316,14 @@ CDEs address a significant problem in biomedical data management--the many and v
 																								<td class="sidebarContent">
 																									<ul>
 																										<li>
-																											508 Compliance
+																											Merged caDSR API domain model with secure Object Cart
 																										</li>
 
 																										<li>
-																											New User Interface
+																											508 Compliance
 																										</li>
-																										<li>
-																											New hierarchical package/class browsing
-																										</li>
-																										<li>
-																											New single-session authentication
-																										</li>
+
+																										
 																									</ul>
 																								</td>
 																							</tr>

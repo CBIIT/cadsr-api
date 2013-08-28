@@ -7,9 +7,23 @@
 *************************************************************************-->
 <project name="cadsrapi" default="build:system" basedir=".">
 
+
+	<property name="src.dir" location="${basedir}/common/customizations/java" />
+	<property name="migration.src.dir" location="${basedir}/migration/src" />
+	<property name="migration.lib.dir" location="${basedir}/migration/lib" />
+	<property name="lib.dir" location="${basedir}/lib" />
+	<property name="docs.dir" location="${basedir}/docs" />
+	<property name="ds.dir" location="${basedir}/resources/ds" />
+	<property name="orm.dir" location="${basedir}/resources/conf/ORM" />
+	<property name="system.lib.dir" location="${basedir}/lib/system" />
+	<property name="build.dir" location="${basedir}/build" />
+	<property name="build.classes.dir" location="${basedir}/build/classes" />
+	<property name="dist.dir" location="${basedir}/dist" />
+	<property name="output.client.remote.dir" location="${basedir}/dist/remote" />
+
 	<property name="download.dir" value="${basedir}/download" />
 	<property name="web.dir" value="${basedir}/web" />
-	<property name="unzip.dir" value="${basedir}/cacore_sdk_441" />
+	<property name="unzip.dir" value="${basedir}/cacore_sdk_45" />
 	<property name="project.build.dir" value="${basedir}/build" />
 	<property name="project.output.dir" value="${basedir}/output" />
 	<property name="common.dir" value="${basedir}/common" />
@@ -19,9 +33,6 @@
 	<property file="${conf.dir}/install.properties" />
 	<property name="project.home" location="${sdk.home.dir}/example-project" />
 	<property name="project.build.home" location="${project.home}/build" />
-
-	<property name="web.dir" value="${basedir}/web" />
-
 
 	<property name="project.dist.dir" value="${project.output.dir}/${PROJECT_NAME}" />
 	<property name="package.output.dir" value="${project.dist.dir}/package" />
@@ -50,6 +61,30 @@
 	<filter token="CADSR.DS.PSWD" value="${CADSR.DS.PSWD}" />
 
 
+	<path id="classpath">
+		<fileset dir="${lib.dir}">
+			<include name="*.jar" />
+		</fileset>
+		<fileset dir="${package.local}/lib">
+			<include name="*.jar" />
+		</fileset>
+	</path>
+
+	<path id="migration-classpath">
+		<fileset dir="${migration.lib.dir}">
+			<include name="*.jar" />
+		</fileset>
+	</path>
+
+	<path id="classpath-client">
+		<fileset dir="${lib.dir}">
+			<include name="*.jar" />
+		</fileset>
+		<fileset dir="${output.package.local.dir}/lib">
+			<include name="*.jar" />
+		</fileset>
+	</path>
+	
 	<target name="clean" description="Removes generated files">
 		<delete dir="${project.build.dir}" quiet="true" />
 		<delete dir="${project.output.dir}" quiet="true" />
@@ -83,7 +118,7 @@
 	<target name="install:cacore-sdk">
 		<antcall target="retrieve:cacore-sdk" />
 		<mkdir dir="${unzip.dir}" />
-		<unzip src="${download.dir}/SDK-4.4.1-src.zip" dest="${sdk.home.dir}" />
+		<unzip src="${download.dir}/SDK-4.5-src.zip" dest="${sdk.home.dir}" />
 	</target>
 	<target name="load-sdk" depends="install:cacore-sdk" description="Make a local copy of the SDK">
 
@@ -119,7 +154,8 @@
 	<target name="build:system" description="Builds the entire system. This is used mostly by development team or BDA certification team" depends="retrieve:cacore-sdk,load-sdk,load-project">
 		<ant antfile="${project.build.home}/build.xml" inheritall="false" inheritrefs="false" target="build:SDK" />
 		<antcall target="package-webapp" />
-
+		<antcall target="-build-client-jar" />
+		<antcall target="-copy-client-jar" />
 	</target>
 	<target name="unzip:war">
 		<delete dir="${web.dir}" quiet="true" />
@@ -127,17 +163,68 @@
 		<unzip src="${war.dir}/${PROJECT_NAME}.war" dest="${web.dir}" overwrite="true" />
 	</target>
 	<target name="copy-customization">
-		<mkdir dir="${web.dir}" />
 		<copy todir="${web.dir}" overwrite="true">
 			<fileset dir="${common.dir}/customizations/SDK/system/web">
 				<include name="**/*" />
 			</fileset>
 		</copy>
+		<copy file="${project.dist.dir}/caDSRAPI-core-ext.jar" todir="${web.dir}/WEB-INF/lib"/>
 	</target>
-	<target name="package-webapp" depends="unzip:war,copy-customization,clean">
+	
+	<target name="-copy-client-jar">
+		<copy file="${project.dist.dir}/caDSRAPI-client-ext.jar" todir="${output.package.remote.dir}/lib"/>
+		<copy file="${project.dist.dir}/caDSRAPI-client-ext.jar" todir="${output.package.local.dir}/lib"/>
+	</target>	
+
+	<target name="package-webapp" depends="unzip:war,build-core-jar,copy-customization">
 		<mkdir dir="${project.output.dir}" />
 		<mkdir dir="${package.output.dir}" />
 		<mkdir dir="${package.system.dir}" />
+		<mkdir dir="${output.package.local.dir}" />
+		<mkdir dir="${output.package.remote.dir}" />
+		<mkdir dir="${output.package.ws.dir}" />
+
+		<copy todir="${output.package.local.dir}" overwrite="true">
+			<fileset dir="${package.local}">
+			</fileset>
+		</copy>
+		
+		<copy todir="${output.package.remote.dir}" overwrite="true">
+			<fileset dir="${package.remote}">
+				<include name="**/*" />
+			</fileset>
+		</copy>
+		<copy todir="${output.package.ws.dir}" overwrite="true">
+			<fileset dir="${package.ws}">
+				<include name="**/*" />
+			</fileset>
+		</copy>
+		<copy todir="${web.dir}/WEB-INF/lib" overwrite="true">
+			<fileset dir="${lib.dir}">
+				<include name="**/*" />
+			</fileset>
+		</copy>
+		
+		<copy todir="${output.package.local.dir}/conf" overwrite="true">
+			<fileset dir="${conf.dir}/system/package/local-client/conf">
+				<include name="**/*" />
+			</fileset>
+		</copy>
+		<copy todir="${output.package.remote.dir}/conf" overwrite="true">
+			<fileset dir="${conf.dir}/system/package/remote-client/conf">
+				<include name="**/*" />
+			</fileset>
+		</copy>
+		<copy todir="${output.package.ws.dir}/conf" overwrite="true">
+			<fileset dir="${conf.dir}/system/package/ws-client/conf">
+				<include name="**/*" />
+			</fileset>
+		</copy>
+
+
+		<antcall target="-build-client-jar" /> 	
+		<copy file="${project.dist.dir}/caDSRAPI-client-ext.jar" todir="${web.dir}/WEB-INF/lib"/>
+		<delete file="${web.dir}/WEB-INF/lib/servlet.jar" quiet="true" />
 		<war destfile="${package.system.dir}/${PROJECT_NAME}.war" webxml="${web.dir}\WEB-INF\web.xml">
 
 			<manifest>
@@ -165,24 +252,96 @@
 				<include name="ojdbc14-10.2.0.3.0.jar" />
 			</fileset>
 		</copy>
-		<mkdir dir="${output.package.local.dir}" />
-		<mkdir dir="${output.package.remote.dir}" />
-		<mkdir dir="${output.package.ws.dir}" />
+	</target>
 
-		<copy todir="${output.package.local.dir}">
-			<fileset dir="${package.local}">
+	<target name="-build-client-jar" depends="compile-client" description="Prepates distribution files">
+		<jar destfile="${project.dist.dir}\caDSRAPI-client-ext.jar" basedir="${build.classes.dir}">
+			<manifest>
+				<attribute name="Generated-By" value="caCORE SDK Code Generator" />
+			</manifest>
+			<include name="gov/nih/nci/cadsrapi/client/**/*" />
+			<include name="gov/nih/nci/cadsrapi/applicationService/*.*" />
+			<include name="gov/nih/nci/cadsrapi/util/ValidatorException.*" />
+			<fileset dir="${src.dir}">
+				<include name="gov/nih/nci/cadsrapi/client/**/*" />
+				<include name="gov/nih/nci/cadsrapi/applicationService/*.*" />
+				<include name="gov/nih/nci/cadsrapi/util/ValidatorException.*" />
 			</fileset>
-		</copy>
-		<copy todir="${output.package.remote.dir}">
-			<fileset dir="${package.remote}">
+			<fileset dir="${output.package.remote.dir}/conf">
+				<include name="log4j.properties" />
 			</fileset>
-		</copy>
-		<copy todir="${output.package.ws.dir}">
-			<fileset dir="${package.ws}">
+		</jar>
+	</target>
+	
+	<target name="build-core-jar" depends="compile-core" description="Prepates distribution files">
+		<jar destfile="${project.dist.dir}\caDSRAPI-core-ext.jar" basedir="${build.classes.dir}">
+			<manifest>
+				<attribute name="Generated-By" value="caCORE SDK Code Generator" />
+			</manifest>
+			<include name="gov/nih/nci/cadsrapi/dao/**/*" />
+			<include name="gov/nih/nci/cadsrapi/dao/orm/**/*" />
+			<include name="gov/nih/nci/cadsrapi/applicationService/impl/**/*" />
+			<include name="gov/nih/nci/cadsrapi/util/**/*" />
+			<include name="gov/nih/nci/cadsrapi/util/xml/**/*" />
+			<fileset dir="${src.dir}">
+				<include name="gov/nih/nci/cadsrapi/dao/**/*" />
+				<include name="gov/nih/nci/cadsrapi/dao/orm/**/*" />
+				<include name="gov/nih/nci/cadsrapi/applicationService/impl/**/*" />
+				<include name="gov/nih/nci/cadsrapi/util/**/*" />
+				<include name="gov/nih/nci/cadsrapi/util/xml/**/*" />
 			</fileset>
+		</jar>
+
+	</target>
+	
+	<target name="init">
+		<delete dir="${build.classes.dir}" quiet="true" />
+		<delete dir="${project.dist.dir}" quiet="true" />
+		<mkdir dir="${build.classes.dir}" />
+		<mkdir dir="${project.dist.dir}" />
+	</target>
+	
+	<target name="compile-core" description="Compiles source code">
+		<javac srcdir="${src.dir}" destdir="${build.classes.dir}" debug="true">
+			<classpath refid="classpath" />
+			<exclude name="gov/nih/nci/cadsrapi/jUnit/**/*" />
+		</javac>
+		<copy todir="${build.classes.dir}">
+			<fileset dir="${src.dir}" includes="gov/nih/nci/system/web/struts/action/package.properties" />
 		</copy>
+	</target>
+	<target name="compile-client" description="Compiles source code">
+		<javac srcdir="${src.dir}" destdir="${build.classes.dir}" debug="true">
+			<classpath refid="classpath-client" />
+			<exclude name="gov/nih/nci/cadsrapi/jUnit/**/*" />
+		</javac>
+		<copy todir="${build.classes.dir}">
+			<fileset dir="${src.dir}" includes="gov/nih/nci/system/web/struts/action/package.properties" />
+		</copy>
+	</target>
+	<target name="compile" depends="init" description="Compiles source code">
+		<javac srcdir="${src.dir}" destdir="${build.classes.dir}" debug="true">
+			<classpath refid="classpath" />
+		</javac>
+	</target>
+
+	<target name="migration:build" depends="init" description="Compiles source code">
+		<javac srcdir="${migration.src.dir}" destdir="${build.classes.dir}" debug="true">
+			<classpath refid="migration-classpath" />
+		</javac>
+		<jar destfile="${project.dist.dir}\caDSRAPI-db-migration.jar" basedir="${build.classes.dir}">
+			<manifest>
+				<attribute name="Generated-By" value="caDSR API Database migration utility" />
+			</manifest>
+			<include name="gov/**/*" />
+		</jar>
 
 	</target>
 
+	<target name="migration:run" depends="migration:build" description="Compiles source code">
+		<javac srcdir="${src.dir}" destdir="${build.classes.dir}" debug="true">
+			<classpath refid="classpath" />
+		</javac>
+	</target>
 
 </project>

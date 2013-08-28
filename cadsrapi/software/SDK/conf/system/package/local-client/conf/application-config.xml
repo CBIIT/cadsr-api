@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--L
+   Copyright Ekagra Software Technologies Ltd.
+   Copyright SAIC, SAIC-Frederick
+
+   Distributed under the OSI-approved BSD 3-Clause License.
+   See http://ncip.github.com/cacore-sdk/LICENSE.txt for details.
+L-->
+
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+<beans default-lazy-init="false" default-dependency-check="none" default-autowire="no">
+
+	<bean name="ApplicationServiceImpl" class="gov.nih.nci.cadsrapi.applicationService.impl.caDSRAPIServiceImpl" singleton="true">
+		<constructor-arg ref="ClassCache" index="0"></constructor-arg>
+	</bean>
+
+	<!-- Bean Definitions -->
+	<bean name="ClassCache" class="gov.nih.nci.system.util.ClassCache" singleton="true">
+		<property name="daoList">
+			<list>
+				<!--  Add any DAO's here -->
+				<ref bean="ORMDAO" />
+			</list>
+		</property>
+	</bean>
+
+
+	<bean name="WebSystemProperties" class="java.util.Properties">
+		<constructor-arg>
+			<props>
+				<prop key="jsonOutputFormatter">jsonOutputFormatter.xsl</prop>
+				<prop key="resultOutputFormatter">resultOutputFormatter.xsl</prop>
+				<prop key="rowCounter">100</prop>
+				<prop key="securityEnabled">false</prop>
+				<prop key="enableISO21090DataTypes">false</prop>
+				<prop key="caDSRMetadataEnabled">false</prop>
+				<prop key="enableRestfulHtmlInterface">true</prop>
+				<prop key="identityGeneratorType">increment</prop>
+			</props>
+		</constructor-arg>
+	</bean>
+
+	<bean name="ORMDAO" class="gov.nih.nci.cadsrapi.dao.orm.CartORMDAOImpl">
+		<property name="caseSensitive" value="false" />
+		<property name="resultCountPerQuery" value="1000" />
+		
+		<property name="securityHelper">
+			<ref bean="SecurityInitializationHelper" />
+		</property>
+		
+		<property name="sessionFactory" ref="SessionFactory" />
+		<property name="config">
+			<bean factory-bean="HibernateConfigHolder" factory-method="getConfiguration" />
+		</property>
+	</bean>
+
+	<bean name="HibernateConfigHolder" class="gov.nih.nci.system.dao.orm.HibernateConfigurationHolder" />
+
+	<bean id="defaultLobHandler" class="org.springframework.jdbc.support.lob.DefaultLobHandler" />
+	
+	<bean name="SessionFactory" class="gov.nih.nci.system.dao.orm.SessionFactoryBean">
+		<property name="configLocation" value="classpath:hibernate.cfg.xml" />
+		<property name="configHolder" ref="HibernateConfigHolder" />
+		
+		<property name="securityHelper" ref="SecurityInitializationHelper"/>
+		
+		<property name="lobHandler" ref="defaultLobHandler"/>
+
+		<property name="eventListeners">
+			<map>
+				<!--
+				<entry key="pre-insert">
+					<bean class="org.hibernate.validator.event.ValidateEventListener" />
+				</entry>
+				<entry key="pre-update">
+					<bean class="org.hibernate.validator.event.ValidateEventListener" />
+				</entry>
+				-->
+			</map>
+		</property>
+	</bean>
+
+
+	<bean name="SecurityInitializationHelper" class="gov.nih.nci.system.security.helper.SecurityInitializationHelper">
+		<property name="securityEnabled" value="false"/>
+		<property name="instanceLevelSecurityEnabled" value="false"/>
+		<property name="attributeLevelSecurityEnabled" value="false"/>
+	</bean>
+
+	<bean id="HibernateTransactionManager" class="org.springframework.orm.hibernate3.HibernateTransactionManager">
+		<property name="sessionFactory" ref="SessionFactory" />
+	</bean>
+
+	<bean id="TxInterceptor" class="org.springframework.transaction.interceptor.TransactionInterceptor">
+		<property name="transactionManager">
+			<ref bean="HibernateTransactionManager" />
+		</property>
+		<property name="transactionAttributes">
+			<props>
+				<prop key="execute*">
+					PROPAGATION_REQUIRED,-gov.nih.nci.system.applicationservice.ApplicationException,-gov.nih.nci.system.dao.DAOException
+				</prop>
+				<prop key="*">PROPAGATION_REQUIRED,readOnly</prop>
+			</props>
+		</property>
+	</bean>
+
+	<bean id="ApplicationService" class="org.springframework.aop.framework.ProxyFactoryBean" singleton="false">
+		<property name="target" ref="ApplicationServiceImpl" />
+		<property name="interfaces" value="gov.nih.nci.cadsrapi.applicationService.caDSRAPIService" />
+	</bean>
+
+</beans>

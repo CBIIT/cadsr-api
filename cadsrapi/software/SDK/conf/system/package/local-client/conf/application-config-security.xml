@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--L
+   Copyright Ekagra Software Technologies Ltd.
+   Copyright SAIC, SAIC-Frederick
+
+   Distributed under the OSI-approved BSD 3-Clause License.
+   See http://ncip.github.com/cacore-sdk/LICENSE.txt for details.
+L-->
+
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+
+<beans>
+
+	
+	<bean id="authenticationManager" class="org.acegisecurity.providers.ProviderManager">
+		<property name="providers">
+			<list>
+				<!--
+				<ref bean="csmAuthenticationProvider"/>
+				-->
+				<ref bean="caDSRAuthenticationProvider"/>
+				<bean class="gov.nih.nci.system.security.acegi.providers.NullGroupNameAuthenticationProvider"/>
+			</list>
+		</property>
+	</bean>
+
+    	<bean id="dataSource" class="oracle.jdbc.pool.OracleDataSource" destroy-method="close">
+    	<property name="URL" value="jdbc:oracle:thin:@ncidb-dsr-d:1551:DSRDEV"/>
+    	<property name="user" value="FORMBUILDER"/>
+    	<property name="password" value="FORMBUILDER"/>
+    	<property name="connectionCachingEnabled" value="true"/>
+	</bean>
+
+	<bean id="caDSRAuthenticationProvider" class="gov.nih.nci.ncicb.cadsr.common.security.caDSRAuthenticationProvider">
+		<property name="userAuthenticationService">
+			<ref bean="userAuthenticationService"/>
+		</property>
+	</bean>
+
+	<bean id="userAuthenticationService" class="gov.nih.nci.ncicb.cadsr.common.persistence.dao.jdbc.JDBCUserManagerDAOV2">
+		<constructor-arg ref="dataSource"/>
+	</bean>
+
+	<bean id="loggerListener" class="org.acegisecurity.event.authentication.LoggerListener"/>
+
+	<bean id='authenticationSecurityInterceptor' class="org.acegisecurity.intercept.method.aopalliance.MethodSecurityInterceptor">		
+		<property name='authenticationManager' ref='authenticationManager'/>
+		<property name='accessDecisionManager' ref='authenticationAccessDecisionManager'/>
+		<property name='objectDefinitionSource'>
+			<value>
+				gov.nih.nci.cadsrapi.applicationService.caDSRAPIService.addObjects=IS_AUTHENTICATED_FULLY
+				gov.nih.nci.cadsrapi.applicationService.caDSRAPIService.getNewCart=IS_AUTHENTICATED_FULLY
+				gov.nih.nci.cadsrapi.applicationService.caDSRAPIService.addObject=IS_AUTHENTICATED_FULLY
+				gov.nih.nci.cadsrapi.applicationService.caDSRAPIService.removeObjects=IS_AUTHENTICATED_FULLY
+				gov.nih.nci.cadsrapi.applicationService.caDSRAPIService.removeObject=IS_AUTHENTICATED_FULLY
+				gov.nih.nci.cadsrapi.applicationService.caDSRAPIService.setExpiration=IS_AUTHENTICATED_FULLY
+				gov.nih.nci.cadsrapi.applicationService.caDSRAPIService.expireCart=IS_AUTHENTICATED_FULLY
+			</value>
+		</property>
+	</bean>
+
+	<bean id='authenticationAccessDecisionManager' class='org.acegisecurity.vote.AffirmativeBased'>
+		<property name='decisionVoters'>
+			<list>
+				<bean class="org.acegisecurity.vote.AuthenticatedVoter"/>
+			</list>
+		</property>
+	</bean>
+ 
+	<bean id='autoProxyCreator' class='org.springframework.aop.framework.autoproxy.BeanNameAutoProxyCreator'>
+		<property name='interceptorNames'>
+			<list>
+				<value>authenticationSecurityInterceptor</value>
+			</list>
+		</property>
+		<property name='beanNames'>
+			<list><value>ApplicationServiceImpl</value></list>
+		</property>
+	</bean>
+</beans>
