@@ -225,6 +225,10 @@
 		<antcall target="-build-client-jar" /> 	
 		<copy file="${project.dist.dir}/caDSRAPI-client-ext.jar" todir="${web.dir}/WEB-INF/lib"/>
 		<delete file="${web.dir}/WEB-INF/lib/servlet.jar" quiet="true" />
+		<replace file="${web.dir}/WEB-INF/classes/application-config-security.xml" token="@CADSR.DS.URL@" value="${CADSR.DS.URL}" />
+		<replace file="${web.dir}/WEB-INF/classes/application-config-security.xml" token="@CADSR.DS.USER@" value="${CADSR.DS.USER}" />
+		<replace file="${web.dir}/WEB-INF/classes/application-config-security.xml" token="@CADSR.DS.PSWD@" value="${CADSR.DS.PSWD}" />
+
 		<war destfile="${package.system.dir}/${PROJECT_NAME}.war" webxml="${web.dir}\WEB-INF\web.xml">
 
 			<manifest>
@@ -247,6 +251,7 @@
 		<replace file="${project.dist.dir}/jboss/cadsrapi-oracle-ds.xml" token="@CADSR.DS.URL@" value="${CADSR.DS.URL}" />
 		<replace file="${project.dist.dir}/jboss/cadsrapi-oracle-ds.xml" token="@CADSR.DS.USER@" value="${CADSR.DS.USER}" />
 		<replace file="${project.dist.dir}/jboss/cadsrapi-oracle-ds.xml" token="@CADSR.DS.PSWD@" value="${CADSR.DS.PSWD}" />
+
 		<copy todir="${project.dist.dir}/jboss">
 			<fileset dir="${web.dir}/WEB-INF/lib">
 				<include name="ojdbc14-10.2.0.3.0.jar" />
@@ -301,7 +306,7 @@
 		<mkdir dir="${project.dist.dir}" />
 	</target>
 	
-	<target name="compile-core" description="Compiles source code">
+	<target name="compile-core" depends="init" description="Compiles source code">
 		<javac srcdir="${src.dir}" destdir="${build.classes.dir}" debug="true">
 			<classpath refid="classpath" />
 			<exclude name="gov/nih/nci/cadsrapi/jUnit/**/*" />
@@ -335,13 +340,23 @@
 			</manifest>
 			<include name="gov/**/*" />
 		</jar>
-
+<!--
+		<zip destfile="${project.dist.dir}/caDSRAPI-Migration.zip">
+		<zipfileset dir="${basedir}/migration" includes="migration.properties" prefix="caDSR"/>
+		<zipfileset dir="${basedir}/migration/lib" includes="*.jar" prefix="caDSR/lib"/>
+		<zipfileset dir="${project.dist.dir}" includes="caDSRAPI-db-migration.jar" prefix="caDSR"/>
+		</zip>
+-->
 	</target>
 
 	<target name="migration:run" depends="migration:build" description="Compiles source code">
-		<javac srcdir="${src.dir}" destdir="${build.classes.dir}" debug="true">
-			<classpath refid="classpath" />
-		</javac>
+	<java className="gov.nih.nci.objectCart.migration.MigrationUtility" >
+		<arg value="${basedir}/migration/migration.properties"/>
+		<classpath>
+		   <pathelement location="${project.dist.dir}\caDSRAPI-db-migration.jar"/>
+		</classpath>
+		<classpath refid="migration-classpath" />
+	</java>
 	</target>
 
 </project>
