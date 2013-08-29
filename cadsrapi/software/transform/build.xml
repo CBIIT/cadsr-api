@@ -97,7 +97,7 @@
          <target name="build_copy_jar" depends="jar_CSVTransformer"> 
                 <!-- Each developer should change this to point to their local directory -->
                         
-                <copy file="${dist.dir}/CSVTransformer.jar" tofile="C:\Workspace\CSVTransformer\target\deploy\CSVTransformer.jar"/>    
+                <copy file="${dist.dir}/CSVTransformer.jar" tofile="C:\Workspace\cadsrapi\software\transform\target\deploy\CSVTransformer.jar"/>    
               
 
          </target>
