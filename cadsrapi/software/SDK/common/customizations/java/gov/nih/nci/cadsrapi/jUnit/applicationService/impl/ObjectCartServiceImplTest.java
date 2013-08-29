@@ -29,7 +29,7 @@ public class ObjectCartServiceImplTest extends TestCase{
 	@Before
 	public void setUp() throws Exception {
 		super.setUp();
-		as = ApplicationServiceProvider.getApplicationService("objectCartServiceInfo");
+		as = ApplicationServiceProvider.getApplicationService("ServiceInfo", "FORMBUILDER", "FORMBUILDER");
 		ocs = (caDSRAPIService) as;
 		setupTime = (new Date(System.currentTimeMillis())).toString();
 
@@ -43,7 +43,7 @@ public class ObjectCartServiceImplTest extends TestCase{
 	public void testCreateAndExpireCartUC(){
 
 		String userId = (new Date(System.currentTimeMillis())).toString();
-	    String name = "First Cart name: " +userId;
+	    String name = "cdeCart";
 	    Cart first = createCart(userId, name);
 
 		//Check attribute values were correctly saved.
@@ -72,7 +72,7 @@ public class ObjectCartServiceImplTest extends TestCase{
 	public void testCreateAndDoNotExpireCartUC(){
 
 		String userId = (new Date(System.currentTimeMillis())).toString();
-	    String name = "First Cart name: " + userId;
+	    String name = "formCart";
 	    Cart first = createCart(userId, name);
 
 		//Check attribute values were correctly saved.
@@ -101,10 +101,10 @@ public class ObjectCartServiceImplTest extends TestCase{
 	public void testCreateTwoCarts() {
 
 		String userId = (new Date(System.currentTimeMillis())).toString();
-	    String name = "First Cart name: " +userId;
+	    String name = "cdeCart";
 	    Cart first = createCart(userId, name);
 
-	    name = "Second Cart name: " + (new Date(System.currentTimeMillis())).toString();
+	    name = "formCart";
 		Cart second = createCart(first.getUserId(), name);
 
 		//Check that we didn't get back first
@@ -128,10 +128,10 @@ public class ObjectCartServiceImplTest extends TestCase{
 	public void testGetCartsforUser() {
 
 		String userId = (new Date(System.currentTimeMillis())).toString();
-	    String name = "First Cart name: " +userId;
+	    String name = "cdeCart";
 	    Cart first = createCart(userId, name);
 
-	    name = "Second Cart name: " + (new Date(System.currentTimeMillis())).toString();
+	    name = "formCart";
 		Cart second = createCart(first.getUserId(), name);
 
 		//We should have two carts for the user
@@ -155,7 +155,7 @@ public class ObjectCartServiceImplTest extends TestCase{
 	public void testAddObject() {
 
 		String userId = "Test Add Object " +System.currentTimeMillis();
-	    String name = "First Cart name: " +userId;
+	    String name = "cdeCart";
 	    Cart first = createCart(userId, name);
 		String testData = "This is teh sserialized data of the object";
 		String testType = ":Test:CDE Cart Test";
@@ -190,7 +190,7 @@ public class ObjectCartServiceImplTest extends TestCase{
 	public void testRemoveObject() {
 
 		String userId = "Test Remove Object" +System.currentTimeMillis();
-	    String name = "First Cart name: " +userId;
+	    String name = "cdeCart";
 	    Cart first = createCart(userId, name);
 	    String testData = "This is teh sserialized data of the object";
 		String testType = ":Test:CDE Cart Test";
@@ -252,7 +252,7 @@ public class ObjectCartServiceImplTest extends TestCase{
 	public void testRemoveObjects() {
 
 		String userId = "Test Remove Objects" +System.currentTimeMillis();
-	    String name = "First Cart name: " +userId;
+		String name = "cdeCart";
 	    Cart first = createCart(userId, name);
 	    String testData = "This is teh sserialized data of the object";
 		String testType = ":Test:CDE Cart Test";
@@ -310,7 +310,7 @@ public class ObjectCartServiceImplTest extends TestCase{
 	public void testGetObjects() {
 
 		String userId = "Test Remove Objects" +System.currentTimeMillis();
-	    String name = "First Cart name: " +userId;
+		String name = "cdeCart";
 	    Cart first = createCart(userId, name);
 	    String testData = "This is teh sserialized data of the object";
 		String testType = ":Test:CDE Cart Test";
@@ -375,11 +375,11 @@ public class ObjectCartServiceImplTest extends TestCase{
 	public void testAssociateCart() {
 
 		String userId = "Test Associate Cart" +System.currentTimeMillis();
-	    String name = "First Cart name: " +userId;
+		String name = "cdeCart";
 	    Cart first = createCart(userId, name);
 
 	    String userId2 = "Test Associate Cart TWO" +System.currentTimeMillis();
-	    String name2 = "Second Cart name: " +userId;
+	    String name2 = "formCart";
 	    Cart second = createCart(userId2, name2);
 
 	    String testData = "This is teh sserialized data of the object";
@@ -426,7 +426,7 @@ public class ObjectCartServiceImplTest extends TestCase{
 	public void testAssociateCartSameName() {
 
 		String userId = "Test Associate Cart" +System.currentTimeMillis();
-	    String name = "First Cart name: " +userId;
+		String name = "cdeCart";
 	    Cart first = createCart(userId, name);
 
 	    String userId2 = "Test Associate Cart TWO" +System.currentTimeMillis();
@@ -484,7 +484,7 @@ public class ObjectCartServiceImplTest extends TestCase{
 	public void testGetObjectsByType() {
 
 		String userId = "Test Remove Objects" +System.currentTimeMillis();
-	    String name = "First Cart name: " +userId;
+		String name = "cdeCart";
 	    Cart first = createCart(userId, name);
 	    String testData = "This is teh sserialized data of the object";
 		String testType = ":Test:CDE Cart Test";

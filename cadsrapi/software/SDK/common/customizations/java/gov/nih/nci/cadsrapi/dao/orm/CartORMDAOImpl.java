@@ -177,8 +177,6 @@ public class CartORMDAOImpl extends WritableORMDAOImpl implements CartDAO {
 		StringBuilder query = new StringBuilder();
 		query.append("from gov.nih.nci.cadsr.objectcart.domain.Cart where");
 
-		System.out.println("exampleCart.getId() "+exampleCart.getId());
-		
 		if (exampleCart.getId() != null)
 			query.append(" id = :cartId");
 		else {
@@ -204,12 +202,9 @@ public class CartORMDAOImpl extends WritableORMDAOImpl implements CartDAO {
 
 
 		Query q = session.createQuery(query.toString());
-		System.out.println("query.toString() "+query.toString());
 		String[] params = q.getNamedParameters();
 
 		for (String param: params){
-		System.out.println("param "+param);
-		System.out.println("cart "+exampleCart.toString());
 			if ("cartId".equals(param))
 				q.setInteger(param, exampleCart.getId());
 			else {

@@ -165,13 +165,13 @@ public class caDSRAPIServiceImpl extends ApplicationServiceImpl implements caDSR
 		expiration = Integer.valueOf(PropertiesLoader.getProperty("cart.time.expiration.minutes"));
 		expiration = expiration*60*1000;
 		cart.setExpirationDate(now(expiration));
-		return storeCart(cart);
+		return updateCart(cart);
 	}
 
 	public Cart setExpiration(Integer cartId, Date expirationDate) throws ApplicationException {
 		Cart cart = getCart(cartId);
 		cart.setExpirationDate(expirationDate);
-		return storeCart(cart);
+		return updateCart(cart);
 	}
 
 	public void expireCart(Integer cartId) throws ApplicationException {
@@ -190,7 +190,7 @@ public class caDSRAPIServiceImpl extends ApplicationServiceImpl implements caDSR
 		else if (newCarts.isEmpty()) {
 			oldCart = oldCarts.get(0);
 			oldCart.setUserId(newCart.getUserId());
-			return storeCart(oldCart);
+			return updateCart(oldCart);
 		} else {
 			oldCart = oldCarts.get(0);
 			newCart = newCarts.get(0);
@@ -204,7 +204,7 @@ public class caDSRAPIServiceImpl extends ApplicationServiceImpl implements caDSR
 						  oldCart.getCartObjectCollection()));
 
 			expireCart(oldCart);
-			return storeCart(newCart);
+			return updateCart(newCart);
 		}
 
 
@@ -380,8 +380,6 @@ public class caDSRAPIServiceImpl extends ApplicationServiceImpl implements caDSR
 	private List<Cart> cartSearch(Cart cart) throws ApplicationException, DAOException {
 
 		CartDAO dao = (CartDAO) getClassCache().getDAOForClass(cart.getClass().getCanonicalName());
-		System.out.println(" dao "+ dao);
-//		System.out.println(" getClassCache "+ getClassCache().toString());
 		if(dao == null)
 			throw new ApplicationException("Could not obtain DAO for: "+cart.getClass().getCanonicalName());
 

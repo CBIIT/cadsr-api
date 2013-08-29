@@ -57,7 +57,7 @@ public class ObjectCartClientTest extends TestCase{
 	
 	public void testCreateCartWithCredentials() {
 
-		String name = "test Cart 1";
+		String name = "cdeCart";
 		String userId = "guest";
 
 		try {
@@ -105,7 +105,7 @@ public class ObjectCartClientTest extends TestCase{
 
 	public void testCreateCartWithoutCredentials() {
 
-		String name = "test Cart 1";
+		String name = "formCart";
 		String userId = "guest";
 
 		try {
@@ -153,7 +153,7 @@ public class ObjectCartClientTest extends TestCase{
 	
 	public void testCreateCartWithWrongCredentials() {
 
-		String name = "test Cart 2";
+		String name = "formCart";
 		String userId = "guest";
 
 		try {
@@ -206,7 +206,7 @@ public class ObjectCartClientTest extends TestCase{
 			e1.printStackTrace();
 			fail("Exception creating cart manager");
 		}
-		String name = "test Create Cart 1";
+		String name = "formCart";
 		String userId = "guest";
 
 		Cart cart = null;
@@ -238,7 +238,7 @@ public class ObjectCartClientTest extends TestCase{
 	@Test
 	public void testAddandRetrieveObjects(){
 
-		String name = "test Create Cart 2";
+		String name = "cdeCart";
 		String userId = "guest";
 
 		String type = ":Test:CDE Cart type";
@@ -309,7 +309,7 @@ public class ObjectCartClientTest extends TestCase{
 
 	public void testAddCollection(){
 
-		String name = "testAddCollection Cart 1";
+		String name = "cdeCart";
 		String userId = "guest";
 
 		try {
