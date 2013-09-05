@@ -15,7 +15,7 @@ import javax.xml.transform.stream.*;
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
-
+import utilities.Constant;
 
 import java.io.IOException;
 
@@ -35,7 +35,7 @@ public class FilesTransformation {
     		
 	         File tf = new File("cdebrowser.xslt"); // template file
              
-             String path = "/local/content/transform/data/";
+	         String path = Constant.OUTPUT_PATH;
              String ext = "txt";
              File dir = new File(path);
              String name = String.format("%s.%s", RandomStringUtils.randomAlphanumeric(8), ext);
