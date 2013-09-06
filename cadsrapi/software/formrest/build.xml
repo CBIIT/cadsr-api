@@ -1,0 +1,82 @@
+<project name="REST Services Build Tool" default="compile" basedir=".">
+	<description>
+        Build and deploy the caDSR Form Builder Tool
+    </description>
+	
+	<property name="root.dir" location="${basedir}/WebRoot" />
+	<property name="target.dir" location="${basedir}/target" />
+	<property name="build.dir" location="${basedir}/build" />
+	<property name="web.dir" location="${basedir}/WebRoot/WEB-INF" />
+	<property name="build.web.dir" location="${build.dir}/WEB-INF" />
+	<property name="classes.dir" location="${build.web.dir}/classes" />
+	<property name="war.dir" location="${target.dir}/dist/" />
+	<property name="src.dir" location="${basedir}/src/" />
+	<property name="lib.dir" location="${web.dir}/lib" />
+	<property name="bin.dir" location="${basedir}/bin" />
+	<property name="resource.dir" location="${root.dir}/resources" />
+	
+	<property file="build.properties" />
+	
+	<path id="libpath">
+		<fileset dir="${lib.dir}">
+			<include name="**/*.jar"/>
+			<include name="**/*.zip"/>
+		</fileset>
+	</path>
+	
+	<target name="clean" description="Deletes all project build artifacts.">
+			<echo>Remove old artifacts ...</echo>
+			<delete dir="${classes.dir}"/>
+			<delete dir="${build.dir}"/>
+			
+			<mkdir dir="${classes.dir}"/>
+			<mkdir dir="${target.dir}"/>
+			<mkdir dir="${target.dir}/dist"/>
+		</target>
+	
+	<target name="compile" depends="clean" description="Compiles the project source.">
+		<echo>Compiling project source ...</echo>
+		<javac srcdir="${src.dir}" destdir="${classes.dir}" debug="true" failonerror="yes">
+			<classpath refid="libpath"/>
+		</javac>
+		
+	    <copy todir="${classes.dir}">
+			<fileset dir="${src.dir}">
+				<patternset>
+					<include name="*.xml"/>
+				</patternset>
+			</fileset>
+		</copy>
+	</target>
+	
+	<target name="war" depends="compile">
+		<copy todir="${build.web.dir}/lib">
+			<fileset dir="${lib.dir}">
+				<patternset>
+					<include name="*.jar"/>
+				</patternset>
+			</fileset>
+		</copy>
+		
+		<copy todir="${build.web.dir}">
+			<fileset dir="${web.dir}">
+				<patternset>
+					<include name="*.xml"/>
+				</patternset>
+			</fileset>
+		</copy>
+		
+		<war destfile="${war.dir}/formrest.war" basedir="${build.dir}" />
+	</target>
+	
+	<target name="deploy" depends="war">
+		<copy file="${war.dir}/formrest.war" todir="${jboss.deploy.dir}" overwrite="true"/>
+	</target>
+	
+	<target name="compile_client" description="Compiles the project source.">
+		<echo>Compiling client ...</echo>
+		<javac srcdir="${src.dir}" destdir="${bin.dir}" debug="true" failonerror="yes">
+			<classpath refid="libpath"/>
+		</javac>
+	</target>
+</project>

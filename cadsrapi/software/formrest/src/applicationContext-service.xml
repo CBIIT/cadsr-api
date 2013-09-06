@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:jee="http://www.springframework.org/schema/jee"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+	http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+	http://www.springframework.org/schema/jee
+	http://www.springframework.org/schema/jee/spring-jee-3.0.xsd">
+              
+    <!--  jee:jndi-lookup id="dataSource" jndi-name="jdbc/FormBuilderDS" resource-ref="false" /> -->
+
+	<bean id="contentValidationService"
+		class="gov.nih.nci.cadsr.formloader.service.impl.ContentValidationServiceImpl"> 
+		<property name="repository">
+			<ref local="repository" />
+		</property>
+	</bean>
+	
+	<bean id="xmlValidationService"
+		class="gov.nih.nci.cadsr.formloader.service.impl.XmlValidationServiceImpl">
+	</bean>
+	
+	<bean id="repository"
+		class="gov.nih.nci.cadsr.formloader.repository.FormLoaderRepositoryMockup"> 
+	</bean>
+
+</beans>
+
