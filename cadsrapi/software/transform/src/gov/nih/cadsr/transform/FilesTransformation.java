@@ -5,7 +5,7 @@
  * See http://ncip.github.com/cadsr-api/LICENSE.txt for details.
  */
 
-package gov.nih.nci.cadsr.transform;
+package gov.nih.cadsr.transform;
 
 import java.io.*;
 
@@ -109,7 +109,7 @@ public class FilesTransformation {
     	
     	try {
     		
-	         File tf = new File("formbuilder.xslt"); // template file
+    		 File tf = new File("/local/content/transform/xslt/","formbuilder.xslt"); // template file
              String path = "/local/content/transform/data/";
              String ext = "txt";
              File dir = new File(path);
@@ -130,23 +130,29 @@ public class FilesTransformation {
 	          Transformer t = f.newTransformer(new StreamSource(tf));
 	           
 	          //Construct a StreamSource from input and output
-	          Source s = new StreamSource(xmlFile);
-	          Result r = new StreamResult(rf); 
-	           
-	          //Transform the XML Source to a Result.
-	          t.transform(s,r);
-	          System.out.println("Tranformation completed ..."); 
+		        Source s;
+				try {
+			        s = new StreamSource((new ByteArrayInputStream(xmlFile.getBytes("utf-8"))));
+			        Result r = new StreamResult(rf); 
+			        
+			        //Transform the XML Source to a Result.
+			        t.transform(s,r);
+			        System.out.println("Tranformation completed ..."); 
+				} catch (UnsupportedEncodingException e1) {
+					// TODO Auto-generated catch block
+					System.out.println(e1.toString());
+				}
 	          
 	          //convert output file to string	          	       	        	  
 			try {
 					BufferedReader bf = new BufferedReader(new FileReader(rf));
 					sb = new 	StringBuffer();							
 				    try {
-				    	
-						while ((bf.readLine()) != null)
+				    	String currentLine;
+						while ((currentLine = bf.readLine()) != null)
 						{
-							 sb.append(bf.readLine()); 														
-						    System.out.println(bf.readLine());
+							 sb.append(currentLine).append("\n"); 														
+						    //System.out.println(bf.readLine());
 
 						}
 					} catch (IOException e) {
@@ -195,13 +201,19 @@ public class FilesTransformation {
 	        Transformer t = f.newTransformer(new StreamSource(xsltFile));
 	           
 	        //Construct a StreamSource from input and output
-	        Source s = new StreamSource(xmlFile);
-	        Result r = new StreamResult(rf); 
-	        
-	           
-	        //Transform the XML Source to a Result.
-	        t.transform(s,r);
-	        System.out.println("Tranformation completed ..."); 
+	        Source s;
+			try {
+		        s = new StreamSource((new ByteArrayInputStream(xmlFile.getBytes("utf-8"))));
+		        Result r = new StreamResult(rf); 
+		        
+		           
+		        //Transform the XML Source to a Result.
+		        t.transform(s,r);
+		        System.out.println("Tranformation completed ..."); 
+			} catch (UnsupportedEncodingException e1) {
+				// TODO Auto-generated catch block
+				System.out.println(e1.toString());
+			}
     		
 	        //convert output file to string	          	       	        	  
 			try {
