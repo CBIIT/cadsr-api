@@ -22,12 +22,19 @@ http://cxf.apache.org/schemas/jaxrs.xsd">
 			<entry key="xml" value="application/xml" />
 			<entry key="json" value="application/json" />
 			<entry key="csv" value="application/octet-stream" />
+			<entry key="html" value="text/html" />
 		</jaxrs:extensionMappings>
 		<jaxrs:providers>        
-			<ref bean="authenticationHandler"/>    
+			<ref bean="authenticationHandler"/> 
+			<!-- bean class="org.apache.cxf.jaxrs.provider.json.JSONProvider">
+	        	<property name="dropRootElement" value="true" />
+	        	<property name="supportUnwrapped" value="true" />
+	    	</bean -->   
 		</jaxrs:providers>
 		
 	</jaxrs:server>
+	
+	
 	
 	<bean id="formRetrieve" class="gov.nih.nci.ncicb.cadsr.form.FormRetrieverImpl" />
 	<bean id="formLoad" class="gov.nih.nci.ncicb.cadsr.form.FormLoaderImpl" />

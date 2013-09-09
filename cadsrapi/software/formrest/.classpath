@@ -12,7 +12,7 @@
 	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/commons-lang-2.5.jar"/>
 	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/commons-logging-1.1.1.jar"/>
 	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/commons-pool-1.5.2.jar"/>
-	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/CSVTransformer.jar"/>
+	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/CSVTransformer.jar" sourcepath="/transform/src"/>
 	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/cxf-2.7.6.jar"/>
 	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/cxf-manifest.jar"/>
 	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/cxf-services-sts-core-2.7.6.jar"/>
@@ -73,5 +73,9 @@
 	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/xmlbeans-2.4.0.jar"/>
 	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/xmlschema-core-2.0.3.jar"/>
 	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/xmlsec-1.4.4.jar"/>
+	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/commons-beanutils-1.8.2.jar"/>
+	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/ezmorph-1.0.6.jar"/>
+	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/json-lib-2.4-jdk15.jar"/>
+	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/xom-1.1d2.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

@@ -13,11 +13,21 @@ import gov.nih.nci.ncicb.cadsr.common.resource.Context;
 import gov.nih.nci.ncicb.cadsr.common.resource.FormV2;
 import gov.nih.nci.ncicb.cadsr.common.util.StringUtils;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.ResponseBuilder;
 
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.StringTokenizer;
 
+import net.sf.json.JSON;
+import net.sf.json.xml.XMLSerializer;
+
+import org.apache.cxf.helpers.IOUtils;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
@@ -46,6 +56,39 @@ public class FormRetrieverImpl implements FormRetriever{
 		String classificationIdSeq = "";
 		String protocolIdSeq = "";
 		Collection formCollection = null;
+		
+		boolean skip=false;
+		if( skip ) {
+			
+			XMLSerializer xmlSerializer = new XMLSerializer();                 
+			
+			File f = new File("/local/content/transform/data/","CdBefYIp.txt");
+			JSON json = xmlSerializer.readFromFile( f );  
+			
+			String jsonString = json.toString(2);
+			
+			File file = new File("/local/content/transform/data/","test.json");
+			 
+			FileWriter fw;
+			try {
+				// if file doesnt exists, then create it
+				if (!file.exists()) {
+					file.createNewFile();
+				}
+	 
+				fw = new FileWriter(file.getAbsoluteFile());
+				BufferedWriter bw = new BufferedWriter(fw);
+				bw.write(jsonString);
+				bw.close();
+			} catch (IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+
+	        ResponseBuilder response = Response.ok(jsonString);
+	        response.header("Content-Disposition", "attachment; filename=\"download.json\"");
+	        return response.build();
+		}
 		
 		@SuppressWarnings("resource")
 		ApplicationContext applicationContext = new ClassPathXmlApplicationContext("/applicationContext-service-db.xml");
@@ -132,8 +175,8 @@ public class FormRetrieverImpl implements FormRetriever{
 		
 		End Retrieve One Form */
 		
-		//StringBuffer xmlFileBuffer = new StringBuffer("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<formCollection>\n");
-		StringBuffer xmlFileBuffer = new StringBuffer("");
+		StringBuffer xmlFileBuffer = new StringBuffer("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<formCollection>\n");
+		//StringBuffer xmlFileBuffer = new StringBuffer("");
 		for(Object formObject: formCollection) {
 			FormV2 form = formDAO.getFormDetailsV2(((FormTransferObject)formObject).getFormIdseq());
 			
@@ -146,11 +189,11 @@ public class FormRetrieverImpl implements FormRetriever{
 				System.out.println(e);
 			}
 			
-			//xmlLocalFile = xmlLocalFile.substring(xmlLocalFile.indexOf('\n')+1);  // remove the first line (xml version)
+			xmlLocalFile = xmlLocalFile.substring(xmlLocalFile.indexOf('\n')+1);  // remove the first line (xml version)
 			
 			xmlFileBuffer.append(xmlLocalFile);
 		}
-		//xmlFileBuffer.append("</formCollection>\n");
+		xmlFileBuffer.append("</formCollection>\n");
 		
 		if ( format.equals("XML")) {
 			return Response.ok(xmlFileBuffer.toString()).header("Content-Disposition", "application/xml").build();
@@ -158,9 +201,23 @@ public class FormRetrieverImpl implements FormRetriever{
 		else if ( format.equals("CSV")) {
 			String csvFile = FilesTransformation.transformFormToCSV(xmlFileBuffer.toString());
 			return Response.ok(csvFile).header("Content-Disposition", "attachment; filename=download.csv").build();
+			
+/*			File f = new File("/local/content/transform/data/","CdBefYIp.txt");
+
+	        ResponseBuilder response = Response.ok((Object) f);
+	        response.type("application/csv");
+	        response.header("Content-Disposition", "attachment; filename=\"download.csv\"");
+	        return response.build();		*/
 		}
-		else 
-			return Response.ok("").header("Content-Disposition", "attachment; filename=download.csv").build();
+		else {
+			XMLSerializer xmlSerializer = new XMLSerializer();                 
+			JSON json = xmlSerializer.read( xmlFileBuffer.toString() );  
+			//return Response.ok(json.toString(2)).header("Content-Disposition", "application/json").build();
+			
+			ResponseBuilder response = Response.ok(json.toString(2));
+	        response.header("Content-Disposition", "attachment; filename=\"download.json\"");
+	        return response.build();
+		}
 		
 		//return xmlFileBuffer.toString();
 
