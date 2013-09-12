@@ -96,15 +96,7 @@ public class FormLoaderImpl implements FormLoader {
 			//StatusFormatter.writeStatusToXml(statusString, "LoadForm-Status.xml");
 			
 			
-			//Step 4: check status
-			
-			// Coming soon...
-			/* 
-			 * FormCollectionStatus status = aColl.getStatus();
-			 * 
-			 * 
-			 */
-			
+
 			
 			//This is just to show what messages get generated during validation and load process
 			//Client app will NOT need to do this
