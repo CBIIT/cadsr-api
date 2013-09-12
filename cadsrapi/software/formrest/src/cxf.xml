@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:util="http://www.springframework.org/schema/util"
+xmlns:jaxrs="http://cxf.apache.org/jaxrs"
+xsi:schemaLocation="
+http://www.springframework.org/schema/beans
+http://www.springframework.org/schema/beans/spring-beans.xsd
+http://www.springframework.org/schema/util
+http://www.springframework.org/schema/util/spring-util-2.0.xsd
+http://cxf.apache.org/jaxrs
+http://cxf.apache.org/schemas/jaxrs.xsd">
+
+	<import resource="classpath:META-INF/cxf/cxf.xml" />
+	<import resource="classpath:META-INF/cxf/cxf-servlet.xml" />
+	
+	<jaxrs:server id="formRESTService" address="/">
+		<jaxrs:serviceBeans>
+			<ref bean="formRetrieve" />
+			<ref bean="formLoad" />
+		</jaxrs:serviceBeans>
+		<jaxrs:extensionMappings>
+			<entry key="xml" value="application/xml" />
+			<entry key="json" value="application/json" />
+			<entry key="csv" value="application/octet-stream" />
+			<entry key="html" value="text/html" />
+		</jaxrs:extensionMappings>
+		<jaxrs:providers>        
+			<ref bean="authenticationHandler"/> 
+			<!-- bean class="org.apache.cxf.jaxrs.provider.json.JSONProvider">
+	        	<property name="dropRootElement" value="true" />
+	        	<property name="supportUnwrapped" value="true" />
+	    	</bean -->   
+		</jaxrs:providers>
+		
+	</jaxrs:server>
+	
+	
+	
+	<bean id="formRetrieve" class="gov.nih.nci.ncicb.cadsr.form.FormRetrieverImpl" />
+	<bean id="formLoad" class="gov.nih.nci.ncicb.cadsr.form.FormLoaderImpl" />
+	<bean id="authenticationHandler" class="gov.nih.nci.ncicb.cadsr.form.AuthenticationHandler" />    
+</beans>

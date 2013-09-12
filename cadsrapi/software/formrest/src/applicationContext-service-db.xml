@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:jee="http://www.springframework.org/schema/jee"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+	http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+	http://www.springframework.org/schema/jee
+	http://www.springframework.org/schema/jee/spring-jee-3.0.xsd
+	http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd">
+              
+    <!--  jee:jndi-lookup id="dataSource" jndi-name="jdbc/FormBuilderDS" resource-ref="false" /> -->
+    
+    <tx:annotation-driven transaction-manager = "transactionManager" />
+    
+    <!--  bean id="dataSource" class="oracle.jdbc.pool.OracleDataSource" destroy-method="close">
+    	<property name="URL" value="jdbc:oracle:thin:@ncidb-dsr-d:1551:DSRDEV"/>
+    	<property name="user" value="FORMBUILDER"/>
+    	<property name="password" value="FORMBUILDER"/>
+    	<property name="connectionCachingEnabled" value="true"/>
+	</bean> -->
+	
+	<!--  bean id="loadingService"
+		class="gov.nih.nci.cadsr.formloader.service.impl.LoadingServiceImpl"> 
+		<property name="repository">
+			<ref local="repository" />
+		</property>
+	</bean> -->
+	
+	<bean id="loadService"
+		class="gov.nih.nci.cadsr.formloader.service.impl.LoadingServiceImpl"> 
+		<property name="repository">
+			<ref local="repository" />
+		</property>
+	</bean>
+
+	<bean id="contentValidationService"
+		class="gov.nih.nci.cadsr.formloader.service.impl.ContentValidationServiceImpl"> 
+		<property name="repository">
+			<ref local="repository" />
+		</property>
+	</bean>
+	
+	<bean id="xmlValidationService"
+		class="gov.nih.nci.cadsr.formloader.service.impl.XmlValidationServiceImpl">
+	</bean>
+	
+	<bean id="transactionManager"
+		class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="dataSource" />
+	</bean>
+	
+	<bean id="repository"
+		class="gov.nih.nci.cadsr.formloader.repository.FormLoaderRepositoryImpl"> 
+		<property name="formV2Dao">
+			<ref bean="formV2Dao" />
+		</property>
+		<property name="moduleV2Dao">
+			<ref bean="moduleV2Dao" />
+		</property>
+		<property name="questionV2Dao">
+			<ref bean="questionV2Dao" />
+		</property>
+		<property name="valueDomainV2Dao">
+			<ref bean="valueDomainV2Dao" />
+		</property>
+		<property name="formInstructionV2Dao">
+			<ref bean="formInstructionV2Dao" />
+		</property>
+		<property name="questInstructionV2Dao">
+			<ref bean="questInstructionV2Dao" />
+		</property>
+		<property name="formValidValueV2Dao">
+			<ref bean="formValidValueV2Dao" />
+		</property>
+		<property name="formValidValueInstructionV2Dao">
+			<ref bean="formValidValueInstructionV2Dao" />
+		</property>
+		<property name="collectionDao">
+			<ref bean="collectionDao" />
+		</property>
+		
+	</bean>
+	
+	
+	
+	<import resource="applicationContext-jdbcdao.xml" />
+
+</beans>
+
