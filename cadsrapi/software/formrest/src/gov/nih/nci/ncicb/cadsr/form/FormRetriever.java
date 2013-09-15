@@ -7,6 +7,8 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Response;
+
+import org.apache.cxf.message.Message;
  
  
  
@@ -29,6 +31,8 @@ public Response getForm(@DefaultValue("") @QueryParam("formPublicId") String for
 		@DefaultValue("") @QueryParam("createdBy") String createdBy,
 		@DefaultValue("") @QueryParam("workFlowStatus") String workFlowStatus,
 		@DefaultValue("") @QueryParam("registrationStatus") String registrationStatus,
+		@DefaultValue("") @QueryParam("start") String start,
+		@DefaultValue("") @QueryParam("size") String size,
 	    @DefaultValue("XML") @QueryParam("format") String format);
 
 

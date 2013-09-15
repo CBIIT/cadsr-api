@@ -14,12 +14,15 @@ import gov.nih.nci.ncicb.cadsr.common.resource.FormV2;
 import gov.nih.nci.ncicb.cadsr.common.util.StringUtils;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.ResponseBuilder;
+import javax.ws.rs.core.Request;
+import javax.ws.rs.core.UriInfo;
 
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.StringTokenizer;
@@ -28,11 +31,16 @@ import net.sf.json.JSON;
 import net.sf.json.xml.XMLSerializer;
 
 import org.apache.cxf.helpers.IOUtils;
+import org.apache.cxf.jaxrs.ext.RequestHandler;
+import org.apache.cxf.message.Message;
+import org.apache.cxf.transport.http.URLConnectionInfo;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 
 public class FormRetrieverImpl implements FormRetriever{
+	
+	public static String DEFAULT_SIZE = "1";
 	
 	public FormRetrieverImpl() {}
 	
@@ -50,6 +58,8 @@ public class FormRetrieverImpl implements FormRetriever{
 								String createdBy,
 								String workFlowStatus,
 								String registrationStatus,
+								String start,
+								String size,
 								String format ) {
 		String contextIdSeq = "";
 		String version = "";
@@ -94,6 +104,14 @@ public class FormRetrieverImpl implements FormRetriever{
 		ApplicationContext applicationContext = new ClassPathXmlApplicationContext("/applicationContext-service-db.xml");
 		
 		JDBCFormDAOV2 formDAO = (JDBCFormDAOV2)applicationContext.getBean("formV2Dao");
+		
+		if ( !StringUtils.doesValueExist(start) ) {
+			start="1";
+		}
+		
+		if ( !StringUtils.doesValueExist(size) ) {
+			size = DEFAULT_SIZE;
+		}
 		
 		if ( StringUtils.doesValueExist(context) ) {
 			JDBCContextDAOV2 contextDAO = (JDBCContextDAOV2)applicationContext.getBean("contextV2Dao");
@@ -157,7 +175,7 @@ public class FormRetrieverImpl implements FormRetriever{
 			formCollection = formDAO.getAllFormsForClassification(classificationIdSeq);
 		}
 		else {
-			 formCollection = formDAO.getAllForms(formLongName, protocolIdSeq, contextIdSeq, workFlowStatus, "", "", classificationIdSeq, "", formPublicId, version, "", "", createdBy);
+			 formCollection = formDAO.getAllForms(formLongName, protocolIdSeq, contextIdSeq, workFlowStatus, "", "", classificationIdSeq, "", formPublicId, version, "", "", createdBy, start, size);
 		}
 		/* Retrieve One Form
 		FormTransferObject formObject = ((FormTransferObject) ((ArrayList)formCollection).get(0));
@@ -174,8 +192,24 @@ public class FormRetrieverImpl implements FormRetriever{
 		}
 		
 		End Retrieve One Form */
+		int totalCount = 100;
+		int startPage = Integer.parseInt(start);
+		int isize = Integer.parseInt(size);
+		String nextPage= Integer.toString(startPage+1);
+		String prevPage= Integer.toString(startPage-1);
+		String nextParams = constructParams(formPublicId, formLongName, context, classification, protocol, createdBy, workFlowStatus, registrationStatus, nextPage, size, format);
+		String prevParams = constructParams(formPublicId, formLongName, context, classification, protocol, createdBy, workFlowStatus, registrationStatus, prevPage, size, format);
+		String currParams = constructParams(formPublicId, formLongName, context, classification, protocol, createdBy, workFlowStatus, registrationStatus, start, size, format);
+		String url = AuthenticationHandler.URL.substring(0,AuthenticationHandler.URL.indexOf("/formrest"));
 		
 		StringBuffer xmlFileBuffer = new StringBuffer("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<formCollection>\n");
+		if( totalCount > (startPage+1+1)*isize) {
+			xmlFileBuffer.append("<link ref='next' type='application/xml' href=").append("'").append(url).append("/formrest/services/formRetrieve?").append(nextParams).append("'/>\n");
+		}
+		if( startPage-1 > 0 ) {
+			xmlFileBuffer.append("<link ref='prev' type='application/xml' href=").append("'http://localhost:8080").append("/formrest/services/formRetrieve?").append(prevParams).append("'/>\n");
+		}
+		xmlFileBuffer.append("<link ref='self' type='application/xml' href=").append("'http://localhost:8080").append("/formrest/services/formRetrieve?").append(currParams).append("'/>\n");
 		//StringBuffer xmlFileBuffer = new StringBuffer("");
 		for(Object formObject: formCollection) {
 			FormV2 form = formDAO.getFormDetailsV2(((FormTransferObject)formObject).getFormIdseq());
@@ -221,6 +255,96 @@ public class FormRetrieverImpl implements FormRetriever{
 		
 		//return xmlFileBuffer.toString();
 
+	}
+	
+	private String constructParams(String formPublicId, 
+								String formLongName, 
+								String context,
+								String classification,
+								String protocol,
+								String createdBy,
+								String workFlowStatus,
+								String registrationStatus,
+								String start,
+								String size,
+								String format) {
+		StringBuffer paramBuffer = new StringBuffer("");
+		
+		if ( StringUtils.doesValueExist(formPublicId) ) {
+			paramBuffer.append("formPublicId=").append(formPublicId);
+		}
+		
+		if ( StringUtils.doesValueExist(formLongName) ) {
+			if ( StringUtils.doesValueExist(paramBuffer.toString()) ) {
+				paramBuffer.append("&amp;");
+			}
+			paramBuffer.append("formLongName=").append(formLongName);
+		}
+		
+		if ( StringUtils.doesValueExist(context) ) {
+			if ( StringUtils.doesValueExist(paramBuffer.toString()) ) {
+				paramBuffer.append("&amp;");
+			}
+			paramBuffer.append("context=").append(context);
+		}
+		
+		if ( StringUtils.doesValueExist(classification) ) {
+			if ( StringUtils.doesValueExist(paramBuffer.toString()) ) {
+				paramBuffer.append("&amp;");
+			}
+			paramBuffer.append("classification=").append(classification);
+		}
+		
+		if ( StringUtils.doesValueExist(protocol) ) {
+			if ( StringUtils.doesValueExist(paramBuffer.toString()) ) {
+				paramBuffer.append("&amp;");
+			}
+			paramBuffer.append("protocol=").append(protocol);
+		}
+		
+		if ( StringUtils.doesValueExist(createdBy) ) {
+			if ( StringUtils.doesValueExist(paramBuffer.toString()) ) {
+				paramBuffer.append("&amp;");
+			}
+			paramBuffer.append("createdBy=").append(createdBy);
+		}
+		
+		if ( StringUtils.doesValueExist(workFlowStatus) ) {
+			if ( StringUtils.doesValueExist(paramBuffer.toString()) ) {
+				paramBuffer.append("&amp;");
+			}
+			paramBuffer.append("workFlowStatus=").append(workFlowStatus);
+		}
+		
+		if ( StringUtils.doesValueExist(registrationStatus) ) {
+			if ( StringUtils.doesValueExist(paramBuffer.toString()) ) {
+				paramBuffer.append("&amp;");
+			}
+			paramBuffer.append("registrationStatus=").append(registrationStatus);
+		}
+		
+		if ( StringUtils.doesValueExist(format) ) {
+			if ( StringUtils.doesValueExist(paramBuffer.toString()) ) {
+				paramBuffer.append("&amp;");
+			}
+			paramBuffer.append("format=").append(format);
+		}
+		
+		if ( StringUtils.doesValueExist(start) ) {
+			if ( StringUtils.doesValueExist(paramBuffer.toString()) ) {
+				paramBuffer.append("&amp;");
+			}
+			paramBuffer.append("start=").append(start);
+		}
+		
+		if ( StringUtils.doesValueExist(size) ) {
+			if ( StringUtils.doesValueExist(paramBuffer.toString()) ) {
+				paramBuffer.append("&amp;");
+			}
+			paramBuffer.append("size=").append(size);
+		}
+		
+		return paramBuffer.toString();
 	}
 
 }
