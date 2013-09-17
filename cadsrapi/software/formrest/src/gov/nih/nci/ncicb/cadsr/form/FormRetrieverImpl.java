@@ -60,6 +60,7 @@ public class FormRetrieverImpl implements FormRetriever{
 								String registrationStatus,
 								String start,
 								String size,
+								String total,
 								String format ) {
 		String contextIdSeq = "";
 		String version = "";
@@ -96,7 +97,9 @@ public class FormRetrieverImpl implements FormRetriever{
 			}
 
 	        ResponseBuilder response = Response.ok(jsonString);
-	        response.header("Content-Disposition", "attachment; filename=\"download.json\"");
+	        System.out.println(jsonString);
+	        //response.header("Content-Disposition", "attachment; filename=\"download.json\"");
+			response = Response.ok(jsonString).header("Content-Disposition", "text/json");
 	        return response.build();
 		}
 		
@@ -171,8 +174,21 @@ public class FormRetrieverImpl implements FormRetriever{
 			protocolIdSeq = protocolBuffer.toString();
 		}
 		
+		if ( !StringUtils.doesValueExist(total) ) {
+			int count = 0;
+
+			if ( StringUtils.doesValueExist(classification) ) {
+				count = formDAO.getFormClassificationCount(classificationIdSeq);
+			}
+			else
+			{
+				count = formDAO.getFormCount(formLongName, protocolIdSeq, contextIdSeq, workFlowStatus, "", "", classificationIdSeq, "", formPublicId, version, "", "", createdBy);
+			}
+			total = String.valueOf(count);
+		}
+		
 		if ( StringUtils.doesValueExist(classification) ) {
-			formCollection = formDAO.getAllFormsForClassification(classificationIdSeq);
+			formCollection = formDAO.getAllFormsForClassification(classificationIdSeq, start, size);
 		}
 		else {
 			 formCollection = formDAO.getAllForms(formLongName, protocolIdSeq, contextIdSeq, workFlowStatus, "", "", classificationIdSeq, "", formPublicId, version, "", "", createdBy, start, size);
@@ -192,18 +208,17 @@ public class FormRetrieverImpl implements FormRetriever{
 		}
 		
 		End Retrieve One Form */
-		int totalCount = 100;
 		int startPage = Integer.parseInt(start);
 		int isize = Integer.parseInt(size);
 		String nextPage= Integer.toString(startPage+1);
 		String prevPage= Integer.toString(startPage-1);
-		String nextParams = constructParams(formPublicId, formLongName, context, classification, protocol, createdBy, workFlowStatus, registrationStatus, nextPage, size, format);
-		String prevParams = constructParams(formPublicId, formLongName, context, classification, protocol, createdBy, workFlowStatus, registrationStatus, prevPage, size, format);
-		String currParams = constructParams(formPublicId, formLongName, context, classification, protocol, createdBy, workFlowStatus, registrationStatus, start, size, format);
+		String nextParams = constructParams(formPublicId, formLongName, context, classification, protocol, createdBy, workFlowStatus, registrationStatus, nextPage, size, total, format);
+		String prevParams = constructParams(formPublicId, formLongName, context, classification, protocol, createdBy, workFlowStatus, registrationStatus, prevPage, size, total, format);
+		String currParams = constructParams(formPublicId, formLongName, context, classification, protocol, createdBy, workFlowStatus, registrationStatus, start, size, total, format);
 		String url = AuthenticationHandler.URL.substring(0,AuthenticationHandler.URL.indexOf("/formrest"));
 		
 		StringBuffer xmlFileBuffer = new StringBuffer("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<formCollection>\n");
-		if( totalCount > (startPage+1+1)*isize) {
+		if( Integer.valueOf(total) > startPage*isize) {
 			xmlFileBuffer.append("<link ref='next' type='application/xml' href=").append("'").append(url).append("/formrest/services/formRetrieve?").append(nextParams).append("'/>\n");
 		}
 		if( startPage-1 > 0 ) {
@@ -235,6 +250,7 @@ public class FormRetrieverImpl implements FormRetriever{
 		else if ( format.equals("CSV")) {
 			String csvFile = FilesTransformation.transformFormToCSV(xmlFileBuffer.toString());
 			return Response.ok(csvFile).header("Content-Disposition", "attachment; filename=download.csv").build();
+			//return Response.ok(csvFile).header("Content-Disposition", "text/csv").build();
 			
 /*			File f = new File("/local/content/transform/data/","CdBefYIp.txt");
 
@@ -250,6 +266,8 @@ public class FormRetrieverImpl implements FormRetriever{
 			
 			ResponseBuilder response = Response.ok(json.toString(2));
 	        response.header("Content-Disposition", "attachment; filename=\"download.json\"");
+			//response = Response.ok(json.toString(2)).header("Content-Disposition", "application/json");
+
 	        return response.build();
 		}
 		
@@ -267,6 +285,7 @@ public class FormRetrieverImpl implements FormRetriever{
 								String registrationStatus,
 								String start,
 								String size,
+								String total,
 								String format) {
 		StringBuffer paramBuffer = new StringBuffer("");
 		
@@ -323,13 +342,6 @@ public class FormRetrieverImpl implements FormRetriever{
 			paramBuffer.append("registrationStatus=").append(registrationStatus);
 		}
 		
-		if ( StringUtils.doesValueExist(format) ) {
-			if ( StringUtils.doesValueExist(paramBuffer.toString()) ) {
-				paramBuffer.append("&amp;");
-			}
-			paramBuffer.append("format=").append(format);
-		}
-		
 		if ( StringUtils.doesValueExist(start) ) {
 			if ( StringUtils.doesValueExist(paramBuffer.toString()) ) {
 				paramBuffer.append("&amp;");
@@ -343,6 +355,20 @@ public class FormRetrieverImpl implements FormRetriever{
 			}
 			paramBuffer.append("size=").append(size);
 		}
+		
+		if ( StringUtils.doesValueExist(total) ) {
+			if ( StringUtils.doesValueExist(paramBuffer.toString()) ) {
+				paramBuffer.append("&amp;");
+			}
+			paramBuffer.append("total=").append(total);
+		}
+		
+		if ( StringUtils.doesValueExist(format) ) {
+			if ( StringUtils.doesValueExist(paramBuffer.toString()) ) {
+				paramBuffer.append("&amp;");
+			}
+			paramBuffer.append("format=").append(format);
+		}		
 		
 		return paramBuffer.toString();
 	}
