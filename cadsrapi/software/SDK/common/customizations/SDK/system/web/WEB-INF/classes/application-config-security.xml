@@ -25,9 +25,9 @@ L-->
 	</bean>
 
     	<bean id="dataSource" class="oracle.jdbc.pool.OracleDataSource" destroy-method="close">
-    	<property name="URL" value="jdbc:oracle:thin:@ncidb-dsr-d:1551:DSRDEV"/>
-    	<property name="user" value="FORMBUILDER"/>
-    	<property name="password" value="FORMBUILDER"/>
+    	<property name="URL" value="jdbc:oracle:thin:@@CADSR.DS.URL@"/>
+    	<property name="user" value="@CADSR.DS.USER@"/>
+    	<property name="password" value="@CADSR.DS.PSWD@"/>
     	<property name="connectionCachingEnabled" value="true"/>
 	</bean>
 

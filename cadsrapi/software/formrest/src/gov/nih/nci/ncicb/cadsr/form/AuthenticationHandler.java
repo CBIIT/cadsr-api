@@ -12,6 +12,7 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 import gov.nih.nci.ncicb.cadsr.common.persistence.dao.UserManagerDAO;
 
 public class AuthenticationHandler implements RequestHandler {
+	public static String URL = "";
 	UserManagerDAO userManagerDAO = null;
 	
     public Response handleRequest(Message m, ClassResourceInfo resourceClass) {
@@ -21,9 +22,11 @@ public class AuthenticationHandler implements RequestHandler {
 		userManagerDAO = (UserManagerDAO)applicationContext.getBean("userManagerDAO");
 		
         AuthorizationPolicy policy = (AuthorizationPolicy)m.get(AuthorizationPolicy.class);
-        String url = (String) m.get("org.apache.cxf.request.url");        String username = "";
+        String url = (String) m.get("org.apache.cxf.request.url");        
+        String username = "";
         String password = "";
         
+        URL = url;
         if ( url != null & url.contains(Constants.FORM_RETRIEVE_URL)) {
         	return null;
         }
