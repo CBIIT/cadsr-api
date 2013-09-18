@@ -74,7 +74,7 @@ public class FormLoaderImpl implements FormLoader {
 			FormCollection aColl = new FormCollection();
 			aColl.setName("TestCollection");
 			//aColl.setForms(forms);
-			aColl.setCreatedBy("yangs8");
+			aColl.setCreatedBy("yangs");
 			aColl.setXmlFileName(name);
 			aColl.setXmlPathOnServer(path);
 			
