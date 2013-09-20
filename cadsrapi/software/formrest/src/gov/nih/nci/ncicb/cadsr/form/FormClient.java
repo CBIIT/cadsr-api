@@ -23,45 +23,74 @@ import javax.ws.rs.core.Response.Status;
 
 public class FormClient {
 	public static void main(String[] args){
-		WebClient client = WebClient.create("http://localhost:8080/formrest/services/formLoad/");
-
-		String userName = "FORMBUILDER";
-		String password = "FORMBUILDER";
-		String base64encodedUsernameAndPassword = new String(Base64.encodeBase64((userName + ":" + password).getBytes()));
-		client.header("Authorization", "Basic "	+ base64encodedUsernameAndPassword);
-
-		//String xmlFileString = readFile("3193449_has_valid_values.xml");
-		//String xmlFileString = readFile("forms-malformed.xml");
-		String xmlFileString = readFile("invalid-publicid.xml");
-		//String xmlFileString = readFile("invalid-context.xml");
+		String request = "GET";
+		if (request.equals("POST")) {
+			WebClient client = WebClient.create("http://localhost:8080/formrest/services/formLoad/");
+	
+			//String userName = "FORMBUILDER";
+			//String password = "FORMBUILDER";
+			String userName = "SBREXT";
+			String password = "jjuser";
+			String base64encodedUsernameAndPassword = new String(Base64.encodeBase64((userName + ":" + password).getBytes()));
+			client.header("Authorization", "Basic "	+ base64encodedUsernameAndPassword);
+	
+			String xmlFileString = readFile("load_forms-5.xml");
+			//String xmlFileString = readFile("forms-malformed.xml");
+			//String xmlFileString = readFile("invalid-publicid.xml");
+			//String xmlFileString = readFile("invalid-context.xml");
+					
+			client.type("application/xml").accept("application/xml");
+			Response r = client.put(xmlFileString.toString());
+			if (r.getStatus() == Status.UNAUTHORIZED.getStatusCode()) {
+				String html = "Unauthorized access";
+				System.out.println(html);
+			} else {
+				InputStream is = (InputStream) r.getEntity();
+	
+				SAXBuilder builder = new SAXBuilder();
+				Document jDoc = null;
+				try {
+					jDoc = builder.build(is);
+				} catch (JDOMException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 				
-		client.type("application/xml").accept("application/xml");
-		Response r = client.put(xmlFileString.toString());
-		if (r.getStatus() == Status.UNAUTHORIZED.getStatusCode()) {
-			String html = "Unauthorized access";
-			System.out.println(html);
-		} else {
-			InputStream is = (InputStream) r.getEntity();
-
-			SAXBuilder builder = new SAXBuilder();
-			Document jDoc = null;
-			try {
-				jDoc = builder.build(is);
-			} catch (JDOMException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				XMLOutputter out = new XMLOutputter();
+				out.setFormat(Format.getPrettyFormat());
+				String renderedDoc = out.outputString(jDoc);
+				System.out.println(renderedDoc);
+	
+				}
 			}
-			
-			XMLOutputter out = new XMLOutputter();
-			out.setFormat(Format.getPrettyFormat());
-			String renderedDoc = out.outputString(jDoc);
-			System.out.println(renderedDoc);
-
+			else {
+				WebClient client = WebClient.create("http://localhost:8080/formrest/services/formRetrieve?protocol=GOG-0221,GOG-0264");
+				client.type("application/xml").accept("application/xml");
+				Response r = client.get();
+				
+				InputStream is = (InputStream) r.getEntity();
+				
+				SAXBuilder builder = new SAXBuilder();
+				Document jDoc = null;
+				try {
+					jDoc = builder.build(is);
+				} catch (JDOMException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				
+				XMLOutputter out = new XMLOutputter();
+				out.setFormat(Format.getPrettyFormat());
+				String renderedDoc = out.outputString(jDoc);
+				System.out.println(renderedDoc);
+			}
 		}
-	}
 
 	private static String readFile(String fileName) {
 		String filePath = "/local/content/formloader/data/";
