@@ -90,7 +90,7 @@ public class FormLoaderImpl implements FormLoader {
 			aColl = loadService.loadForms(aColl);
 			
 			//Step 4: check status
-			String statusString = StatusFormatter.getStatusInXml(aColl);
+			xmlResult = StatusFormatter.getStatusInXml(aColl);
 			
 			//Step 5: write status xml to file
 			//StatusFormatter.writeStatusToXml(statusString, "LoadForm-Status.xml");
@@ -117,7 +117,7 @@ public class FormLoaderImpl implements FormLoader {
 				}
 			}
 */
-			
+/*			
 			forms = aColl.getForms();
 			StringBuffer buf = new StringBuffer();
 			for (FormDescriptor form : forms) {
@@ -137,6 +137,7 @@ public class FormLoaderImpl implements FormLoader {
 				}			
 				xmlResult = buf.toString();
 			}
+*/			
 			
 		} catch (FormLoaderServiceException fle) {
 			System.out.println("=====" + fle.getMessage());
@@ -146,6 +147,7 @@ public class FormLoaderImpl implements FormLoader {
 			xmlResult = "<?xml version='1.0' encoding='UTF-8' standalone='yes'?><formStatus xmlns:ns2='gov.nih.nci.cadsr.formloader.domain.Moduletatus' xmlns:ns3='gov.nih.nci.cadsr.formloader.domain.FormStatus'><message><![CDATA[" + fle.getMessage() + "]]></message></formStatus>";
 		}
 		
+		System.out.println(xmlResult);
 		return xmlResult;
 	}
 }

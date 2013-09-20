@@ -35,6 +35,20 @@
 			<ref local="repository" />
 		</property>
 	</bean>
+	
+	<bean id="unloadService"
+		class="gov.nih.nci.cadsr.formloader.service.impl.UnloadingServiceImpl">
+		<property name="repository">
+			<ref local="repository" />
+		</property>
+	</bean>
+	
+	<bean id="collectionRetrievalService"
+		class="gov.nih.nci.cadsr.formloader.service.impl.CollectionRetrievalServiceImpl">
+		<property name="repository">
+			<ref local="repository" />
+		</property>
+	</bean>	
 
 	<bean id="contentValidationService"
 		class="gov.nih.nci.cadsr.formloader.service.impl.ContentValidationServiceImpl"> 
@@ -81,6 +95,10 @@
 		<property name="collectionDao">
 			<ref bean="collectionDao" />
 		</property>
+		<property name="referenceDocV2Dao">
+			<ref bean="referenceDocV2Dao" />
+		</property>
+	
 		
 	</bean>
 	

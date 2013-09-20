@@ -23,7 +23,7 @@ import javax.ws.rs.core.Response.Status;
 
 public class FormClient {
 	public static void main(String[] args){
-		String request = "GET";
+		String request = "POST";
 		if (request.equals("POST")) {
 			WebClient client = WebClient.create("http://localhost:8080/formrest/services/formLoad/");
 	
