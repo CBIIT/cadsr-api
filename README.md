@@ -4,6 +4,8 @@ Welcome to the caDSR API Project!
 The caDSR APIs allow developers to build an application to access caDSR metadata and search the database, or to 
 retrieve caDSR Metadata to customize local data collection applications
 
+The caDSR API is developed in Java and requires Apache Ant for building.
+
 The caDSR API is distributed under the BSD 3-Clause License.
 Please see the NOTICE and LICENSE files for details.
 
