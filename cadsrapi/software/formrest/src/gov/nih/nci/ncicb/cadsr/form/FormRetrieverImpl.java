@@ -15,9 +15,12 @@ import gov.nih.nci.ncicb.cadsr.common.util.StringUtils;
 
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Collection;
+import java.util.Properties;
 import java.util.StringTokenizer;
 
 import javax.ws.rs.core.Response;
@@ -33,6 +36,8 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 public class FormRetrieverImpl implements FormRetriever{
 	
 	public static String DEFAULT_SIZE = "2";
+	public static final String GOV_NIH_NCI_TRANSFORM_PROPERTIES = "gov.nih.nci.transform.properties";
+	public static final String DEFAULT_SIZE_KEY = "default.size";
 	
 	public FormRetrieverImpl() {}
 	
@@ -105,7 +110,7 @@ public class FormRetrieverImpl implements FormRetriever{
 		}
 		
 		if ( !StringUtils.doesValueExist(size) ) {
-			size = DEFAULT_SIZE;
+			size = loadSizeProperty();
 		}
 		
 		if ( StringUtils.doesValueExist(context) ) {
@@ -423,5 +428,29 @@ public class FormRetrieverImpl implements FormRetriever{
 		return empty;
 		
 	}
+	
+	private String loadSizeProperty() {
+		  String propertiesFileName = System.getProperty(GOV_NIH_NCI_TRANSFORM_PROPERTIES);
+		
+		  //Load the the application properties and set them as system properties
+		  Properties transformProperties = new Properties();
+		   
+		  FileInputStream in;
+		  String size = "";
+		  try {
+			in = new FileInputStream(propertiesFileName);
+		   
+			  if (propertiesFileName == null || in == null ) {
+				  return DEFAULT_SIZE;	
+			  }
+			transformProperties.load(in);
+		    size = transformProperties.getProperty(DEFAULT_SIZE_KEY);
+		    in.close();	
+			} catch (IOException e) {
+				  return DEFAULT_SIZE;	
+			}
+		  
+		    return size;
+		}
 
 }

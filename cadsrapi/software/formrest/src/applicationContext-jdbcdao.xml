@@ -5,9 +5,14 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xmlns:jee="http://www.springframework.org/schema/jee"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans 
-	http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+	http://www.springframework.org/schema/beans/spring-beans-3.0.xsd 
+	http://www.springframework.org/schema/jee 
+	http://www.springframework.org/schema/jee/spring-jee-3.0.xsd 
+	http://www.springframework.org/schema/tx 
+	http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd">
+	
               
-    <!--  jee:jndi-lookup id="dataSource" jndi-name="jdbc/FormBuilderDS" resource-ref="false" /> -->	
+    <jee:jndi-lookup id="dataSource" jndi-name="java:transformDS" resource-ref="false" />
     
 	<!-- For test -->
 	<!--  bean id="dataSourcetest" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
@@ -18,12 +23,12 @@
 		<property name="password" value="FORMBUILDER" />
 	</bean> -->
 	
-	<bean id="dataSource" class="oracle.jdbc.pool.OracleDataSource" destroy-method="close">
+	<!-- bean id="dataSource" class="oracle.jdbc.pool.OracleDataSource" destroy-method="close">
     	<property name="URL" value="jdbc:oracle:thin:@ncidb-dsr-d:1551:DSRDEV"/>
     	<property name="user" value="sbrext"/>
     	<property name="password" value="jjuser"/>
     	<property name="connectionCachingEnabled" value="true"/>
-	</bean>
+	</bean>  -->
 	                                
 	<bean id="collectionDao" class="gov.nih.nci.ncicb.cadsr.common.persistence.dao.jdbc.JDBCCollectionDAO">
 		<constructor-arg ref="dataSource"/>       
