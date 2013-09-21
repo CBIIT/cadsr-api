@@ -8,39 +8,31 @@ import gov.nih.nci.ncicb.cadsr.common.persistence.dao.jdbc.JDBCContextDAOV2;
 import gov.nih.nci.ncicb.cadsr.common.persistence.dao.jdbc.JDBCFormDAOV2;
 import gov.nih.nci.ncicb.cadsr.common.persistence.dao.jdbc.JDBCProtocolDAOV2;
 import gov.nih.nci.ncicb.cadsr.common.resource.Classification;
-import gov.nih.nci.ncicb.cadsr.common.resource.Protocol;
 import gov.nih.nci.ncicb.cadsr.common.resource.Context;
 import gov.nih.nci.ncicb.cadsr.common.resource.FormV2;
+import gov.nih.nci.ncicb.cadsr.common.resource.Protocol;
 import gov.nih.nci.ncicb.cadsr.common.util.StringUtils;
-import javax.ws.rs.core.Response;
-import javax.ws.rs.core.Response.ResponseBuilder;
-import javax.ws.rs.core.Request;
-import javax.ws.rs.core.UriInfo;
 
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.InputStream;
-import java.net.URL;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.StringTokenizer;
+
+import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.ResponseBuilder;
 
 import net.sf.json.JSON;
 import net.sf.json.xml.XMLSerializer;
 
-import org.apache.cxf.helpers.IOUtils;
-import org.apache.cxf.jaxrs.ext.RequestHandler;
-import org.apache.cxf.message.Message;
-import org.apache.cxf.transport.http.URLConnectionInfo;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 
 public class FormRetrieverImpl implements FormRetriever{
 	
-	public static String DEFAULT_SIZE = "1";
+	public static String DEFAULT_SIZE = "2";
 	
 	public FormRetrieverImpl() {}
 	
@@ -125,7 +117,11 @@ public class FormRetrieverImpl implements FormRetriever{
 				if( contextBuffer.length() > 0 )
 					contextBuffer.append(",");
 				
-				String idSeq = ((Context)contextDAO.getContextByName((String)contexttokenizer.nextElement())).getConteIdseq();
+				String idSeq = "";
+				Context contextObj = ((Context)contextDAO.getContextByName((String)contexttokenizer.nextElement()));
+				
+				if (contextObj != null)
+					idSeq = contextObj.getConteIdseq();
 				
 				if ( StringUtils.doesValueExist(idSeq) )
 					contextBuffer.append("'").append(idSeq).append("'");
@@ -148,7 +144,11 @@ public class FormRetrieverImpl implements FormRetriever{
 				if( classBuffer.length() > 0 )
 					classBuffer.append(",");
 				
-				String idSeq = ((Classification)classificationDAO.getClassificationByName((String)classtokenizer.nextElement())).getCsIdseq();
+				String idSeq = "";
+				Classification classificationObj = ((Classification)classificationDAO.getClassificationByName((String)classtokenizer.nextElement()));
+				
+				if (classificationObj != null)
+					idSeq = classificationObj.getCsIdseq();
 				
 				if ( StringUtils.doesValueExist(idSeq) )
 					classBuffer.append("'").append(idSeq).append("'");
@@ -165,7 +165,11 @@ public class FormRetrieverImpl implements FormRetriever{
 				if( protocolBuffer.length() > 0 )
 					protocolBuffer.append(",");
 				
-				String idSeq = ((Protocol)protocolDAO.getProtocolByName((String)protocoltokenizer.nextElement())).getProtoIdseq();
+				String idSeq = "";
+				Protocol protocolObj = ((Protocol)protocolDAO.getProtocolByName((String)protocoltokenizer.nextElement()));
+				
+				if(protocolObj != null)
+					idSeq = protocolObj.getProtoIdseq();
 				
 				if ( StringUtils.doesValueExist(idSeq) )
 					protocolBuffer.append("'").append(idSeq).append("'");
@@ -178,20 +182,36 @@ public class FormRetrieverImpl implements FormRetriever{
 			int count = 0;
 
 			if ( StringUtils.doesValueExist(classification) ) {
-				count = formDAO.getFormClassificationCount(classificationIdSeq);
+				if( StringUtils.doesValueExist(classificationIdSeq)) {
+					count = formDAO.getFormClassificationCount(classificationIdSeq);
+				}
 			}
 			else
 			{
-				count = formDAO.getFormCount(formLongName, protocolIdSeq, contextIdSeq, workFlowStatus, "", "", classificationIdSeq, "", formPublicId, version, "", "", createdBy);
+				if (!isEmptyAllParams(formLongName, protocolIdSeq, contextIdSeq, workFlowStatus, classificationIdSeq, formPublicId, version, createdBy)) {
+					count = formDAO.getFormCount(formLongName, protocolIdSeq, contextIdSeq, workFlowStatus, "", "", classificationIdSeq, "", formPublicId, version, "", "", createdBy);
+				}
 			}
 			total = String.valueOf(count);
 		}
 		
 		if ( StringUtils.doesValueExist(classification) ) {
-			formCollection = formDAO.getAllFormsForClassification(classificationIdSeq, start, size);
+			if( StringUtils.doesValueExist(classificationIdSeq)) {
+				formCollection = formDAO.getAllFormsForClassification(classificationIdSeq, start, size);
+			}
+			else {
+				StringBuffer xmlFileBuffer = new StringBuffer("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<Message>No Records Found</Message>\n");
+				return Response.ok(xmlFileBuffer.toString()).header("Content-Disposition", "application/xml").build();
+			}
 		}
 		else {
-			 formCollection = formDAO.getAllForms(formLongName, protocolIdSeq, contextIdSeq, workFlowStatus, "", "", classificationIdSeq, "", formPublicId, version, "", "", createdBy, start, size);
+			if (!isEmptyAllParams(formLongName, protocolIdSeq, contextIdSeq, workFlowStatus, classificationIdSeq, formPublicId, version, createdBy)) {
+				formCollection = formDAO.getAllForms(formLongName, protocolIdSeq, contextIdSeq, workFlowStatus, "", "", classificationIdSeq, "", formPublicId, version, "", "", createdBy, start, size);
+			}
+			else {
+				StringBuffer xmlFileBuffer = new StringBuffer("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<Message>No Records Found</Message>\n");
+				return Response.ok(xmlFileBuffer.toString()).header("Content-Disposition", "application/xml").build();
+			}
 		}
 		/* Retrieve One Form
 		FormTransferObject formObject = ((FormTransferObject) ((ArrayList)formCollection).get(0));
@@ -371,6 +391,37 @@ public class FormRetrieverImpl implements FormRetriever{
 		}		
 		
 		return paramBuffer.toString();
+	}
+	
+	private boolean isEmptyAllParams(String formLongName, String protocolIdSeq, String contextIdSeq, String workFlowStatus, String classificationIdSeq, String formPublicId, String version, String createdBy) {
+		boolean empty = true;
+		
+		if ( StringUtils.doesValueExist(formLongName) )
+			empty = false;
+		
+		if ( StringUtils.doesValueExist(protocolIdSeq) )
+			empty = false;
+		
+		if ( StringUtils.doesValueExist(contextIdSeq) )
+			empty = false;
+		
+		if ( StringUtils.doesValueExist(workFlowStatus) )
+			empty = false;
+		
+		if ( StringUtils.doesValueExist(classificationIdSeq) )
+			empty = false;
+		
+		if ( StringUtils.doesValueExist(formPublicId) )
+			empty = false;
+		
+		if ( StringUtils.doesValueExist(version) )
+			empty = false;
+		
+		if ( StringUtils.doesValueExist(createdBy) )
+			empty = false;
+		
+		return empty;
+		
 	}
 
 }
