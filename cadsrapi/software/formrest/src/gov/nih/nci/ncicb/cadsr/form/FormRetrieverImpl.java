@@ -218,6 +218,11 @@ public class FormRetrieverImpl implements FormRetriever{
 				return Response.ok(xmlFileBuffer.toString()).header("Content-Disposition", "application/xml").build();
 			}
 		}
+		
+		if( formCollection == null || formCollection.size() == 0) {
+			StringBuffer xmlFileBuffer = new StringBuffer("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<Message>No Records Found</Message>\n");
+			return Response.ok(xmlFileBuffer.toString()).header("Content-Disposition", "application/xml").build();
+		}
 		/* Retrieve One Form
 		FormTransferObject formObject = ((FormTransferObject) ((ArrayList)formCollection).get(0));
 		
