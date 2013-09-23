@@ -13,7 +13,7 @@ You will find more details about the caDSR API in the following links:
 
  * [Community Wiki] (https://wiki.nci.nih.gov/x/pXtyAQ)
  * [Code Repository] (http://github.com/NCIP/cadsr-api)
- * [Issue Tracker] (https://gforge.nci.nih.gov/tracker/?group_id=458)
+ * [Issue Tracker] (https://tracker.nci.nih.gov/browse/CADSRAPI)
  
  
 An NCI hosted instance of caDSR API is publicly available at:
