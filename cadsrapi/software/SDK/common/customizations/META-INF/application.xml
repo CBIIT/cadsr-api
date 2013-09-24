@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<application>
+	<display-name>cadsrapi41</display-name>
+	<module id="cadsrapi">
+		<web>
+			<web-uri>cadsrapi41.war</web-uri>
+			<context-root>/cadsrapi41</context-root>
+		</web>
+	</module>
+	<module id="cderest">
+		<web>
+			<web-uri>cderest.war</web-uri>
+			<context-root>/cderest</context-root>
+		</web>
+	</module>
+	<module id="formrest">
+		<web>
+			<web-uri>formrest.war</web-uri>
+			<context-root>/formrest</context-root>
+		</web>
+	</module>
+</application>
