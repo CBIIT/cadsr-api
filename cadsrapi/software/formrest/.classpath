@@ -21,7 +21,6 @@
 	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/cxf-services-wsn-core-2.7.6.jar"/>
 	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/dom4j-1.6.1.jar"/>
 	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/FastInfoset-1.2.8.jar"/>
-	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/FormLoader-services.jar" sourcepath="/FormLoader/src"/>
 	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/geronimo-activation_1.1_spec-1.0.2.jar"/>
 	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/geronimo-annotation_1.0_spec-1.1.1.jar"/>
 	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/geronimo-javamail_1.4_spec-1.7.1.jar"/>
@@ -77,5 +76,8 @@
 	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/ezmorph-1.0.6.jar"/>
 	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/json-lib-2.4-jdk15.jar"/>
 	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/xom-1.1d2.jar"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/FormLoader"/>
+	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/servlet.jar"/>
+	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/junit-4.10.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
