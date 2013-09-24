@@ -1,5 +1,6 @@
 package gov.nih.nci.ncicb.cadsr.common;
 
+import gov.nih.nci.ncicb.cadsr.common.dto.CSITransferObject;
 import gov.nih.nci.ncicb.cadsr.common.persistence.dao.AbstractDAOFactory;
 import gov.nih.nci.ncicb.cadsr.common.persistence.dao.ClassificationSchemeDAO;
 import gov.nih.nci.ncicb.cadsr.common.persistence.dao.ClassificationSchemeDAOCDERest;
@@ -8,6 +9,7 @@ import gov.nih.nci.ncicb.cadsr.common.persistence.dao.jdbc.JDBCClassificationSch
 import gov.nih.nci.ncicb.cadsr.common.persistence.dao.jdbc.JDBCClassificationSchemeDAOCDERest;
 import gov.nih.nci.ncicb.cadsr.common.servicelocator.ServiceLocator;
 import gov.nih.nci.ncicb.cadsr.common.servicelocator.ServiceLocatorFactory;
+import gov.nih.nci.ncicb.cadsr.common.resource.ClassSchemeItem;
 import gov.nih.nci.ncicb.cadsr.common.resource.Classification;
 import gov.nih.nci.ncicb.cadsr.common.resource.Context;
 
@@ -123,12 +125,16 @@ public class RequestInitializationFiler implements Filter {
 
     			StringBuffer classBuffer = new StringBuffer();
     			while (classtokenizer.hasMoreElements()) {
+    				Classification classific = null;
+    				String idSeq = null;
     				if( classBuffer.length() > 0 )
     				{
     					classBuffer.append(" ");
     					searchMode = "At least one of the words";
     				}	
-    				String idSeq = ((Classification) classificationDAO.getClassificationByName((String)classtokenizer.nextElement())).getCsIdseq();
+    				classific = ((Classification) classificationDAO.getClassificationByName((String)classtokenizer.nextElement()));
+    				if(null != classific)
+    					idSeq = classific.getCsIdseq();    				
 
     				if ( idSeq != null )
     					classBuffer.append(idSeq);
@@ -159,7 +165,6 @@ public class RequestInitializationFiler implements Filter {
     					classBuffer.append(" ");
     					searchMode = "At least one of the words";
     				}	
-    				//String idSeq = ((Classification) classificationDAO.getClassificationByName((String)classtokenizer.nextElement())).getCsIdseq();
     				String idSeq = (String) contextDao.getContextByName((String)classtokenizer.nextElement()).getConteIdseq();
 
     				if ( idSeq != null )
@@ -170,7 +175,44 @@ public class RequestInitializationFiler implements Filter {
 //    			 modifiableParameters.put("jspClassification", new String[]{classificationIdSeq} );
 //            	 modifiableParameters.put("jspBasicSearchType", new String[]{"classification"});
 //            	 modifiableParameters.put("jspNameSearchMode", new String[]{searchMode});
-            }          
+            }
+            
+            if(request.getParameter("classificationItem") != null)
+            {
+  			  	ServiceLocator locator = ServiceLocatorFactory.getLocator(CaDSRConstants.CDEBROWSER_SERVICE_LOCATOR_CLASSNAME);
+  			  
+				String classificationItem = request.getParameter("classificationItem");
+				ClassificationSchemeDAOCDERest  classificationDAO = new JDBCClassificationSchemeDAOCDERest(locator);
+				String classificationItemIdSeq = null;
+				String searchMode = "Exact phrase";
+				
+  			  
+        			//ClassificationSchemeDAOCDERest classificationDAO =  (ClassificationSchemeDAOCDERest) daoFactory.getClassificationSchemeDAO();
+    			StringTokenizer classtokenizer = new StringTokenizer(classificationItem, ",");
+
+    			StringBuffer classBuffer = new StringBuffer();
+    			while (classtokenizer.hasMoreElements()) {
+    				ClassSchemeItem classSchemeItem = null;
+    				String idSeq = null;
+    				if( classBuffer.length() > 0 )
+    				{
+    					classBuffer.append(" ");
+    					searchMode = "At least one of the words";
+    				}	
+    				classSchemeItem = ((ClassSchemeItem) classificationDAO.getClassificationItemByName((String)classtokenizer.nextElement()));
+    				if(null != classSchemeItem)
+    					idSeq = classSchemeItem.getCsiIdseq();
+    					
+
+    				if ( idSeq != null )
+    					classBuffer.append(idSeq);
+    			}
+    			classificationItemIdSeq = classBuffer.toString();
+    			//modifiableParameters.put("classificationIdSeq",new String[]{classificationIdSeq});
+    			 modifiableParameters.put("jspClassification", new String[]{classificationItemIdSeq} );
+            	 modifiableParameters.put("jspBasicSearchType", new String[]{"classification"});
+            	 modifiableParameters.put("jspNameSearchMode", new String[]{searchMode});
+            }            
             	
         }
     	

@@ -38,7 +38,7 @@ public class JDBCClassificationSchemeDAOCDERest extends JDBCClassificationScheme
      * @return <b>Collection</b> Collection of ContextTransferObjects
      */
     public Classification getClassificationByName(String longName) {
-    	ClassificationItemByNameQuery query = new ClassificationItemByNameQuery();
+    	ClassificationByNameQuery query = new ClassificationByNameQuery();
        query.setDataSource(getDataSource());
        query.setSql(longName);
        List result = query.execute();
@@ -54,9 +54,9 @@ public class JDBCClassificationSchemeDAOCDERest extends JDBCClassificationScheme
      * Inner class that accesses database to get all the contexts in caDSR
      *
      */
-    class ClassificationItemByNameQuery extends MappingSqlQuery {
+    class ClassificationByNameQuery extends MappingSqlQuery {
 
-      public ClassificationItemByNameQuery(){
+      public ClassificationByNameQuery(){
         super();
       }
 
@@ -77,4 +77,50 @@ public class JDBCClassificationSchemeDAOCDERest extends JDBCClassificationScheme
 
     }
 
+    
+    /**
+     * Gets the Classification
+     *
+     * @return <b>Collection</b> Collection of ContextTransferObjects
+     */
+    public ClassSchemeItem getClassificationItemByName(String longName) {
+    	ClassificationItemByNameQuery query = new ClassificationItemByNameQuery();
+       query.setDataSource(getDataSource());
+       query.setSql(longName);
+       List result = query.execute();
+       ClassSchemeItem classificationItem = null;
+       if (result.size() != 0) {
+    	   classificationItem = (ClassSchemeItem) (query.execute().get(0));
+       }
+
+       return classificationItem;
+    }
+    
+    /**
+     * Inner class that accesses database to get all the contexts in caDSR
+     *
+     */
+    class ClassificationItemByNameQuery extends MappingSqlQuery {
+
+      public ClassificationItemByNameQuery(){
+        super();
+      }
+
+      public void setSql(String longName){
+        //super.setSql("select cs_idseq from sbr.classification_Schemes_view where long_name  = '" + longName + "'");
+    	 super.setSql("select csv.CS_CSI_IDSEQ from sbr.cs_csi_view csv, sbr.cs_items_view csi where csv.CSI_IDSEQ= csi.CSI_IDSEQ and csi.LONG_NAME = '" + longName + "'"); 
+       }
+     /**
+      * 
+      */
+      protected Object mapRow(ResultSet rs, int rownum) throws SQLException {
+
+    	  ClassSchemeItem classificationItem = new CSITransferObject();
+    	  //Adding CS_CSI_IDSEQ
+    	  classificationItem.setCsiIdseq(rs.getString(1));
+    	  return classificationItem;
+      }
+
+    }
+    
 }

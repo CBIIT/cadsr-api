@@ -15,6 +15,22 @@
 			<url>http://download.java.net/maven/2/</url>
 			<layout>default</layout>
 		</repository>
+		<repository>
+			<id>central</id>
+			<name>Maven Repository Switchboard</name>
+			<layout>default</layout>
+			<url>http://repo1.maven.org/maven2</url>
+			<snapshots>
+				<enabled>false</enabled>
+			</snapshots>
+		</repository>
+		<repository>
+			<id>ncimvn-repo</id>
+			<name>NCI Nexus Repository for Maven</name>
+			<url>https://ncimvn.nci.nih.gov/nexus/content/repositories/public/</url>
+			<layout>default</layout>
+		</repository>
+
 	</repositories>
 
 	<dependencies>
@@ -92,7 +108,7 @@
 				<exclusion>
 					<groupId>org.springframework</groupId>
 					<artifactId>spring-context</artifactId>
-				</exclusion>
+				</exclusion>				
 			</exclusions>
 		</dependency>
 		<dependency>
@@ -108,7 +124,14 @@
     			<version>1.0</version>
     			<scope>system</scope>
     			<systemPath>${project.basedir}/src/main/webapp/WEB-INF/lib/cadsrapi40-beans.jar</systemPath>
-		</dependency>	
+		</dependency>
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>javax.servlet-api</artifactId>
+			<version>3.0.1</version>
+			<scope>provided</scope>
+		</dependency>
+		<!--
 		<dependency>
     			<groupId>servlet</groupId>
     			<artifactId>servlet</artifactId>
@@ -116,6 +139,7 @@
     			<scope>system</scope>
     			<systemPath>${project.basedir}/src/main/webapp/WEB-INF/lib/servlet.jar</systemPath>
 		</dependency>	
+		-->
 		<dependency>
     			<groupId>xsu12</groupId>
     			<artifactId>xsu12</artifactId>
@@ -123,14 +147,13 @@
     			<scope>system</scope>
     			<systemPath>${project.basedir}/src/main/webapp/WEB-INF/lib/xsu12.jar</systemPath>
 		</dependency>
-		<!--
 		<dependency>
-			<groupId>com.oracle</groupId>
-			<artifactId>classes12</artifactId>
-			<version>8.1.7</version>
-			<scope>provided</scope>
+		  <groupId>oracle</groupId>
+		  <artifactId>ojdbc14</artifactId>
+		  <version>10.2.0.2</version>
+		  <scope>provided</scope>
 		</dependency>
-		-->
+		<!--		
 		<dependency>
     			<groupId>classes12</groupId>
     			<artifactId>classes12</artifactId>
@@ -138,6 +161,13 @@
     			<scope>system</scope>
     			<systemPath>${project.basedir}/src/main/webapp/WEB-INF/lib/classes12.jar</systemPath>
 		</dependency>
+		-->
+		<dependency>
+			<groupId>jboss</groupId>
+			<artifactId>jboss-common-jdbc-wrapper</artifactId>
+			<version>3.2.3</version>
+			<scope>provided</scope>
+		</dependency>		
 		<!--
 		<dependency>
     			<groupId>jboss-common-jdbc-wrapper-3.2.3</groupId>
@@ -146,7 +176,7 @@
     			<scope>system</scope>
     			<systemPath>${project.basedir}/src/main/webapp/WEB-INF/lib/jboss-common-jdbc-wrapper-3.2.3.jar</systemPath>
 		</dependency>
-		-->
+		
 		<dependency>
     			<groupId>jboss-j2ee</groupId>
     			<artifactId>jboss-j2ee</artifactId>
@@ -154,7 +184,7 @@
     			<scope>system</scope>
     			<systemPath>${project.basedir}/src/main/webapp/WEB-INF/lib/jboss-j2ee.jar</systemPath>
 		</dependency>	
-		
+		-->
 		<dependency>
     			<groupId>castor-1.0.2</groupId>
     			<artifactId>castor-1.0.2</artifactId>
@@ -231,7 +261,15 @@
     			<version>1.0.6</version>
     			<scope>system</scope>
     			<systemPath>${project.basedir}/src/main/webapp/WEB-INF/lib/ezmorph-1.0.6.jar</systemPath>
-		</dependency>	
+		</dependency>
+		<dependency>
+    			<groupId>commons-beanutils</groupId>
+    			<artifactId>commons-beanutils</artifactId>
+    			<version>1.8.2</version>
+    			<scope>system</scope>
+    			<systemPath>${project.basedir}/src/main/webapp/WEB-INF/lib/commons-beanutils-1.8.2.jar</systemPath>
+		</dependency>		
+			
 	</dependencies>
 
 	<build>

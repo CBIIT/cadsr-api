@@ -5,5 +5,13 @@
         <res-type>javax.sql.DataSource</res-type>
         <jndi-name>java:jdbc/CDEBrowserDS</jndi-name>
     </resource-ref>
+	<env-entry>
+		<description>
+			Class name of the DAOFactory that FormBuilderEJB will use.
+		</description>
+		<env-entry-name>DAOFactoryClassName</env-entry-name>
+		<env-entry-value>gov.nih.nci.ncicb.cadsr.common.persistence.dao.jdbc.JDBCDAOFactory</env-entry-value>
+		<env-entry-type>java.lang.String</env-entry-type>
+	</env-entry>    
 </jboss-web>
 
