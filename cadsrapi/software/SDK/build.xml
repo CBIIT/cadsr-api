@@ -160,13 +160,7 @@ L-->
 
 	</target>
 	<target name="build:system" description="Builds the entire system. This is used mostly by development team or BDA certification team" depends="retrieve:cacore-sdk,load-sdk,load-project">
-<!--
-		<ant antfile="${project.build.home}/build.xml" inheritall="false" inheritrefs="false" target="build:SDK">
-
-			<property name="project.home" value="${sdk.home.dir}/example-project"/>
-			<property name="SDK_INSTALL_DIR" value="${sdk.home.dir}"/>
-			<property name="PROJECT_NAME" value="cadsrapi"/>
-		</ant>
+		<ant antfile="${project.build.home}/build.xml" inheritall="false" inheritrefs="false" target="build:SDK" />
 		<antcall target="package-webapp" />
 		<antcall target="-build-client-jar" />
 		<antcall target="-copy-client-jar" />
@@ -177,7 +171,6 @@ L-->
 		<artifact:mvn pom="../cderest/pom.xml">
 		    <arg value="package"/>
   		</artifact:mvn>
--->
 		<mkdir dir="${basedir}/dist/war/META-INF"/>
 		<copy file="${package.system.dir}/cadsrapi41.war" todir="${basedir}/dist/war"/>
 		<copy file="../formrest/target/dist/formrest.war" todir="${basedir}/dist/war"/>
