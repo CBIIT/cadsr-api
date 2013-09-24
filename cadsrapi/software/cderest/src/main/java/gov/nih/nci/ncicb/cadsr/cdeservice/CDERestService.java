@@ -39,8 +39,12 @@ public class CDERestService {
 
 		DataElementSearchBean desb = null;
 		DESearchQueryBuilder queryBuilder = null;
-		Enumeration inputParameters = httpRequest.getParameterNames();
-		//inputParameters.
+//		Enumeration inputParameters = httpRequest.getParameterNames();
+//		while(inputParameters.hasMoreElements())
+//		{
+//			if(!contains((String) inputParameters.nextElement()))
+//				return Response.status(400).build();
+//		}
 		DBUtil dbUtil = new DBUtil();
 		try
 		{
@@ -67,9 +71,17 @@ public class CDERestService {
         else        	
 			queryBuilder = new DESearchQueryBuilder( httpRequest, null, null , null, desb);
         
-        
-			String queryStmt = queryBuilder.getSQLWithoutOrderBy();
+        int start = 1, size = 10;        
+        if(httpRequest.getParameter("start") != null)
+        	start = Integer.parseInt(httpRequest.getParameter("start"));
+        if(httpRequest.getParameter("size") != null)
+        	size = Integer.parseInt(httpRequest.getParameter("size"));
+            
+        int end = start + size;
+        	String query = queryBuilder.getSQLWithoutOrderBy();        	
+			StringBuffer queryStmt = new StringBuffer();
 			String orderBy = queryBuilder.getOrderBy();
+			queryStmt.append("select * from ("+ query.replaceFirst("SELECT distinct", "SELECT distinct rownum rn,") + ") where rn >= " + start  + " and rn <= " + end);
 			System.out.println("- Query stmt is " + queryStmt);
 
 			String resultXML = cdeSearchBo.getDataElements(queryStmt+ " order by  " + orderBy,httpRequest);
@@ -94,7 +106,18 @@ public class CDERestService {
 	}
 	
 	public enum possibleInputParameters {
-		 pablicID, name, classification; 
+		 pablicID, name, classification, context; 
 		}
+
+	public static boolean contains(String input) {
+
+	    for (possibleInputParameters c : possibleInputParameters.values()) {
+	        if (c.name().equals(input)) {
+	            return true;
+	        }
+	    }
+
+	    return false;
+	}
 
 }
