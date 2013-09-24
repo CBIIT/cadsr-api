@@ -21,7 +21,7 @@ import java.util.Properties;
 public class MigrationUtility {
 
 	private Connection connection = null;
-	
+
 	private String objCartDbURL;
 	private String caDSRDbURL;
 	private String objCartDriver;
@@ -30,7 +30,7 @@ public class MigrationUtility {
 	private String caDSRUser;
 	private String objCartPasswd;
 	private String caDSRPasswd;
-	
+
 	public static void main(String[] args) {
 		try
 		{
@@ -56,7 +56,7 @@ public class MigrationUtility {
 			{
 				utility.migrateCart();
 			}
-			
+
 			int cartObj = utility.checkCartObjectTable();
 			if(cartObj == -1)
 			{
@@ -87,12 +87,12 @@ public class MigrationUtility {
 		objCartDriver = props.getProperty("objectcart.db.driver.class");
 		objCartUser = props.getProperty("objectcart.db.user.name");
 		objCartPasswd = props.getProperty("objectcart.db.user.password");
-		
+
 		caDSRDbURL = props.getProperty("cadsr.db.connection.url");
 		caDSRDriver = props.getProperty("cadsr.db.driver.class");
 		caDSRUser = props.getProperty("cadsr.db.user.name");
 		caDSRPasswd = props.getProperty("cadsr.db.user.password");
-		
+
 		if(objCartDbURL == null || objCartDbURL.trim().length() == 0)
 			throw new RuntimeException("Property ojbectcart.db.connection.url value is missing");
 		if(objCartDriver == null || objCartDriver.trim().length() == 0)
@@ -101,7 +101,7 @@ public class MigrationUtility {
 			throw new RuntimeException("Property objectcart.db.user.name value is missing");
 		if(objCartPasswd == null || objCartPasswd.trim().length() == 0)
 			throw new RuntimeException("Property objectcart.db.user.password value is missing");
-		
+
 		if(caDSRDbURL == null || caDSRDbURL.trim().length() == 0)
 			throw new RuntimeException("Property cadsr.db.connection.url value is missing");
 		if(caDSRDriver == null || caDSRDriver.trim().length() == 0)
@@ -110,7 +110,7 @@ public class MigrationUtility {
 			throw new RuntimeException("Property cadsr.db.user.name value is missing");
 		if(caDSRPasswd == null || caDSRPasswd.trim().length() == 0)
 			throw new RuntimeException("Property cadsr.db.user.password value is missing");
-		
+
 	}
 
 
@@ -143,7 +143,7 @@ public class MigrationUtility {
 		}
 		return -1;
 	}
-	
+
 	private int checkCartObjectTable() throws SQLException
 	{
 		Connection connection = null;
@@ -173,8 +173,8 @@ public class MigrationUtility {
 		}
 		return -1;
 	}
-	
-	
+
+
 	private void migrateCart() throws SQLException
 	{
 		Connection connection = null;
@@ -193,6 +193,7 @@ public class MigrationUtility {
 		while(resultSet.next())
 		{
 			stmt2.setInt(1, resultSet.getInt("ID"));
+			System.out.println("Migrating CART ID: "+resultSet.getInt("ID"));
 			stmt2.setString(2, resultSet.getString("USER_ID"));
 			stmt2.setDate(3, resultSet.getDate("CREATION_DATE"));
 			stmt2.setDate(4, resultSet.getDate("LAST_WRITE_DATE"));
