@@ -7,7 +7,12 @@
 	<version>1.0-SNAPSHOT</version>
 	<name>CDERestful services</name>
 	<url>http://maven.apache.org</url>
-
+	<properties>
+		<database.url>jdbc:oracle:thin:@ncidb-dsr-d.nci.nih.gov:1551:DSRDEV</database.url>
+		<database.username>cdebrowser</database.username>
+		<database.password>cdeuser</database.password>
+	</properties>
+	
 	<repositories>
 		<repository>
 			<id>central</id>
@@ -267,7 +272,7 @@
 	</dependencies>
 
 	<build>
-		<finalName>cderest</finalName>
+		<finalName>cderest</finalName>	
 		<plugins>
 			<plugin>
 				<artifactId>maven-compiler-plugin</artifactId>
@@ -280,16 +285,35 @@
 			<artifactId>maven-antrun-plugin</artifactId>
 				<executions>
 				  <execution>
+				  <id>copy-xsl</id>
 				    <phase>compile</phase>
 				    <configuration>
 				      <tasks>
-				      	<copy file="src/main/java/gov/nih/nci/ncicb/cadsr/common/ConvertCDE.xsl" tofile="${project.build.outputDirectory}/gov/nih/nci/ncicb/cadsr/common/ConvertCDE.xsl"/>
+				      	<copy file="src/main/java/gov/nih/nci/ncicb/cadsr/common/ConvertCDE.xsl" tofile="${project.build.outputDirectory}/gov/nih/nci/ncicb/cadsr/common/ConvertCDE.xsl"/>				      
 				      </tasks>
 				    </configuration>
 				    <goals>
 				      <goal>run</goal>
 				    </goals>
 				  </execution>
+				  <execution>
+				  <id>copy-ds</id>
+				    <phase>package</phase>
+				    <configuration>
+				      <tasks>				      
+				      	<copy file="conf/cderest-oracle-ds.xml" tofile="${project.build.outputDirectory}/../cderest-oracle-ds.xml">
+						<filterset>
+							<filter token="DATABASE_URL" value="${database.url}" />
+							<filter token="DATABASE_USERNAME" value="${database.username}" />
+							<filter token="DATABASE_PASSWORD" value="${database.password}" />
+						</filterset>
+					</copy>
+				      </tasks>
+				    </configuration>
+				    <goals>
+				      <goal>run</goal>
+				    </goals>
+				  </execution>				  
 				</executions>
 			</plugin>			
 		</plugins>
