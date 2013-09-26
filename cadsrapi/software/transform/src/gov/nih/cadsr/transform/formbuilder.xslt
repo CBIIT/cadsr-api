@@ -4,6 +4,13 @@
 <xsl:output method="text"/>
 	
 <xsl:template match="/">
+<xsl:for-each select="/formCollection/link">
+  <xsl:variable name="node-link" select="count(preceding-sibling::link)+1" />
+     <xsl:value-of select="/formCollection/link[$node-link]/@ref"/><xsl:text>: </xsl:text>
+     <xsl:value-of select="/formCollection/link[$node-link]/@href"/><xsl:text>&#xd;</xsl:text>  
+                 
+</xsl:for-each>
+  
 <xsl:for-each select="/formCollection/form">
 <xsl:variable name="node-form" select="count(preceding-sibling::form)+1" />
 
@@ -18,7 +25,6 @@
 <xsl:text>Footer Instruction; </xsl:text><xsl:value-of select="/formCollection/form[$node-form]/footerInstruction/text"/><xsl:text>&#xd;</xsl:text>
 <xsl:text></xsl:text><xsl:text>&#xd;</xsl:text>
 <xsl:text>Module Long Name;	Module Instructions;	Number of Repetitions;	Question;	CDE;	CDE Public ID;	CDE Version;	Question Instructions;	Answer is Mandatory;	Question Default Value;	Value Domain Long Name;	Value Domain Data Type;	Value Domain Unit of Measure;	Display Format;	Concepts;	Valid Value;	Form Value Meaning Text;	Form Value Meaning Public ID Version;	Form Value Meaning Desc.;	Valid Value Instructions;	Module Preferred Name;	Module Preferred Definition;	Module Public Id;	Module Version;	Module Display Order</xsl:text>
-
 
 <!-- Module -->  
 <xsl:for-each select="/formCollection/form/module">
