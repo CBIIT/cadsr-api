@@ -66,8 +66,6 @@ public class RequestInitializationFiler implements Filter {
             modifiableParameters.put("txtClassSchemeItem", null);
             //modifiableParameters.put("jspKeyword", "");
            
-            modifiableParameters.put("jspStatus",new String[]{"ALL"});
-            modifiableParameters.put("regStatus", new String[]{"ALL"});
             modifiableParameters.put("altName", null);
             modifiableParameters.put("jspValueDomain", null);
             modifiableParameters.put("jspDataElementConcept", null);
@@ -111,6 +109,16 @@ public class RequestInitializationFiler implements Filter {
             	 modifiableParameters.put("jspKeyword", new String[]{request.getParameter("name")});
                  modifiableParameters.put("jspNameSearchMode", new String[]{"Exact phrase"});
             }
+            if(request.getParameter("registrationStatus") != null)
+            	modifiableParameters.put("regStatus", request.getParameter("registrationStatus").split(","));
+            else
+            	modifiableParameters.put("regStatus", new String[]{"ALL"});
+
+            if(request.getParameter("workflowStatus") != null)
+            	modifiableParameters.put("jspStatus", request.getParameter("workflowStatus").split(","));              
+            else
+            	modifiableParameters.put("jspStatus", new String[]{"ALL"});
+            
             if(request.getParameter("classification") != null)
             {
   			  	ServiceLocator locator = ServiceLocatorFactory.getLocator(CaDSRConstants.CDEBROWSER_SERVICE_LOCATOR_CLASSNAME);

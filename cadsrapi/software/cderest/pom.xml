@@ -289,7 +289,7 @@
 				    <phase>compile</phase>
 				    <configuration>
 				      <tasks>
-				      	<copy file="src/main/java/gov/nih/nci/ncicb/cadsr/common/ConvertCDE.xsl" tofile="${project.build.outputDirectory}/gov/nih/nci/ncicb/cadsr/common/ConvertCDE.xsl"/>				      
+				      	<copy file="src/main/java/gov/nih/nci/ncicb/cadsr/common/ConvertCDE.xslt" tofile="${project.build.outputDirectory}/gov/nih/nci/ncicb/cadsr/common/ConvertCDE.xslt"/>				      
 				      </tasks>
 				    </configuration>
 				    <goals>

@@ -1,40 +1,45 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="2.0">
+<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="2.0">
  
-    <xsl:output indent="yes"/>
-     
-    <xsl:template match="/"> 
+    <xsl:output indent="yes" exclude-result-prefixes="xsi"/>
+    <xsl:variable name="FILLDATE">0001-01-01T00:00:01</xsl:variable>
+    <xsl:variable name="FILLPUBLICID">0000000</xsl:variable>
+    <xsl:variable name="FILLVERSION">1.0</xsl:variable>
+
+    <xsl:template match="/">
+         <xsl:apply-templates select="*"/>
+    </xsl:template>
+        
+    <xsl:template match="BC4JDataElementTransferObject">
           <DataElementsList>
-          <xsl:for-each select="//BC4JDataElementTransferObject">
-		   <xsl:variable name="index" select="count(preceding-sibling::BC4JDataElementTransferObject)+1" />
-            <DataElement num="{$index}">
               <PUBLICID>
-                  <xsl:value-of select="//BC4JDataElementTransferObject[$index]/@public-id"/>
+                  <xsl:value-of select="@public-id"/>
               </PUBLICID>
               <LONGNAME>
-                  <xsl:value-of select="//BC4JDataElementTransferObject[$index]/long-name"/>
+                  <xsl:value-of select="./long-name"/>
               </LONGNAME>   
               <PREFERREDNAME>
-                  <xsl:value-of select="//BC4JDataElementTransferObject[$index]/preferred-name"/>
+                  <xsl:value-of select="./preferred-name"/>
               </PREFERREDNAME>
               <PREFERREDDEFINITION>
-                  <xsl:value-of select="//BC4JDataElementTransferObject[$index]/preferred-definition"/>
+                  <xsl:value-of select="./preferred-definition"/>
               </PREFERREDDEFINITION>     
               <VERSION>
-                  <xsl:value-of select="//BC4JDataElementTransferObject[$index]/version"/>
+                  <xsl:value-of select="./version"/>
               </VERSION>
               <WORKFLOWSTATUS>
-                  <xsl:value-of select="//BC4JDataElementTransferObject[$index]/asl-name"/>
+                  <xsl:value-of select="./asl-name"/>
               </WORKFLOWSTATUS>
               <CONTEXTNAME>
-                  <xsl:value-of select="//BC4JDataElementTransferObject[$index]/context-name"/>
+                  <xsl:value-of select="./context-name"/>
               </CONTEXTNAME>
               <CONTEXTVERSION>
-                  <xsl:value-of select="//BC4JDataElementTransferObject[$index]/context/version"/>
+                  <xsl:value-of select="./context/version"/>
               </CONTEXTVERSION>
               <ORIGIN>
                 <xsl:choose>
-                    <xsl:when test="//BC4JDataElementTransferObject[$index]/@is-published = 'true'">
+                    <xsl:when test="@is-published = 'true'">
                         <xsl:text>TRUE</xsl:text>
                     </xsl:when>
                     <xsl:otherwise>
@@ -43,7 +48,7 @@
                 </xsl:choose>
               </ORIGIN>
               <REGISTRATIONSTATUS>
-                  <xsl:value-of select="//BC4JDataElementTransferObject[$index]/registration-status"/>
+                  <xsl:value-of select="./registration-status"/>
               </REGISTRATIONSTATUS>
            
           <xsl:call-template name="DATAELEMENTCONCEPT" /> 
@@ -51,9 +56,7 @@
           <xsl:call-template name="REFERENCEDOCUMENTSLIST" />    
           <xsl:call-template name="CLASSIFICATIONSLIST" /> 
           <xsl:call-template name="ALTERNATENAMELIST" />  
-          <xsl:call-template name="DATAELEMENTDERIVATION" />
-          </DataElement>  
-          </xsl:for-each>                                                                
+          <xsl:call-template name="DATAELEMENTDERIVATION" />                                                                 
         </DataElementsList>
      </xsl:template>
      

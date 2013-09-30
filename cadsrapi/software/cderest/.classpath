@@ -9,9 +9,6 @@
 			<attribute name="javadoc_location" value="jar:file:/D:/maven/repo/commons-logging/commons-logging/1.1.1/commons-logging-1.1.1-javadoc.jar!/"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="var" path="M2_REPO/com/sun/jersey/jersey-core/1.8/jersey-core-1.8.jar" sourcepath="M2_REPO/com/sun/jersey/jersey-core/1.8/jersey-core-1.8-sources.jar"/>
-	<classpathentry kind="var" path="M2_REPO/com/sun/jersey/jersey-server/1.8/jersey-server-1.8.jar" sourcepath="M2_REPO/com/sun/jersey/jersey-server/1.8/jersey-server-1.8-sources.jar"/>
-	<classpathentry kind="var" path="M2_REPO/com/sun/jersey/contribs/jersey-spring/1.8/jersey-spring-1.8.jar" sourcepath="M2_REPO/com/sun/jersey/contribs/jersey-spring/1.8/jersey-spring-1.8-sources.jar"/>
 	<classpathentry kind="var" path="M2_REPO/org/springframework/spring-asm/3.0.5.RELEASE/spring-asm-3.0.5.RELEASE.jar" sourcepath="M2_REPO/org/springframework/spring-asm/3.0.5.RELEASE/spring-asm-3.0.5.RELEASE-sources.jar"/>
 	<classpathentry kind="var" path="M2_REPO/org/springframework/spring-beans/3.0.5.RELEASE/spring-beans-3.0.5.RELEASE.jar" sourcepath="M2_REPO/org/springframework/spring-beans/3.0.5.RELEASE/spring-beans-3.0.5.RELEASE-sources.jar"/>
 	<classpathentry kind="var" path="M2_REPO/org/springframework/spring-context/3.0.5.RELEASE/spring-context-3.0.5.RELEASE.jar" sourcepath="M2_REPO/org/springframework/spring-context/3.0.5.RELEASE/spring-context-3.0.5.RELEASE-sources.jar"/>
@@ -34,6 +31,9 @@
 	<classpathentry kind="lib" path="C:/Users/narra/.m2/repository/org/springframework/spring-tx/3.0.5.RELEASE/spring-tx-3.0.5.RELEASE.jar"/>
 	<classpathentry kind="lib" path="src/main/webapp/WEB-INF/lib/CSVTransformer.jar"/>
 	<classpathentry kind="lib" path="src/main/webapp/WEB-INF/lib/json-lib-2.4-jdk15.jar"/>
-	<classpathentry kind="lib" path="C:/Users/narra/.m2/repository/com/sun/jersey/jersey-client/1.8/jersey-client-1.8.jar"/>
+	<classpathentry kind="lib" path="C:/Users/narra/.m2/repository/com/sun/jersey/contribs/jersey-spring/1.17/jersey-spring-1.17.jar"/>
+	<classpathentry kind="lib" path="C:/Users/narra/.m2/repository/com/sun/jersey/jersey-core/1.17/jersey-core-1.17.jar"/>
+	<classpathentry kind="lib" path="C:/Users/narra/.m2/repository/com/sun/jersey/jersey-server/1.17/jersey-server-1.17.jar"/>
+	<classpathentry kind="lib" path="C:/Users/narra/.m2/repository/com/sun/jersey/jersey-client/1.17/jersey-client-1.17.jar"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>
