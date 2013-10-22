@@ -33,7 +33,7 @@ public class FilesTransformation {
     	     	 
     	try {
     		
-	         File tf = new File("cdebrowser.xslt"); // template file
+	         File tf = new File("/local/content/transform/xslt/", "cdebrowser.xslt"); // template file
              
              String path = "/local/content/transform/data/";
              String ext = "txt";
@@ -54,24 +54,37 @@ public class FilesTransformation {
 	          // Process the Source into a Transformer Object...Construct a StreamSource from a File.
 	          Transformer t = f.newTransformer(new StreamSource(tf));
 	           
-	          //Construct a StreamSource from input and output
+	          /*
 	          Source s = new StreamSource(xmlFile);
 	          Result r = new StreamResult(rf); 
 	           
 	          //Transform the XML Source to a Result.
 	          t.transform(s,r);
-	          System.out.println("Tranformation completed ..."); 
+	          System.out.println("Tranformation completed ...");   */
+	          
+	          //Construct a StreamSource from input and output
+		        Source s;
+				try {
+			        s = new StreamSource((new ByteArrayInputStream(xmlFile.getBytes("utf-8"))));
+			        Result r = new StreamResult(rf); 
+			        
+			        //Transform the XML Source to a Result.
+			        t.transform(s,r);
+			        System.out.println("Tranformation completed ..."); 
+				} catch (UnsupportedEncodingException e1) {
+					// TODO Auto-generated catch block
+					System.out.println(e1.toString());
+				}
 
-	          //convert output file to string	          	       	        	  
-			try {
+				try {
 					BufferedReader bf = new BufferedReader(new FileReader(rf));
 					sb = new 	StringBuffer();							
 				    try {
-				    	//String output = "";
-						while ((bf.readLine()) != null)
+				    	String currentLine;
+						while ((currentLine = bf.readLine()) != null)
 						{
-							 sb.append(bf.readLine()); 														
-						    System.out.println(bf.readLine());
+							 sb.append(currentLine).append("\n"); 														
+						    //System.out.println(bf.readLine());
 
 						}
 					} catch (IOException e) {

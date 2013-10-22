@@ -300,26 +300,7 @@
                </ConceptDetails_ITEM>
             </ConceptDetails>
          </Representation>
-         
-          <PermissibleValues>
-            <PermissibleValues_ITEM>
-               <VALIDVALUE><xsl:value-of select="./value-domain/valid-values/short-meaning-value"/></VALIDVALUE>
-               <VALUEMEANING><xsl:value-of select="./value-domain/valid-values/short-meaning"/></VALUEMEANING>
-               <MEANINGDESCRIPTION><xsl:value-of select="./value-domain/valid-values/value-meaning/preferred-definition"/></MEANINGDESCRIPTION>
-               <MEANINGCONCEPTS>
-                   <xsl:choose>
-                    <xsl:when test="./value-domain/valid-values/value-meaning/@is-published = 'true'">
-                        <xsl:text>TRUE</xsl:text>
-                    </xsl:when>
-                    <xsl:otherwise>
-                        <xsl:text>FALSE</xsl:text>
-                    </xsl:otherwise>
-                </xsl:choose>               
-               </MEANINGCONCEPTS>
-               <VMPUBLICID><xsl:value-of select="./value-domain/valid-values/value-meaning/@public-id"/></VMPUBLICID>
-               <VMVERSION><xsl:value-of select="./value-domain/valid-values/value-meaning/version"/></VMVERSION>
-            </PermissibleValues_ITEM>
-         </PermissibleValues>
+         <xsl:call-template name="PERMISSIBLEVALUESLIST" />
          <ValueDomainConcepts/>
        </VALUEDOMAIN>
     </xsl:template>
@@ -328,14 +309,16 @@
 	<!-- REFERENCEDOCUMENTSLIST -->
 	<xsl:template  name="REFERENCEDOCUMENTSLIST">
 	  <REFERENCEDOCUMENTSLIST>
+	  	<xsl:for-each select="./referece-docs">
+         <xsl:variable name="node-rd-index" select="count(preceding-sibling::referece-docs)+1" />
 	     <REFERENCEDOCUMENTSLIST_ITEM>
-            <Name><xsl:value-of select="./referece-docs/doc-name"/></Name>
-            <DocumentType><xsl:value-of select="./referece-docs/doc-type"/></DocumentType>
-            <DocumentText><xsl:value-of select="./referece-docs/doc-text"/></DocumentText>
+            <Name><xsl:value-of select="//referece-docs[$node-rd-index]/doc-name"/></Name>
+            <DocumentType><xsl:value-of select="//referece-docs[$node-rd-index]/doc-type"/></DocumentType>
+            <DocumentText><xsl:value-of select="//referece-docs[$node-rd-index]/doc-text"/></DocumentText>
             <Language><xsl:value-of select="./designations/language"/></Language>
             <DisplayOrder NULL = "display-order" >
               <xsl:choose>
-                    <xsl:when test="./referece-docs/@display-order = '0'">
+                    <xsl:when test="//referece-docs[$node-rd-index]/@display-order = '0'">
                         <xsl:text>TRUE</xsl:text>
                     </xsl:when>
                     <xsl:otherwise>
@@ -344,6 +327,7 @@
                 </xsl:choose>                 
             </DisplayOrder>
          </REFERENCEDOCUMENTSLIST_ITEM>	  
+        </xsl:for-each> 
 	  </REFERENCEDOCUMENTSLIST>	
 	</xsl:template>
  <!-- End of REFERENCEDOCUMENTSLIST -->	
@@ -412,9 +396,33 @@
        </DATAELEMENTDERIVATION>  
    </xsl:template>
  
- 
- 
- 
+  <!-- Start PERMISSIBLEVALUESLIST -->
+  
+   <xsl:template  name="PERMISSIBLEVALUESLIST">
+      <PermissibleValues>
+        <xsl:for-each select="./value-domain/valid-values">
+          <xsl:variable name="node-pv-index" select="count(preceding-sibling::valid-values)+1" />
+          <PermissibleValues_ITEM>
+             <VALIDVALUE><xsl:value-of select="//valid-values[$node-pv-index]/short-meaning-value"/></VALIDVALUE>
+               <VALUEMEANING><xsl:value-of select="//valid-values[$node-pv-index]/short-meaning"/></VALUEMEANING>
+               <MEANINGDESCRIPTION><xsl:value-of select="//valid-values[$node-pv-index]/value-meaning/preferred-definition"/></MEANINGDESCRIPTION>
+               <MEANINGCONCEPTS>
+                   <xsl:choose>
+                    <xsl:when test="//valid-values[$node-pv-index]/value-meaning/@is-published = 'true'">
+                        <xsl:text>TRUE</xsl:text>
+                    </xsl:when>
+                    <xsl:otherwise>
+                        <xsl:text>FALSE</xsl:text>
+                    </xsl:otherwise>
+                </xsl:choose>               
+               </MEANINGCONCEPTS>
+               <VMPUBLICID><xsl:value-of select="//valid-values[$node-pv-index]/value-meaning/@public-id"/></VMPUBLICID>
+               <VMVERSION><xsl:value-of select="//valid-values[$node-pv-index]/value-meaning/version"/></VMVERSION>                          
+          </PermissibleValues_ITEM>
+        </xsl:for-each> 
+     </PermissibleValues>
+  </xsl:template>    
+  <!--  End PERMISSIBLEVALUESLIST -->
  
  
  

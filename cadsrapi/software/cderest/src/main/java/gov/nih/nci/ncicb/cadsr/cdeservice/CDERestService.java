@@ -93,7 +93,7 @@ public class CDERestService {
 				return Response.ok(resultXML).header("Content-Disposition", "application/xml").build();
 			}
 			else if (null != format &&  format.equals("CSV")) {
-				String csvFile = FilesTransformation.transformFormToCSV(resultXML);
+				String csvFile = FilesTransformation.transformCdeToCSV(resultXML);
 				return Response.ok(csvFile).header("Content-Disposition", "attachment; filename=download.csv").build();
 			}
 			else {

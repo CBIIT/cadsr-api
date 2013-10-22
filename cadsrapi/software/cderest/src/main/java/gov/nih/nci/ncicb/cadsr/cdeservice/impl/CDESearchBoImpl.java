@@ -59,12 +59,6 @@ import gov.nih.nci.ncicb.cadsr.common.util.DBUtil;
 
 import gov.nih.nci.ncicb.cadsr.cdeservice.CDESearchBo;
 
-import oracle.jdbc.OracleConnection;
-import oracle.jdbc.OracleResultSet;
-import oracle.xml.sql.dataset.OracleXMLDataSet;
-import oracle.xml.sql.dataset.OracleXMLDataSetExtJdbc;
-import oracle.xml.sql.query.OracleXMLQuery;
-
 public class CDESearchBoImpl implements CDESearchBo {
 
 	CDERestDBUtil dBUtil;
