@@ -250,7 +250,7 @@
          <ContextVersion>
            <xsl:value-of select="./value-domain/version"/>
          </ContextVersion>
-         <ConceptualDomain>
+ <!--         <ConceptualDomain>
             <PublicId>
                <xsl:value-of select="./value-domain/representation/concept-derivation-rule/component-concepts/concept/@public-id"/>
             </PublicId>
@@ -269,7 +269,7 @@
             <LongName>
               <xsl:value-of select="./value-domain/representation/concept-derivation-rule/component-concepts/concept/long-name"/>            
             </LongName>
-         </ConceptualDomain>
+         </ConceptualDomain>   -->
          <Datatype>
             <xsl:value-of select="./value-domain/datatype"/>
          </Datatype>
@@ -277,30 +277,34 @@
             <xsl:value-of select="./value-domain/max-length"/>
          </MaximumLength>
          
+         <xsl:for-each select="./value-domain/representation">
           <Representation>
             <PublicId>
-               <xsl:value-of select="./value-domain/representation/@public-id"/>
+               <xsl:value-of select="@public-id"/>
             </PublicId>
             <ContextName>
-               <xsl:value-of select="./value-domain/representation/concept-derivation-rule/name"/>
+               <xsl:value-of select="concept-derivation-rule/name"/>
             </ContextName>
-            <ContextVersion><xsl:value-of select="./value-domain/representation/concept-derivation-rule/component-concepts/concept/version"/></ContextVersion>
-            <PreferredName><xsl:value-of select="./value-domain/representation/concept-derivation-rule/component-concepts/concept/preferred-name"/></PreferredName>
-            <Version><xsl:value-of select="./value-domain/representation/version"/></Version>
-            <LongName><xsl:value-of select="./value-domain/representation/long-name"/></LongName>
+            <PreferredName><xsl:value-of select="preferred-name"/></PreferredName>
+            <Version><xsl:value-of select="version"/></Version>
+            <LongName><xsl:value-of select="long-name"/></LongName>
             <ConceptDetails>
-               <ConceptDetails_ITEM>
-                  <PREFERRED_NAME><xsl:value-of select="./value-domain/representation/concept-derivation-rule/name"/></PREFERRED_NAME>
-                  <LONG_NAME><xsl:value-of select="./value-domain/representation/concept-derivation-rule/component-concepts/concept/long-name"/></LONG_NAME>
-                  <CON_ID><xsl:value-of select="./value-domain/representation/concept-derivation-rule/component-concepts/concept/@public-id"/></CON_ID>
-                  <DEFINITION_SOURCE><xsl:value-of select="./value-domain/representation/concept-derivation-rule/component-concepts/concept/definition-source"/></DEFINITION_SOURCE>
-                  <ORIGIN><xsl:value-of select="./value-domain/representation/concept-derivation-rule/component-concepts/concept/origin"/></ORIGIN>
-                  <EVS_SOURCE><xsl:value-of select="./value-domain/representation/concept-derivation-rule/component-concepts/concept/evs-source"/></EVS_SOURCE>
-                  <PRIMARY_FLAG_IND><xsl:value-of select="./value-domain/representation/concept-derivation-rule/component-concepts/concept/latest-version-ind"/></PRIMARY_FLAG_IND>
-                  <DISPLAY_ORDER><xsl:value-of select="./value-domain/representation/concept-derivation-rule/component-concepts/@display-order"/></DISPLAY_ORDER>
-               </ConceptDetails_ITEM>
+               <xsl:for-each select="concept-derivation-rule/component-concepts">
+	               <ConceptDetails_ITEM>
+            			<VERSION><xsl:value-of select="concept/version"/></VERSION>
+            			<PREFERRED_NAME><xsl:value-of select="concept/preferred-name"/></PREFERRED_NAME>
+	                  <LONG_NAME><xsl:value-of select="concept/long-name"/></LONG_NAME>
+	                  <CON_ID><xsl:value-of select="concept/@public-id"/></CON_ID>
+	                  <DEFINITION_SOURCE><xsl:value-of select="concept/definition-source"/></DEFINITION_SOURCE>
+	                  <ORIGIN><xsl:value-of select="concept/origin"/></ORIGIN>
+	                  <EVS_SOURCE><xsl:value-of select="concept/evs-source"/></EVS_SOURCE>
+	                  <PRIMARY_FLAG_IND><xsl:value-of select="concept/latest-version-ind"/></PRIMARY_FLAG_IND>
+	                  <DISPLAY_ORDER><xsl:value-of select="@display-order"/></DISPLAY_ORDER>
+	               </ConceptDetails_ITEM>
+               </xsl:for-each>
             </ConceptDetails>
-         </Representation>
+          </Representation>
+		  </xsl:for-each>
          <xsl:call-template name="PERMISSIBLEVALUESLIST" />
          <ValueDomainConcepts/>
        </VALUEDOMAIN>
