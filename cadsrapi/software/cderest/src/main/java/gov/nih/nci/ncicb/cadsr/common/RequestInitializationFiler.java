@@ -137,7 +137,7 @@ public class RequestInitializationFiler implements Filter {
     				String idSeq = null;
     				if( classBuffer.length() > 0 )
     				{
-    					classBuffer.append(" ");
+    					classBuffer.append(",");
     					searchMode = "At least one of the words";
     				}	
     				classific = ((Classification) classificationDAO.getClassificationByName((String)classtokenizer.nextElement()));
@@ -145,7 +145,7 @@ public class RequestInitializationFiler implements Filter {
     					idSeq = classific.getCsIdseq();    				
 
     				if ( idSeq != null )
-    					classBuffer.append(idSeq);
+    					classBuffer.append("'").append(idSeq).append("'");
     			}
     			classificationIdSeq = classBuffer.toString();
     			modifiableParameters.put("classificationIdSeq",new String[]{classificationIdSeq});
@@ -170,13 +170,13 @@ public class RequestInitializationFiler implements Filter {
     			while (classtokenizer.hasMoreElements()) {
     				if( classBuffer.length() > 0 )
     				{
-    					classBuffer.append(" ");
+    					classBuffer.append(",");
     					searchMode = "At least one of the words";
     				}	
     				String idSeq = (String) contextDao.getContextByName((String)classtokenizer.nextElement()).getConteIdseq();
 
     				if ( idSeq != null )
-    					classBuffer.append(idSeq);
+    					classBuffer.append("'").append(idSeq).append("'");
     			}
     			contextIdSeq = classBuffer.toString();
     			modifiableParameters.put("contextIdSeq",new String[]{contextIdSeq});
@@ -204,7 +204,7 @@ public class RequestInitializationFiler implements Filter {
     				String idSeq = null;
     				if( classBuffer.length() > 0 )
     				{
-    					classBuffer.append(" ");
+    					classBuffer.append(",");
     					searchMode = "At least one of the words";
     				}	
     				classSchemeItem = ((ClassSchemeItem) classificationDAO.getClassificationItemByName((String)classtokenizer.nextElement()));
@@ -213,7 +213,7 @@ public class RequestInitializationFiler implements Filter {
     					
 
     				if ( idSeq != null )
-    					classBuffer.append(idSeq);
+    					classBuffer.append("'").append(idSeq).append("'");
     			}
     			classificationItemIdSeq = classBuffer.toString();
     			//modifiableParameters.put("classificationIdSeq",new String[]{classificationIdSeq});

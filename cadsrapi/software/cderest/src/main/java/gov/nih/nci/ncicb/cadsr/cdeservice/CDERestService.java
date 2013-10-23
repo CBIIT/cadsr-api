@@ -10,6 +10,7 @@ import gov.nih.cadsr.transform.FilesTransformation;
 import gov.nih.nci.ncicb.cadsr.common.cdebrowser.DESearchQueryBuilder;
 import gov.nih.nci.ncicb.cadsr.common.cdebrowser.DataElementSearchBean;
 import gov.nih.nci.ncicb.cadsr.common.util.DBUtil;
+import gov.nih.nci.ncicb.cadsr.common.SearchQueryBuilder;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.GET;
@@ -65,11 +66,11 @@ public class CDERestService {
 			return Response.status(400).build();
 		}
         if(httpRequest.getParameter("context") != null)        
-        	queryBuilder = new DESearchQueryBuilder( httpRequest, "CONTEXT", httpRequest.getParameter("contextIdSeq") , httpRequest.getParameter("contextIdSeq"), desb);
+        	queryBuilder = new SearchQueryBuilder( httpRequest, "CONTEXT", httpRequest.getParameter("contextIdSeq") , httpRequest.getParameter("contextIdSeq"), desb);
         else if(httpRequest.getParameter("classification") != null)
-        	queryBuilder = new DESearchQueryBuilder( httpRequest, "CLASSIFICATION", httpRequest.getParameter("classificationIdSeq") , httpRequest.getParameter("classificationIdSeq"), desb);
+        	queryBuilder = new SearchQueryBuilder( httpRequest, "CLASSIFICATION", httpRequest.getParameter("classificationIdSeq") , httpRequest.getParameter("classificationIdSeq"), desb);
         else        	
-			queryBuilder = new DESearchQueryBuilder( httpRequest, null, null , null, desb);
+			queryBuilder = new SearchQueryBuilder( httpRequest, null, null , null, desb);
         
         int start = 1, size = 10;        
         if(httpRequest.getParameter("start") != null)

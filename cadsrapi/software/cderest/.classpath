@@ -29,7 +29,7 @@
 	<classpathentry kind="lib" path="src/main/webapp/WEB-INF/lib/saxon9he.jar"/>
 	<classpathentry kind="lib" path="C:/Users/narra/.m2/repository/org/springframework/spring-jdbc/3.0.5.RELEASE/spring-jdbc-3.0.5.RELEASE.jar"/>
 	<classpathentry kind="lib" path="C:/Users/narra/.m2/repository/org/springframework/spring-tx/3.0.5.RELEASE/spring-tx-3.0.5.RELEASE.jar"/>
-	<classpathentry kind="lib" path="src/main/webapp/WEB-INF/lib/CSVTransformer.jar"/>
+	<classpathentry kind="lib" path="src/main/webapp/WEB-INF/lib/CSVTransformer.jar" sourcepath="/transform"/>
 	<classpathentry kind="lib" path="src/main/webapp/WEB-INF/lib/json-lib-2.4-jdk15.jar"/>
 	<classpathentry kind="lib" path="C:/Users/narra/.m2/repository/com/sun/jersey/contribs/jersey-spring/1.17/jersey-spring-1.17.jar"/>
 	<classpathentry kind="lib" path="C:/Users/narra/.m2/repository/com/sun/jersey/jersey-core/1.17/jersey-core-1.17.jar"/>
