@@ -171,51 +171,52 @@
 	    <xsl:template  name="ObjectClass">
 	       <ObjectClass>
 	        <PublicId>
-	           <xsl:value-of select="./data-element-concept/object-class/@public-id"/>
+	           <xsl:value-of select="data-element-concept/object-class/@public-id"/>
 	        </PublicId>
-            <ContextName>
-               <xsl:value-of select="./data-element-concept/object-class/concept-derivation-rule/component-concepts/concept/context/name"/>
-            </ContextName>
-            <ContextVersion>
-               <xsl:value-of select="./data-element-concept/object-class/concept-derivation-rule/component-concepts/concept/version"/>
-            </ContextVersion>
-            <PreferredName>
-               <xsl:value-of select="./data-element-concept/object-class/concept-derivation-rule/component-concepts/concept/preferred-name"/>
-            </PreferredName>
-            <Version>
-               <xsl:value-of select="./data-element-concept/object-class/concept-derivation-rule/component-concepts/concept/version"/>
-            </Version>
-            <LongName>
-               <xsl:value-of select="./data-element-concept/object-class/concept-derivation-rule/component-concepts/concept/long-name"/>
-            </LongName>
              <ConceptDetails>
+               <xsl:for-each select="data-element-concept/object-class/concept-derivation-rule/component-concepts">
 		        <ConceptDetails_ITEM>
+	            <ContextName>
+	               <xsl:value-of select="concept/context/name"/>
+	            </ContextName>
+	            <ContextVersion>
+	               <xsl:value-of select="concept/version"/>
+	            </ContextVersion>
+	            <PreferredName>
+	               <xsl:value-of select="concept/preferred-name"/>
+	            </PreferredName>
+	            <Version>
+	               <xsl:value-of select="concept/version"/>
+	            </Version>
+	            <LongName>
+	               <xsl:value-of select="concept/long-name"/>
+	            </LongName>
                   <PREFERRED_NAME>
-                    <xsl:value-of select="./data-element-concept/object-class/concept-derivation-rule/component-concepts/concept/preferred-name"/>
+                    <xsl:value-of select="concept/preferred-name"/>
                   </PREFERRED_NAME>
                   <LONG_NAME> 
-                    <xsl:value-of select="./data-element-concept/object-class/concept-derivation-rule/component-concepts/concept/long-name"/>
+                    <xsl:value-of select="concept/long-name"/>
                   </LONG_NAME>
                   <CON_ID>
-                    <xsl:value-of select="./data-element-concept/object-class/concept-derivation-rule/component-concepts/concept/@public-id"/>
+                    <xsl:value-of select="concept/@public-id"/>
                   </CON_ID>
                   <DEFINITION_SOURCE>
-                    <xsl:value-of select="./data-element-concept/object-class/concept-derivation-rule/component-concepts/concept/definition-source"/>
+                    <xsl:value-of select="concept/definition-source"/>
                   </DEFINITION_SOURCE>
                   <ORIGIN>
-                    <xsl:value-of select="./data-element-concept/object-class/concept-derivation-rule/component-concepts/concept/origin"/>
+                    <xsl:value-of select="concept/origin"/>
                   </ORIGIN>
                   <EVS_SOURCE>
-                     <xsl:value-of select="./data-element-concept/object-class/concept-derivation-rule/component-concepts/concept/evs-source"/>
+                     <xsl:value-of select="concept/evs-source"/>
                   </EVS_SOURCE>
                   <PRIMARY_FLAG_IND>
-                     <xsl:value-of select="./data-element-concept/object-class/concept-derivation-rule/component-concepts/concept/latest-version-ind"/>
+                     <xsl:value-of select="concept/latest-version-ind"/>
                   </PRIMARY_FLAG_IND>
                   <DISPLAY_ORDER>
-                     <xsl:value-of select="./data-element-concept/object-class/concept-derivation-rule/component-concepts/@display-order"/>
+                     <xsl:value-of select="@display-order"/>
                   </DISPLAY_ORDER>
                 </ConceptDetails_ITEM>
-           
+             </xsl:for-each>
             </ConceptDetails> 
            </ObjectClass>  
 	    </xsl:template>  
@@ -309,16 +310,16 @@
 	<!-- REFERENCEDOCUMENTSLIST -->
 	<xsl:template  name="REFERENCEDOCUMENTSLIST">
 	  <REFERENCEDOCUMENTSLIST>
-	  	<xsl:for-each select="./referece-docs">
+	  	<xsl:for-each select="referece-docs">
          <xsl:variable name="node-rd-index" select="count(preceding-sibling::referece-docs)+1" />
 	     <REFERENCEDOCUMENTSLIST_ITEM>
-            <Name><xsl:value-of select="//referece-docs[$node-rd-index]/doc-name"/></Name>
-            <DocumentType><xsl:value-of select="//referece-docs[$node-rd-index]/doc-type"/></DocumentType>
-            <DocumentText><xsl:value-of select="//referece-docs[$node-rd-index]/doc-text"/></DocumentText>
+            <Name><xsl:value-of select="doc-name"/></Name>
+            <DocumentType><xsl:value-of select="doc-type"/></DocumentType>
+            <DocumentText><xsl:value-of select="doc-text"/></DocumentText>
             <Language><xsl:value-of select="./designations/language"/></Language>
             <DisplayOrder NULL = "display-order" >
               <xsl:choose>
-                    <xsl:when test="//referece-docs[$node-rd-index]/@display-order = '0'">
+                    <xsl:when test="@display-order = '0'">
                         <xsl:text>TRUE</xsl:text>
                     </xsl:when>
                     <xsl:otherwise>
@@ -336,20 +337,20 @@
   
    <xsl:template  name="CLASSIFICATIONSLIST">
       <CLASSIFICATIONSLIST>
-        <xsl:for-each select="./classifications">
+        <xsl:for-each select="classifications">
          <xsl:variable name="node-cc-index" select="count(preceding-sibling::classifications)+1" />
           <CLASSIFICATIONSLIST_ITEM>
              <ClassificationScheme>
-               <PublicId><xsl:value-of select="//classifications[$node-cc-index]/class-scheme-item-id"/></PublicId>
+               <PublicId><xsl:value-of select="class-scheme-item-id"/></PublicId>
                <ContextName><xsl:value-of select="../context-name"/></ContextName>
                <ContextVersion><xsl:value-of select="../context/version"/></ContextVersion>
-                <PreferredName><xsl:value-of select="//classifications[$node-cc-index]/class-scheme-name"/></PreferredName>
-               <Version><xsl:value-of select="//classifications[$node-cc-index]/cs-version"/></Version>
+                <PreferredName><xsl:value-of select="class-scheme-name"/></PreferredName>
+               <Version><xsl:value-of select="cs-version"/></Version>
             </ClassificationScheme>
-            <ClassificationSchemeItemName><xsl:value-of select="//classifications[$node-cc-index]/class-scheme-item-name"/></ClassificationSchemeItemName>
-            <ClassificationSchemeItemType><xsl:value-of select="//classifications[$node-cc-index]/class-scheme-item-type"/></ClassificationSchemeItemType>
-            <CsiPublicId><xsl:value-of select="//classifications[$node-cc-index]/class-scheme-item-id"/></CsiPublicId>
-            <CsiVersion><xsl:value-of select="//classifications[$node-cc-index]/cs-version"/></CsiVersion>                           
+            <ClassificationSchemeItemName><xsl:value-of select="class-scheme-item-name"/></ClassificationSchemeItemName>
+            <ClassificationSchemeItemType><xsl:value-of select="class-scheme-item-type"/></ClassificationSchemeItemType>
+            <CsiPublicId><xsl:value-of select="class-scheme-item-id"/></CsiPublicId>
+            <CsiVersion><xsl:value-of select="cs-version"/></CsiVersion>                           
           
           </CLASSIFICATIONSLIST_ITEM>
                     
@@ -400,15 +401,15 @@
   
    <xsl:template  name="PERMISSIBLEVALUESLIST">
       <PermissibleValues>
-        <xsl:for-each select="./value-domain/valid-values">
+        <xsl:for-each select="value-domain/valid-values">
           <xsl:variable name="node-pv-index" select="count(preceding-sibling::valid-values)+1" />
           <PermissibleValues_ITEM>
-             <VALIDVALUE><xsl:value-of select="//valid-values[$node-pv-index]/short-meaning-value"/></VALIDVALUE>
-               <VALUEMEANING><xsl:value-of select="//valid-values[$node-pv-index]/short-meaning"/></VALUEMEANING>
-               <MEANINGDESCRIPTION><xsl:value-of select="//valid-values[$node-pv-index]/value-meaning/preferred-definition"/></MEANINGDESCRIPTION>
+             <VALIDVALUE><xsl:value-of select="short-meaning-value"/></VALIDVALUE>
+               <VALUEMEANING><xsl:value-of select="short-meaning"/></VALUEMEANING>
+               <MEANINGDESCRIPTION><xsl:value-of select="value-meaning/preferred-definition"/></MEANINGDESCRIPTION>
                <MEANINGCONCEPTS>
                    <xsl:choose>
-                    <xsl:when test="//valid-values[$node-pv-index]/value-meaning/@is-published = 'true'">
+                    <xsl:when test="@is-published = 'true'">
                         <xsl:text>TRUE</xsl:text>
                     </xsl:when>
                     <xsl:otherwise>
@@ -416,8 +417,8 @@
                     </xsl:otherwise>
                 </xsl:choose>               
                </MEANINGCONCEPTS>
-               <VMPUBLICID><xsl:value-of select="//valid-values[$node-pv-index]/value-meaning/@public-id"/></VMPUBLICID>
-               <VMVERSION><xsl:value-of select="//valid-values[$node-pv-index]/value-meaning/version"/></VMVERSION>                          
+               <VMPUBLICID><xsl:value-of select="value-meaning/@public-id"/></VMPUBLICID>
+               <VMVERSION><xsl:value-of select="value-meaning/version"/></VMVERSION>                          
           </PermissibleValues_ITEM>
         </xsl:for-each> 
      </PermissibleValues>
