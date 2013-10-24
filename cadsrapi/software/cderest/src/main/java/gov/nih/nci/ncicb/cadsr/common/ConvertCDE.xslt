@@ -119,50 +119,46 @@
         <xsl:template  name="Property">  
          <Property>
             <PublicId>
-              <xsl:value-of select="./data-element-concept/property/@public-id"/>
+              <xsl:value-of select="data-element-concept/property/@public-id"/>
             </PublicId>
-            <ContextName>
-              <xsl:value-of select="./data-element-concept/property/concept-derivation-rule/component-concepts/concept/context/name"/>
-            </ContextName>
-            <ContextVersion>
-              <xsl:value-of select="./data-element-concept/property/concept-derivation-rule/component-concepts/concept/version"/>
-            </ContextVersion>
-            <PreferredName>
-              <xsl:value-of select="./data-element-concept/property/concept-derivation-rule/component-concepts/concept/preferred-name"/>
-            </PreferredName>
-            <Version>
-              <xsl:value-of select="./data-element-concept/property/concept-derivation-rule/component-concepts/concept/version"/>
-            </Version>
-            <LongName>
-              <xsl:value-of select="./data-element-concept/property/concept-derivation-rule/component-concepts/concept/long-name"/>
-            </LongName>
+            <Name>
+              <xsl:value-of select="data-element-concept/property/concept-derivation-rule/name"/>
+            </Name>
             <ConceptDetails>
+              <xsl:for-each select="data-element-concept/property/concept-derivation-rule/component-concepts">
                <ConceptDetails_ITEM>
+	              <CONTEXT_NAME>
+	              	<xsl:value-of select="concept/context/name"/>
+	              </CONTEXT_NAME>
                   <PREFERRED_NAME>
-                     <xsl:value-of select="./data-element-concept/property/concept-derivation-rule/component-concepts/concept/preferred-name"/>
+                     <xsl:value-of select="concept/preferred-name"/>
                   </PREFERRED_NAME>
+ 	              <VERSION>
+	              	<xsl:value-of select="concept/version"/>
+	              </VERSION>
                   <LONG_NAME>
-                     <xsl:value-of select="./data-element-concept/property/concept-derivation-rule/component-concepts/concept/long-name"/>
+                     <xsl:value-of select="concept/long-name"/>
                   </LONG_NAME>
                   <CON_ID>
-                     <xsl:value-of select="./data-element-concept/property/concept-derivation-rule/component-concepts/concept/@public-id"/>
+                     <xsl:value-of select="concept/@public-id"/>
                   </CON_ID>
                   <DEFINITION_SOURCE>
-                     <xsl:value-of select="./data-element-concept/property/concept-derivation-rule/component-concepts/concept/definition-source"/>
+                     <xsl:value-of select="concept/definition-source"/>
                   </DEFINITION_SOURCE>
                   <ORIGIN>
-                     <xsl:value-of select="./data-element-concept/property/concept-derivation-rule/component-concepts/concept/origin"/>
+                     <xsl:value-of select="concept/origin"/>
                   </ORIGIN>
                   <EVS_SOURCE>
-                     <xsl:value-of select="./data-element-concept/property/concept-derivation-rule/component-concepts/concept/evs-source"/>
+                     <xsl:value-of select="concept/evs-source"/>
                   </EVS_SOURCE>
                   <PRIMARY_FLAG_IND>
-                    <xsl:value-of select="./data-element-concept/property/concept-derivation-rule/component-concepts/concept/latest-version-ind"/>
+                    <xsl:value-of select="concept/latest-version-ind"/>
                   </PRIMARY_FLAG_IND>
                   <DISPLAY_ORDER>
-                    <xsl:value-of select="./data-element-concept/property/concept-derivation-rule/component-concepts/@display-order"/>
+                    <xsl:value-of select="@display-order"/>
                   </DISPLAY_ORDER>
                </ConceptDetails_ITEM>
+              </xsl:for-each>
             </ConceptDetails>
          </Property>
       </xsl:template>
