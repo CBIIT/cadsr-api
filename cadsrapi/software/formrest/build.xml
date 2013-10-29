@@ -68,7 +68,7 @@
 		
 		<war destfile="${war.dir}/formrest.war" basedir="${build.dir}" />
 		
-		<copy overwrite="true" tofile="${war.dir}/transform-ds.xml" file="conf/transform-ds.xml">
+		<copy overwrite="true" tofile="${war.dir}/formrest-oracle-ds.xml" file="conf/formrest-oracle-ds.xml">
 			<filterset>
 				<filter token="DB_CONNECTION_URL" value="${database.url}" />
 				<filter token="DB_USERNAME" value="${database.user}" />

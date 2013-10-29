@@ -7,11 +7,11 @@
 	<version>1.0-SNAPSHOT</version>
 	<name>CDERestful services</name>
 	<url>http://maven.apache.org</url>
-	<properties>
+	<!-- properties>
 		<database.url>jdbc:oracle:thin:@ncidb-dsr-d.nci.nih.gov:1551:DSRDEV</database.url>
 		<database.username>cdebrowser</database.username>
 		<database.password>cdeuser</database.password>
-	</properties>
+	</properties -->
 	
 	<repositories>
 		<repository>
@@ -301,7 +301,7 @@
 				    <phase>package</phase>
 				    <configuration>
 				      <tasks>				      
-				      	<copy file="conf/cderest-oracle-ds.xml" tofile="${project.build.outputDirectory}/../cderest-oracle-ds.xml">
+				      	<copy file="conf/cderest-oracle-ds.xml" tofile="${project.build.outputDirectory}/../cderest-oracle-ds.xml" overwrite="true">
 						<filterset>
 							<filter token="DATABASE_URL" value="${database.url}" />
 							<filter token="DATABASE_USERNAME" value="${database.username}" />
