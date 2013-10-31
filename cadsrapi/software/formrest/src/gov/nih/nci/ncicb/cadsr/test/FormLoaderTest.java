@@ -38,9 +38,9 @@ public class FormLoaderTest {
     	
 		//String userName = "FORMBUILDER";
 		//String password = "FORMBUILDER";
-		String userName = "SBREXT";
-		String password = "jjuser";
-		String base64encodedUsernameAndPassword = new String(Base64.encodeBase64((userName + ":" + password).getBytes()));
+		String u = "formloader";
+		String p = "f0rmloader";
+		String base64encodedUsernameAndPassword = new String(Base64.encodeBase64((u + ":" + p).getBytes()));
 		client.header("Authorization", "Basic "	+ base64encodedUsernameAndPassword);
 
 		String xmlFileString = readFile("load_forms-5.xml");

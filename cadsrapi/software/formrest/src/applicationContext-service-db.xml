@@ -59,8 +59,12 @@
 	</bean>
 	
 	<bean id="xmlValidationService"
-		class="gov.nih.nci.cadsr.formloader.service.impl.XmlValidationServiceImpl">
-	</bean>
+              class="gov.nih.nci.cadsr.formloader.service.impl.XmlValidationServiceImpl">
+         <property name="repository">
+                <ref local="repository" />
+         </property>
+     </bean>
+	
 	
 	<bean id="transactionManager"
 		class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
