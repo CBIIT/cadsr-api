@@ -307,7 +307,8 @@
 							<filter token="DATABASE_USERNAME" value="${database.username}" />
 							<filter token="DATABASE_PASSWORD" value="${database.password}" />
 						</filterset>
-					</copy>
+						</copy>
+						<copy file="conf/cdebrowser.xslt" tofile="${project.build.outputDirectory}/../cdebrowser.xslt" overwrite="true" />
 				      </tasks>
 				    </configuration>
 				    <goals>
