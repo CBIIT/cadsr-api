@@ -78,7 +78,7 @@ public class FormLoaderTest {
 	}
     
     private static String readFile(String fileName) {
-		String filePath = "/local/content/formloader/data/";
+		String filePath = "/local/content/cadsrapi/formloader/data/";
 		File xmlFile = new File(filePath + fileName);
 		BufferedReader br = null;
 		StringBuffer sBuffer = new StringBuffer();

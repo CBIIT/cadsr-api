@@ -33,9 +33,9 @@ public class FilesTransformation {
     	     	 
     	try {
     		
-	         File tf = new File("/local/content/transform/xslt/", "cdebrowser.xslt"); // template file
+	         File tf = new File("/local/content/cadsrapi/transform/xslt/", "cdebrowser.xslt"); // template file
              
-             String path = "/local/content/transform/data/";
+             String path = "/local/content/cadsrapi/transform/data/";
              String ext = "txt";
              File dir = new File(path);
              String name = String.format("%s.%s", RandomStringUtils.randomAlphanumeric(8), ext);
@@ -122,8 +122,8 @@ public class FilesTransformation {
     	
     	try {
     		
-    		 File tf = new File("/local/content/transform/xslt/","formbuilder.xslt"); // template file
-             String path = "/local/content/transform/data/";
+    		 File tf = new File("/local/content/cadsrapi/transform/xslt/","formbuilder.xslt"); // template file
+             String path = "/local/content/cadsrapi/transform/data/";
              String ext = "txt";
              File dir = new File(path);
              String name = String.format("%s.%s", RandomStringUtils.randomAlphanumeric(8), ext);
@@ -200,7 +200,7 @@ public class FilesTransformation {
     	
     	try{
     		
-            String path = "/local/content/transform/data/";
+            String path = "/local/content/cadsrapi/transform/data/";
             String ext = "txt";
             File dir = new File(path);
             String name = String.format("%s.%s", RandomStringUtils.randomAlphanumeric(8), ext);
