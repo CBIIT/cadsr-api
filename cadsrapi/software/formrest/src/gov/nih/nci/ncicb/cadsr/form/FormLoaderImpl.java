@@ -34,114 +34,27 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 public class FormLoaderImpl implements FormLoader {
 	@Context MessageContext mc; 
+	private String username;
+	private String password;
+	private String xmlResult = "";
+	private String path = "/local/content/formloader/data/";
+	private String ext = "xml";
+	private String fileName = "";	
+	private XmlValidationService xmlValidator;
+	private ContentValidationService contentValidator;
+	private LoadingService loadService;
+	private FormCollection aColl;
 	
 	@Override
 	public String loadForms(String xmlForm) {
-		AuthorizationPolicy policy = (AuthorizationPolicy)mc.get(AuthorizationPolicy.class.getName());
-		if( policy != null ) {
-        	String username = policy.getUserName();
-        	String password = policy.getPassword(); 
-        }
-		
-		String xmlResult = "";
-		String path = "/local/content/formloader/data/";
-		String ext = "xml";
-		File dir = new File(path);
-		String name = String.format("%s.%s", RandomStringUtils.randomAlphanumeric(8), ext);
-		File xmlFile = new File(dir, name);
-		
-		//File xmlFile = new File(path + "test.xml");
-		try {
-			FileWriter fw = new FileWriter(xmlFile.getAbsoluteFile());
-			BufferedWriter bw = new BufferedWriter(fw);
-			bw.write(xmlForm);
-			bw.close();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
-		@SuppressWarnings("resource")
-		ApplicationContext applicationContext = new ClassPathXmlApplicationContext("/applicationContext-service-db.xml");
-		
-		XmlValidationService xmlValidator = 
-				(XmlValidationServiceImpl)applicationContext.getBean("xmlValidationService");
-		ContentValidationService contentValidator = 
-				(ContentValidationServiceImpl)applicationContext.getBean("contentValidationService");
-		LoadingService loadService =  (LoadingService)applicationContext.getBean("loadService");
+		retrieveUserNameAndPassword();
 		
 		try {
-			FormCollection aColl = new FormCollection();
-			aColl.setName("TestCollection");
-			//aColl.setForms(forms);
-			aColl.setCreatedBy("yangs");
-			aColl.setXmlFileName(name);
-			aColl.setXmlPathOnServer(path);
+			writeXmlFormToFolder(xmlForm);
 			
-			//Step 1: call xml validation service
-			aColl = xmlValidator.validateXml(aColl);
-			List<FormDescriptor> forms = aColl.getForms();
+			setupFormCollectionAndService();
 			
-			//Step 2: call content validation service
-			forms.get(0).setSelected(true);
-			aColl= contentValidator.validateXmlContent(aColl);
-		
-			//Step 3: call load service
-			aColl = loadService.loadForms(aColl);
-			
-			//Step 4: check status
-			xmlResult = StatusFormatter.getStatusInXml(aColl);
-			
-			//Step 5: write status xml to file
-			//StatusFormatter.writeStatusToXml(statusString, "LoadForm-Status.xml");
-			
-			
-
-			
-			//This is just to show what messages get generated during validation and load process
-			//Client app will NOT need to do this
-/*			forms = aColl.getForms();
-			for (FormDescriptor form : forms) {
-				List<String> msgs = form.getMessages();
-				for (String msg : msgs) 
-					System.out.println("=====" + msg);
-				
-				List<ModuleDescriptor> modules = form.getModules();
-				for (ModuleDescriptor module : modules) {
-					List<QuestionDescriptor> questions = module.getQuestions();
-					for (QuestionDescriptor question : questions) {
-						List<String> qmsgs = question.getMessages();
-						for (String m : qmsgs)
-							System.out.println("=====" + m);
-					}
-				}
-			}
-*/
-/*			
-			forms = aColl.getForms();
-			StringBuffer buf = new StringBuffer();
-			for (FormDescriptor form : forms) {
-				FormStatus formStatus = form.getStructuredStatus();
-				
-				//Generate xml format status
-				try {
-					JAXBContext jaxbContext = JAXBContext.newInstance(FormStatus.class);
-					Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
-
-					final StringWriter stringWriter = new StringWriter();
-					
-					jaxbMarshaller.marshal(formStatus, stringWriter);
-					buf.append(stringWriter.toString());
-				} catch (JAXBException e) {
-					e.printStackTrace();
-				}			
-				xmlResult = buf.toString();
-			}
-*/			
-			
-		} catch (FormLoaderServiceException fle) {
-			System.out.println("=====" + fle.getMessage());
-			xmlResult = "<?xml version='1.0' encoding='UTF-8' standalone='yes'?><formStatus xmlns:ns2='gov.nih.nci.cadsr.formloader.domain.Moduletatus' xmlns:ns3='gov.nih.nci.cadsr.formloader.domain.FormStatus'><message><![CDATA[" + fle.getMessage() + "]]></message></formStatus>";
+			validateFormsAndReturnStatus();
 		} catch (Exception fle) {
 			System.out.println("=====" + fle.getMessage());
 			xmlResult = "<?xml version='1.0' encoding='UTF-8' standalone='yes'?><formStatus xmlns:ns2='gov.nih.nci.cadsr.formloader.domain.Moduletatus' xmlns:ns3='gov.nih.nci.cadsr.formloader.domain.FormStatus'><message><![CDATA[" + fle.getMessage() + "]]></message></formStatus>";
@@ -149,5 +62,58 @@ public class FormLoaderImpl implements FormLoader {
 		
 		System.out.println(xmlResult);
 		return xmlResult;
+	}
+
+	private void validateFormsAndReturnStatus()
+			throws FormLoaderServiceException {
+		//Step 1: call xml validation service
+		aColl = xmlValidator.validateXml(aColl);
+		List<FormDescriptor> forms = aColl.getForms();
+		
+		//Step 2: call content validation service
+		forms.get(0).setSelected(true);
+		aColl= contentValidator.validateXmlContent(aColl);
+
+		//Step 3: call load service
+		aColl = loadService.loadForms(aColl);
+		
+		//Step 4: check status
+		xmlResult = StatusFormatter.getStatusInXml(aColl);
+	}
+
+	private void setupFormCollectionAndService() {
+		@SuppressWarnings("resource")
+		ApplicationContext applicationContext = new ClassPathXmlApplicationContext("/applicationContext-service-db.xml");
+		xmlValidator = (XmlValidationServiceImpl)applicationContext.getBean("xmlValidationService");
+		contentValidator = (ContentValidationServiceImpl)applicationContext.getBean("contentValidationService");
+		loadService =  (LoadingService)applicationContext.getBean("loadService");
+		
+		aColl = new FormCollection();
+		aColl.setCreatedBy(username);
+		aColl.setXmlFileName(fileName);
+		aColl.setXmlPathOnServer(path);
+		
+		System.out.println("=====" + path);
+		System.out.println("=====" + fileName);
+		
+	}
+
+	private void writeXmlFormToFolder(String xmlForm) throws Exception{
+		fileName = String.format("%s.%s", RandomStringUtils.randomAlphanumeric(8), ext);
+		File dir = new File(path);
+		File xmlFile = new File(dir, fileName);
+
+		FileWriter fw = new FileWriter(xmlFile.getAbsoluteFile());
+		BufferedWriter bw = new BufferedWriter(fw);
+		bw.write(xmlForm);
+		bw.close();
+	}
+
+	private void retrieveUserNameAndPassword() {
+		AuthorizationPolicy policy = (AuthorizationPolicy)mc.get(AuthorizationPolicy.class.getName());
+		if( policy != null ) {
+        	username = policy.getUserName();
+        	password = policy.getPassword(); 
+        }
 	}
 }

@@ -39,6 +39,13 @@ public class FormRetrieverImpl implements FormRetriever{
 	public static final String GOV_NIH_NCI_TRANSFORM_PROPERTIES = "gov.nih.nci.transform.properties";
 	public static final String DEFAULT_SIZE_KEY = "default.size";
 	
+	private String contextIdSeq = "";
+	private String version = "";
+	private String classificationIdSeq = "";
+	private String protocolIdSeq = "";
+	private Collection formCollection = null;
+	private StringBuffer xmlFileBuffer = new StringBuffer("");
+	
 	public FormRetrieverImpl() {}
 	
 	@Override
@@ -59,154 +66,89 @@ public class FormRetrieverImpl implements FormRetriever{
 								String size,
 								String total,
 								String format ) {
-		String contextIdSeq = "";
-		String version = "";
-		String classificationIdSeq = "";
-		String protocolIdSeq = "";
-		Collection formCollection = null;
-		
-		boolean skip=false;
-		if( skip ) {
-			
-			XMLSerializer xmlSerializer = new XMLSerializer();                 
-			
-			File f = new File("/local/content/transform/data/","CdBefYIp.txt");
-			JSON json = xmlSerializer.readFromFile( f );  
-			
-			String jsonString = json.toString(2);
-			
-			File file = new File("/local/content/transform/data/","test.json");
-			 
-			FileWriter fw;
-			try {
-				// if file doesnt exists, then create it
-				if (!file.exists()) {
-					file.createNewFile();
-				}
-	 
-				fw = new FileWriter(file.getAbsoluteFile());
-				BufferedWriter bw = new BufferedWriter(fw);
-				bw.write(jsonString);
-				bw.close();
-			} catch (IOException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			}
 
-	        ResponseBuilder response = Response.ok(jsonString);
-	        System.out.println(jsonString);
-	        //response.header("Content-Disposition", "attachment; filename=\"download.json\"");
-			response = Response.ok(jsonString).header("Content-Disposition", "text/json");
-	        return response.build();
-		}
 		
 		@SuppressWarnings("resource")
 		ApplicationContext applicationContext = new ClassPathXmlApplicationContext("/applicationContext-service-db.xml");
-		
 		JDBCFormDAOV2 formDAO = (JDBCFormDAOV2)applicationContext.getBean("formV2Dao");
 		
-		if ( !StringUtils.doesValueExist(start) ) {
-			start="1";
-		}
+		start = setupStart(start);
 		
+		size = setupSize(size);
+		
+		workFlowStatus = setupWorkflowStatus(context, workFlowStatus);
+		
+		setupContextIdSeq(context, applicationContext);
+		
+		setupClassificationIdSeq(classification, applicationContext);
+		
+		setupProtocolIdSeq(protocol, applicationContext);
+		
+		total = setUpTotal(formPublicId, formLongName, classification, createdBy, workFlowStatus, total, formDAO);
+		
+		boolean noRecordsFound = false;
+		noRecordsFound = setupFormCollection(formPublicId, formLongName,
+				classification, createdBy, workFlowStatus, start, size,
+				formDAO, noRecordsFound);
+
+		if (noRecordsFound) {
+			return Response.ok(xmlFileBuffer.toString()).header("Content-Disposition", "application/xml").build();
+		}
+
+		xmlFileBuffer = buildXmlResponse(formPublicId,
+				formLongName, context, classification, protocol, createdBy,
+				workFlowStatus, registrationStatus, start, size, total, format,
+				formDAO);
+		
+		if ( format.equals("XML")) {
+			return Response.ok(xmlFileBuffer.toString()).header("Content-Disposition", "application/xml").build();
+		}
+		else if ( format.equals("CSV")) {
+			String csvFile = FilesTransformation.transformFormToCSV(xmlFileBuffer.toString());
+			return Response.ok(csvFile).header("Content-Disposition", "attachment; filename=download.csv").build();
+		}
+		else {
+			XMLSerializer xmlSerializer = new XMLSerializer();                 
+			JSON json = xmlSerializer.read( xmlFileBuffer.toString() );  
+			
+			ResponseBuilder response = Response.ok(json.toString(2));
+	        response.header("Content-Disposition", "attachment; filename=\"download.json\"");
+
+	        return response.build();
+		}
+	}
+
+	private String setupWorkflowStatus(String context, String workFlowStatus) {
+		if ( StringUtils.doesValueExist(context) & !StringUtils.doesValueExist(workFlowStatus) )
+			workFlowStatus = "RELEASED";
+		return workFlowStatus;
+	}
+
+	private String setupSize(String size) {
 		if ( !StringUtils.doesValueExist(size) ) {
 			size = loadSizeProperty();
 		}
-		
-		if ( StringUtils.doesValueExist(context) ) {
-			JDBCContextDAOV2 contextDAO = (JDBCContextDAOV2)applicationContext.getBean("contextV2Dao");
-			StringTokenizer contexttokenizer = new StringTokenizer(context, ",");
-			 
-			StringBuffer contextBuffer = new StringBuffer();
-			while (contexttokenizer.hasMoreElements()) {
-				if( contextBuffer.length() > 0 )
-					contextBuffer.append(",");
-				
-				String idSeq = "";
-				Context contextObj = ((Context)contextDAO.getContextByName((String)contexttokenizer.nextElement()));
-				
-				if (contextObj != null)
-					idSeq = contextObj.getConteIdseq();
-				
-				if ( StringUtils.doesValueExist(idSeq) )
-					contextBuffer.append("'").append(idSeq).append("'");
-			}
+		return size;
+	}
 
-			//contextIdSeq = ((Context)contextDAO.getContextByName(context)).getConteIdseq();
-			contextIdSeq = contextBuffer.toString();
-			version = "latestVersion";
-			
-			if ( !StringUtils.doesValueExist(workFlowStatus) )
-				workFlowStatus = "RELEASED";
+	private String setupStart(String start) {
+		if ( !StringUtils.doesValueExist(start) ) {
+			start="1";
 		}
-		
-		if ( StringUtils.doesValueExist(classification) ) {
-			JDBCClassificationSchemeDAOV2 classificationDAO = (JDBCClassificationSchemeDAOV2)applicationContext.getBean("classificationV2Dao");
-			StringTokenizer classtokenizer = new StringTokenizer(classification, ",");
-			 
-			StringBuffer classBuffer = new StringBuffer();
-			while (classtokenizer.hasMoreElements()) {
-				if( classBuffer.length() > 0 )
-					classBuffer.append(",");
-				
-				String idSeq = "";
-				Classification classificationObj = ((Classification)classificationDAO.getClassificationByName((String)classtokenizer.nextElement()));
-				
-				if (classificationObj != null)
-					idSeq = classificationObj.getCsIdseq();
-				
-				if ( StringUtils.doesValueExist(idSeq) )
-					classBuffer.append("'").append(idSeq).append("'");
-			}
-			classificationIdSeq = classBuffer.toString();
-		}
-		
-		if ( StringUtils.doesValueExist(protocol) ) {
-			JDBCProtocolDAOV2 protocolDAO = (JDBCProtocolDAOV2)applicationContext.getBean("protocolV2Dao");
-			StringTokenizer protocoltokenizer = new StringTokenizer(protocol, ",");
-			 
-			StringBuffer protocolBuffer = new StringBuffer();
-			while (protocoltokenizer.hasMoreElements()) {
-				if( protocolBuffer.length() > 0 )
-					protocolBuffer.append(",");
-				
-				String idSeq = "";
-				Protocol protocolObj = ((Protocol)protocolDAO.getProtocolByName((String)protocoltokenizer.nextElement()));
-				
-				if(protocolObj != null)
-					idSeq = protocolObj.getProtoIdseq();
-				
-				if ( StringUtils.doesValueExist(idSeq) )
-					protocolBuffer.append("'").append(idSeq).append("'");
-			}
-			//protocolIdSeq = ((Protocol)protocolDAO.getProtocolByName(protocol)).getProtoIdseq();
-			protocolIdSeq = protocolBuffer.toString();
-		}
-		
-		if ( !StringUtils.doesValueExist(total) ) {
-			int count = 0;
+		return start;
+	}
 
-			if ( StringUtils.doesValueExist(classification) ) {
-				if( StringUtils.doesValueExist(classificationIdSeq)) {
-					count = formDAO.getFormClassificationCount(classificationIdSeq);
-				}
-			}
-			else
-			{
-				if (!isEmptyAllParams(formLongName, protocolIdSeq, contextIdSeq, workFlowStatus, classificationIdSeq, formPublicId, version, createdBy)) {
-					count = formDAO.getFormCount(formLongName, protocolIdSeq, contextIdSeq, workFlowStatus, "", "", classificationIdSeq, "", formPublicId, version, "", "", createdBy);
-				}
-			}
-			total = String.valueOf(count);
-		}
-		
+	private boolean setupFormCollection(String formPublicId, String formLongName,
+			String classification, String createdBy, String workFlowStatus,
+			String start, String size, JDBCFormDAOV2 formDAO,
+			boolean noRecordsFound) {
 		if ( StringUtils.doesValueExist(classification) ) {
 			if( StringUtils.doesValueExist(classificationIdSeq)) {
 				formCollection = formDAO.getAllFormsForClassification(classificationIdSeq, start, size);
 			}
 			else {
-				StringBuffer xmlFileBuffer = new StringBuffer("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<Message>No Records Found</Message>\n");
-				return Response.ok(xmlFileBuffer.toString()).header("Content-Disposition", "application/xml").build();
+				xmlFileBuffer = new StringBuffer("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<Message>No Records Found</Message>\n");
+				noRecordsFound = true;
 			}
 		}
 		else {
@@ -214,30 +156,22 @@ public class FormRetrieverImpl implements FormRetriever{
 				formCollection = formDAO.getAllForms(formLongName, protocolIdSeq, contextIdSeq, workFlowStatus, "", "", classificationIdSeq, "", formPublicId, version, "", "", createdBy, start, size);
 			}
 			else {
-				StringBuffer xmlFileBuffer = new StringBuffer("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<Message>No Records Found</Message>\n");
-				return Response.ok(xmlFileBuffer.toString()).header("Content-Disposition", "application/xml").build();
+				xmlFileBuffer = new StringBuffer("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<Message>No Records Found</Message>\n");
+				noRecordsFound = true;
 			}
 		}
 		
 		if( formCollection == null || formCollection.size() == 0) {
-			StringBuffer xmlFileBuffer = new StringBuffer("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<Message>No Records Found</Message>\n");
-			return Response.ok(xmlFileBuffer.toString()).header("Content-Disposition", "application/xml").build();
+			noRecordsFound = true;
 		}
-		/* Retrieve One Form
-		FormTransferObject formObject = ((FormTransferObject) ((ArrayList)formCollection).get(0));
-		
-		FormV2 form = formDAO.getFormDetailsV2(formObject.getFormIdseq());
-		
-		String xmlFile = "";
-		try {
-			xmlFile = FormXMLConverter.instance().convertFormToXML(form);
-		}
-		catch (Exception e) 
-		{
-			System.out.println(e);
-		}
-		
-		End Retrieve One Form */
+		return noRecordsFound;
+	}
+
+	private StringBuffer buildXmlResponse(String formPublicId,
+			String formLongName, String context, String classification,
+			String protocol, String createdBy, String workFlowStatus,
+			String registrationStatus, String start, String size, String total,
+			String format, JDBCFormDAOV2 formDAO) {
 		int startPage = Integer.parseInt(start);
 		int isize = Integer.parseInt(size);
 		String nextPage= Integer.toString(startPage+1);
@@ -273,36 +207,106 @@ public class FormRetrieverImpl implements FormRetriever{
 			xmlFileBuffer.append(xmlLocalFile);
 		}
 		xmlFileBuffer.append("</formCollection>\n");
-		
-		if ( format.equals("XML")) {
-			return Response.ok(xmlFileBuffer.toString()).header("Content-Disposition", "application/xml").build();
+		return xmlFileBuffer;
+	}
+
+	private String setUpTotal(String formPublicId, String formLongName,
+			String classification, String createdBy, String workFlowStatus,
+			String total, JDBCFormDAOV2 formDAO) {
+		if ( !StringUtils.doesValueExist(total) ) {
+			int count = 0;
+
+			if ( StringUtils.doesValueExist(classification) ) {
+				if( StringUtils.doesValueExist(classificationIdSeq)) {
+					count = formDAO.getFormClassificationCount(classificationIdSeq);
+				}
+			}
+			else
+			{
+				if (!isEmptyAllParams(formLongName, protocolIdSeq, contextIdSeq, workFlowStatus, classificationIdSeq, formPublicId, version, createdBy)) {
+					count = formDAO.getFormCount(formLongName, protocolIdSeq, contextIdSeq, workFlowStatus, "", "", classificationIdSeq, "", formPublicId, version, "", "", createdBy);
+				}
+			}
+			total = String.valueOf(count);
 		}
-		else if ( format.equals("CSV")) {
-			String csvFile = FilesTransformation.transformFormToCSV(xmlFileBuffer.toString());
-			return Response.ok(csvFile).header("Content-Disposition", "attachment; filename=download.csv").build();
-			//return Response.ok(csvFile).header("Content-Disposition", "text/csv").build();
+		return total;
+	}
+
+	private void setupProtocolIdSeq(String protocol,
+			ApplicationContext applicationContext) {
+		if ( StringUtils.doesValueExist(protocol) ) {
+			JDBCProtocolDAOV2 protocolDAO = (JDBCProtocolDAOV2)applicationContext.getBean("protocolV2Dao");
+			StringTokenizer protocoltokenizer = new StringTokenizer(protocol, ",");
+			 
+			StringBuffer protocolBuffer = new StringBuffer();
+			while (protocoltokenizer.hasMoreElements()) {
+				if( protocolBuffer.length() > 0 )
+					protocolBuffer.append(",");
+				
+				String idSeq = "";
+				Protocol protocolObj = ((Protocol)protocolDAO.getProtocolByName((String)protocoltokenizer.nextElement()));
+				
+				if(protocolObj != null)
+					idSeq = protocolObj.getProtoIdseq();
+				
+				if ( StringUtils.doesValueExist(idSeq) )
+					protocolBuffer.append("'").append(idSeq).append("'");
+			}
+			//protocolIdSeq = ((Protocol)protocolDAO.getProtocolByName(protocol)).getProtoIdseq();
+			protocolIdSeq = protocolBuffer.toString();
+		}
+	}
+
+	private void setupClassificationIdSeq(String classification,
+			ApplicationContext applicationContext) {
+		if ( StringUtils.doesValueExist(classification) ) {
+			JDBCClassificationSchemeDAOV2 classificationDAO = (JDBCClassificationSchemeDAOV2)applicationContext.getBean("classificationV2Dao");
+			StringTokenizer classtokenizer = new StringTokenizer(classification, ",");
+			 
+			StringBuffer classBuffer = new StringBuffer();
+			while (classtokenizer.hasMoreElements()) {
+				if( classBuffer.length() > 0 )
+					classBuffer.append(",");
+				
+				String idSeq = "";
+				Classification classificationObj = ((Classification)classificationDAO.getClassificationByName((String)classtokenizer.nextElement()));
+				
+				if (classificationObj != null)
+					idSeq = classificationObj.getCsIdseq();
+				
+				if ( StringUtils.doesValueExist(idSeq) )
+					classBuffer.append("'").append(idSeq).append("'");
+			}
+			classificationIdSeq = classBuffer.toString();
+		}
+	}
+
+	private void setupContextIdSeq(String context,
+			ApplicationContext applicationContext) {
+		if ( StringUtils.doesValueExist(context) ) {
+			JDBCContextDAOV2 contextDAO = (JDBCContextDAOV2)applicationContext.getBean("contextV2Dao");
+			StringTokenizer contexttokenizer = new StringTokenizer(context, ",");
+			 
+			StringBuffer contextBuffer = new StringBuffer();
+			while (contexttokenizer.hasMoreElements()) {
+				if( contextBuffer.length() > 0 )
+					contextBuffer.append(",");
+				
+				String idSeq = "";
+				Context contextObj = ((Context)contextDAO.getContextByName((String)contexttokenizer.nextElement()));
+				
+				if (contextObj != null)
+					idSeq = contextObj.getConteIdseq();
+				
+				if ( StringUtils.doesValueExist(idSeq) )
+					contextBuffer.append("'").append(idSeq).append("'");
+			}
+
+			//contextIdSeq = ((Context)contextDAO.getContextByName(context)).getConteIdseq();
+			contextIdSeq = contextBuffer.toString();
+			version = "latestVersion";
 			
-/*			File f = new File("/local/content/transform/data/","CdBefYIp.txt");
-
-	        ResponseBuilder response = Response.ok((Object) f);
-	        response.type("application/csv");
-	        response.header("Content-Disposition", "attachment; filename=\"download.csv\"");
-	        return response.build();		*/
 		}
-		else {
-			XMLSerializer xmlSerializer = new XMLSerializer();                 
-			JSON json = xmlSerializer.read( xmlFileBuffer.toString() );  
-			//return Response.ok(json.toString(2)).header("Content-Disposition", "application/json").build();
-			
-			ResponseBuilder response = Response.ok(json.toString(2));
-	        response.header("Content-Disposition", "attachment; filename=\"download.json\"");
-			//response = Response.ok(json.toString(2)).header("Content-Disposition", "application/json");
-
-	        return response.build();
-		}
-		
-		//return xmlFileBuffer.toString();
-
 	}
 	
 	private String constructParams(String formPublicId, 
