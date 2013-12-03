@@ -112,7 +112,7 @@ GRANT SELECT ON SBREXT.OBJECT_CART_SEQ TO CADSR_API;
 CREATE OR REPLACE TRIGGER Object_Cart_Type
   BEFORE INSERT OR UPDATE ON CART
   FOR EACH ROW
-  WHEN (new.name != 'formCart' or new.name != 'cdeCart')
+  WHEN (new.name != 'formCart' AND new.name != 'cdeCart')
 BEGIN
   RAISE_APPLICATION_ERROR( -20001, 'Object Cart name can only be either formCart or cdeCart. Invalid name: ' || :new.name );
 END;
