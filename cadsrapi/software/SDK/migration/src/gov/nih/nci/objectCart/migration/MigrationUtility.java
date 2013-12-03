@@ -223,14 +223,20 @@ public class MigrationUtility {
 	private void migrateCartObject() throws SQLException
 	{
 		Connection connection = null;
-		Statement stmt = null;
+		//Statement stmt = null;
+		PreparedStatement stmt = null;
 		Connection connection2 = null;
 		PreparedStatement stmt2 = null;
 		try
 		{
 		connection = getConnection(objCartDbURL, objCartDriver, objCartUser, objCartPasswd);
-		stmt = connection.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
-		ResultSet resultSet = stmt.executeQuery("SELECT * FROM CART_OBJECT");
+		//stmt = connection.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
+		//ResultSet resultSet = stmt.executeQuery("SELECT * FROM CART_OBJECT");
+		stmt = connection.prepareStatement("SELECT * FROM CART_OBJECT",
+        ResultSet.TYPE_FORWARD_ONLY,
+        ResultSet.CONCUR_READ_ONLY);
+    	stmt.setFetchSize(Integer.MIN_VALUE);
+    	ResultSet resultSet = stmt.executeQuery();
 
 		connection2 = getConnection(caDSRDbURL, caDSRDriver, caDSRUser, caDSRPasswd);
 		stmt2 = connection2.prepareStatement("INSERT INTO CART_OBJECT (ID, DATA, CART_ID,DATE_ADDED, NATIVE_ID, DISPLAY_TEXT,TYPE, RELATED_ID) VALUES ( ?, ?, ?, ?, ?, ?, ?, ?)");
