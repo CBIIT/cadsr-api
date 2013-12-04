@@ -9,6 +9,7 @@ package gov.nih.nci.objectCart.migration;
 
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.Reader;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -16,6 +17,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Properties;
+
+import oracle.sql.CLOB;
 
 
 public class MigrationUtility {
@@ -43,6 +46,7 @@ public class MigrationUtility {
 			Properties properties = new Properties();
 			properties.load(new FileInputStream(args[0]));
 			MigrationUtility utility = new MigrationUtility(properties);
+			
 			int cart = utility.checkCartTable();
 			if(cart == -1)
 			{
@@ -220,7 +224,7 @@ public class MigrationUtility {
 	}
 
 
-	private void migrateCartObject() throws SQLException
+	private void migrateCartObject() throws SQLException, IOException
 	{
 		Connection connection = null;
 		//Statement stmt = null;
@@ -243,9 +247,18 @@ public class MigrationUtility {
 		int counter = 0;
 		while(resultSet.next())
 		{
+			System.out.println("ID: "+ resultSet.getInt("ID") +" Counter: " + counter );
+			
 			stmt2.setInt(1, resultSet.getInt("ID"));
 			java.sql.Clob clob = resultSet.getClob("DATA");
-			stmt2.setString(2,  resultSet.getString("DATA"));
+			System.out.println("1");
+			oracle.sql.CLOB oraClob = oracle.sql.CLOB.createTemporary(connection2, false, CLOB.DURATION_SESSION);
+			System.out.println("2");
+			oraClob.setString(1, readClobDataAsString(clob));
+			System.out.println("3");
+			//stmt2.setString(2,  resultSet.getString("DATA"));
+			stmt2.setClob(2,  oraClob);
+			System.out.println("4");
 			stmt2.setInt(3, resultSet.getInt("CART_ID"));
 			stmt2.setDate(4, resultSet.getDate("DATE_ADDED"));
 			stmt2.setString(5, resultSet.getString("NATIVE_ID"));
@@ -257,11 +270,11 @@ public class MigrationUtility {
 			if(counter % 100 == 0)
 			{
 				stmt2.executeBatch();
-				System.out.println("CART_OBJECT table migration has successfully migrated: "+counter + " rows");
+				System.out.println("*******CART_OBJECT table migration has successfully migrated: "+counter + " rows");
 			}
 		}
 		stmt2.executeBatch();
-		System.out.println("CART_OBJECT table migration has successfully migrated: "+counter + " rows");
+		System.out.println("********CART_OBJECT table migration has successfully migrated: "+counter + " rows");
 		resultSet.close();
 		}
 		finally
@@ -292,5 +305,44 @@ public class MigrationUtility {
 		    }
 		return connection;
 	}
+	
+	  private String readClobDataAsString(java.sql.Clob clob) throws SQLException, IOException {	
+		  // Check that it is not null and read the character stream.
+		  String data = null;
+		  int length = 0;
+		  StringBuffer sb;
+		  char[] buffer;
+		  int count = 0;
 
+		  if (clob != null) {
+		    Reader is = clob.getCharacterStream();
+
+		    // Initialize local variables.
+		    sb = new StringBuffer();
+		    length = (int) clob.length();
+
+		    // Check CLOB is not empty.
+		    if (length > 0) {
+		      // Initialize control structures to read stream.
+		      buffer = new char[length];
+		      count = 0;
+
+		      // Read stream and append to StringBuffer.
+		      try {
+				while ((count = is.read(buffer)) != -1)
+				  sb.append(buffer);
+	
+				  // Assign StringBuffer to String.
+				  data = new String(sb); }
+			      catch (Exception e) { System.out.println(e);} 
+		      	  finally {
+		      		  // Close stream to prevent memory leaks.
+		      		  is.close();
+		      	  }
+		      }
+		  }
+		  
+		  return data;  
+
+	  }
 }
