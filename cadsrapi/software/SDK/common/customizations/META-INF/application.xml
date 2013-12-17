@@ -19,4 +19,10 @@
 			<context-root>/formrest</context-root>
 		</web>
 	</module>
+	<module id="freestyle">
+		<web>
+			<web-uri>freestyle.war</web-uri>
+			<context-root>/freestyle</context-root>
+		</web>
+	</module>	
 </application>

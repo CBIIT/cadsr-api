@@ -170,6 +170,12 @@ L-->
 			<property name="database.user" value="${FORMREST.DS.USER}"/>
 			<property name="database.password" value="${FORMREST.DS.PSWD}"/>
 		</ant>
+		<ant antfile="build.xml" target="build-product" dir="../freestyle-search/software/freestylesearch" inheritall="false">
+			<property name="basedir" value="../freestyle-search/software/freestylesearch"/>
+			<property name="CADSR.DS.URL" value="jdbc:oracle:thin:@${CADSR.DS.TNS.HOST}:${CADSR.DS.TNS.PORT}:${CADSR.DS.TNS.SID}"/>
+			<property name="CADSR.DS.USER" value="${FREESTYLE.DS.USER}"/>
+			<property name="CADSR.DS.PSWD" value="${FREESTYLE.DS.PSWD}"/>
+		</ant>
 		<artifact:mvn pom="../cderest/pom.xml">
 			<arg value="package"/>
 			<arg value="-Ddatabase.url=jdbc:oracle:thin:@${CADSR.DS.TNS.HOST}:${CADSR.DS.TNS.PORT}:${CADSR.DS.TNS.SID}"/>
@@ -180,6 +186,7 @@ L-->
 		<copy file="${package.system.dir}/cadsrapi41.war" todir="${basedir}/dist/war" overwrite="true"/>
 		<copy file="../formrest/target/dist/formrest.war" todir="${basedir}/dist/war" overwrite="true"/>
 		<copy file="../cderest/target/cderest.war" todir="${basedir}/dist/war" overwrite="true"/>
+		<copy file="../freestyle-search/software/freestylesearch/deployment-artifacts/freestyle.war" todir="${basedir}/dist/war" overwrite="true"/>
 		<copy todir="${basedir}/dist/war/META-INF" overwrite="true">
 			<fileset dir="${common.dir}/customizations/META-INF">
 				<include name="**/*" />
@@ -193,6 +200,9 @@ L-->
 		<copy file="../formrest/target/dist/transform.properties" todir="${basedir}/dist" overwrite="true"/>
 		<copy file="../cderest/target/cderest-oracle-ds.xml" todir="${basedir}/dist" overwrite="true"/>
 		<copy file="../cderest/target/cdebrowser.xslt" todir="${basedir}/dist" overwrite="true"/>
+		<copy file="../freestyle-search/software/freestylesearch/deployment-artifacts/jboss/freestyle-oracle-ds.xml" todir="${basedir}/dist" overwrite="true"/>
+		<copy file="../freestyle-search/software/freestylesearch/deployment-artifacts/jboss/freestyle-log4j-appender.xml" todir="${basedir}/dist" overwrite="true"/>
+		<copy file="../freestyle-search/software/freestylesearch/deployment-artifacts/jboss/freestyle-log4j-category.xml" todir="${basedir}/dist" overwrite="true"/>
 	</target>
 	<target name="build:cderest">
 		<artifact:mvn pom="../cderest/pom.xml">
