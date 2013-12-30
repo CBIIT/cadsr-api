@@ -1,20 +1,25 @@
 package gov.nih.nci.ncicb.cadsr.cdeservice;
 
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.util.Enumeration;
 import java.util.List;
+import java.util.Properties;
 
 import gov.nih.cadsr.transform.FilesTransformation;
 import gov.nih.nci.ncicb.cadsr.common.cdebrowser.DESearchQueryBuilder;
 import gov.nih.nci.ncicb.cadsr.common.cdebrowser.DataElementSearchBean;
 import gov.nih.nci.ncicb.cadsr.common.util.DBUtil;
+import gov.nih.nci.ncicb.cadsr.common.util.StringUtils;
 import gov.nih.nci.ncicb.cadsr.common.SearchQueryBuilder;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
+import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Response;
 
@@ -29,13 +34,17 @@ import net.sf.json.xml.XMLSerializer;
 @Component
 @Path("/services")
 public class CDERestService {
-
+	public static String DEFAULT_SIZE = "10";
+	public static final String GOV_NIH_NCI_TRANSFORM_PROPERTIES = "gov.nih.nci.transform.properties";
+	public static final String DEFAULT_SIZE_KEY = "default.cde.size";
+	
 	@Autowired
 	CDESearchBo cdeSearchBo;
 	private @Autowired ApplicationContext applicationContext;
 
 	@GET
 	@Path("/getDataElement")
+	//@Produces ({"application/xml","application/octet-stream","application/json"})
 	public Response getDataElements(@Context HttpServletRequest httpRequest) {
 
 		DataElementSearchBean desb = null;
@@ -72,12 +81,14 @@ public class CDERestService {
         else        	
 			queryBuilder = new SearchQueryBuilder( httpRequest, null, null , null, desb);
         
-        int start = 1, size = 10;        
+        int start = 1; 
+        int size = setupSize(httpRequest.getParameter("size"));
+        
         if(httpRequest.getParameter("start") != null)
         	start = Integer.parseInt(httpRequest.getParameter("start"));
-        if(httpRequest.getParameter("size") != null)
-        	size = Integer.parseInt(httpRequest.getParameter("size"));
-            
+//        if(httpRequest.getParameter("size") != null)
+//        	size = Integer.parseInt(httpRequest.getParameter("size"));
+        
         int end = start + size;
         	String query = queryBuilder.getSQLWithoutOrderBy();        	
 			StringBuffer queryStmt = new StringBuffer();
@@ -120,5 +131,38 @@ public class CDERestService {
 
 	    return false;
 	}
+	
+	private Integer setupSize(String size) {
+		if ( !StringUtils.doesValueExist(size) ) {
+			size = loadSizeProperty();
+		}
+		return Integer.valueOf(size);
+	}
+	
+	private String loadSizeProperty() {
+		  String propertiesFileName = System.getProperty(GOV_NIH_NCI_TRANSFORM_PROPERTIES);
+		
+		  //Load the the application properties and set them as system properties
+		  Properties transformProperties = new Properties();
+		   
+		  FileInputStream in;
+		  String size = "";
+		  try {
+			in = new FileInputStream(propertiesFileName);
+		   
+			  if (propertiesFileName == null || in == null ) {
+				  return DEFAULT_SIZE;	
+			  }
+			transformProperties.load(in);
+		    size = transformProperties.getProperty(DEFAULT_SIZE_KEY);
+		    in.close();	
+			} catch (IOException e) {
+				  return DEFAULT_SIZE;	
+			} catch (Exception e) {
+				  return DEFAULT_SIZE;	
+			}		  
+		  
+		    return size;
+		}
 
 }
