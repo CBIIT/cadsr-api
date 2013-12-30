@@ -21,4 +21,5 @@ export JAVA_PARMS ORACLE_HOME TNS_ADMIN PATH LD_LIBRARY_PATH
 echo "Executing job as `id`"
 echo "Executing on `date`"
 
-$JAVA_HOME/bin/java -client $JAVA_PARMS -classpath $BASE_DIR/caDSR-beans.jar:$BASE_DIR/sdk-client-framework.jar:$BASE_DIR/hibernate3.jar:$BASE_DIR/spring.jar:$BASE_DIR/log4j-1.2.14.jar:$BASE_DIR/ojdbc14.jar:$BASE_DIR/freestylesearch.jar gov.nih.nci.cadsr.freestylesearch.util.Seed $BASE_DIR/log4j.xml $BASE_DIR/seed.xml
+$JAVA_HOME/bin/java -client $JAVA_PARMS -classpath $BASE_DIR/cadsrapi41-beans.jar:$BASE_DIR/sdk-system-client-4.5.jar:$BASE_DIR/hibernate-3.2.0.ga-modified.jar:$BASE_DIR/org.springframework.core-3.0.5.RELEASE.jar:$BASE_DIR/log4j-1.2.16.jar:$BASE_DIR/ojdbc14.jar:$BASE_DIR/freestylesearch.jar gov.nih.nci.cadsr.freestylesearch.util.Seed $BASE_DIR/log4j.xml $BASE_DIR/seed.xml
+

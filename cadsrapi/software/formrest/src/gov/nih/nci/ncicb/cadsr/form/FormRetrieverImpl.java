@@ -66,7 +66,14 @@ public class FormRetrieverImpl implements FormRetriever{
 								String size,
 								String total,
 								String format ) {
-
+		
+		
+		contextIdSeq = "";
+		version = "";
+		classificationIdSeq = "";
+		protocolIdSeq = "";
+		formCollection = null;
+		xmlFileBuffer = new StringBuffer("");
 		
 		@SuppressWarnings("resource")
 		ApplicationContext applicationContext = new ClassPathXmlApplicationContext("/applicationContext-service-db.xml");
