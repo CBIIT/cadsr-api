@@ -193,9 +193,9 @@ public class FormRetrieverImpl implements FormRetriever{
 			xmlFileBuffer.append("<link ref='next' type='application/xml' href=").append("'").append(url).append("/formrest/services/formRetrieve?").append(nextParams).append("'/>\n");
 		}
 		if( startPage-1 > 0 ) {
-			xmlFileBuffer.append("<link ref='prev' type='application/xml' href=").append("'http://localhost:8080").append("/formrest/services/formRetrieve?").append(prevParams).append("'/>\n");
+			xmlFileBuffer.append("<link ref='prev' type='application/xml' href=").append("'").append(url).append("/formrest/services/formRetrieve?").append(prevParams).append("'/>\n");
 		}
-		xmlFileBuffer.append("<link ref='self' type='application/xml' href=").append("'http://localhost:8080").append("/formrest/services/formRetrieve?").append(currParams).append("'/>\n");
+		xmlFileBuffer.append("<link ref='self' type='application/xml' href=").append("'").append(url).append("/formrest/services/formRetrieve?").append(currParams).append("'/>\n");
 		//StringBuffer xmlFileBuffer = new StringBuffer("");
 		for(Object formObject: formCollection) {
 			FormV2 form = formDAO.getFormDetailsV2(((FormTransferObject)formObject).getFormIdseq());
