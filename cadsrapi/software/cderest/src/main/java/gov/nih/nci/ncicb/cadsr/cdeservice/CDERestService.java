@@ -74,10 +74,26 @@ public class CDERestService {
 			e.printStackTrace();
 			return Response.status(400).build();
 		}
-        if(httpRequest.getParameter("context") != null)        
+        if(httpRequest.getParameter("context") != null)   
+        {
+        	String contextIdSeq = httpRequest.getParameter("contextIdSeq");
+        	if( contextIdSeq == null || contextIdSeq.equals("")) 
+        	{
+        		StringBuffer xmlFileBuffer = new StringBuffer("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<Message>No Records Found</Message>\n");
+				return Response.ok(xmlFileBuffer.toString()).header("Content-Disposition", "application/xml").build();
+        	}
         	queryBuilder = new SearchQueryBuilder( httpRequest, "CONTEXT", httpRequest.getParameter("contextIdSeq") , httpRequest.getParameter("contextIdSeq"), desb);
+        }
         else if(httpRequest.getParameter("classification") != null)
+        {
+        	String classificationIdSeq = httpRequest.getParameter("classificationIdSeq");
+	    	if( classificationIdSeq == null || classificationIdSeq.equals("")) 
+	    	{
+	    		StringBuffer xmlFileBuffer = new StringBuffer("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<Message>No Records Found</Message>\n");
+				return Response.ok(xmlFileBuffer.toString()).header("Content-Disposition", "application/xml").build();
+	    	}
         	queryBuilder = new SearchQueryBuilder( httpRequest, "CLASSIFICATION", httpRequest.getParameter("classificationIdSeq") , httpRequest.getParameter("classificationIdSeq"), desb);
+        }
         else        	
 			queryBuilder = new SearchQueryBuilder( httpRequest, null, null , null, desb);
         
@@ -98,13 +114,17 @@ public class CDERestService {
 
 			String resultXML = cdeSearchBo.getDataElements(queryStmt+ " order by  " + orderBy,httpRequest);
 			if(resultXML == null)
-				 return Response.status(404).build();
+			{
+				 //return Response.status(404).build();
+				StringBuffer xmlFileBuffer = new StringBuffer("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<Message>No Records Found</Message>\n");
+				return Response.ok(xmlFileBuffer.toString()).header("Content-Disposition", "application/xml").build();
+			}
 			
 			String format = (String) httpRequest.getParameter("format");
-			if ( null != format && format.equals("XML")) {
+			if ( null != format && format.toUpperCase().equals("XML")) {
 				return Response.ok(resultXML).header("Content-Disposition", "application/xml").build();
 			}
-			else if (null != format &&  format.equals("CSV")) {
+			else if (null != format &&  format.toUpperCase().equals("CSV")) {
 				String csvFile = FilesTransformation.transformCdeToCSV(resultXML);
 				return Response.ok(csvFile).header("Content-Disposition", "attachment; filename=download.csv").build();
 			}

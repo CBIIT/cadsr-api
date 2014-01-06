@@ -94,11 +94,19 @@ public class FormRetrieverImpl implements FormRetriever{
 		total = setUpTotal(formPublicId, formLongName, classification, createdBy, workFlowStatus, total, formDAO);
 		
 		boolean noRecordsFound = false;
+		if (total == null || Integer.valueOf(total) == 0)
+		{
+			noRecordsFound = true;
+		}
+		else
+		{
 		noRecordsFound = setupFormCollection(formPublicId, formLongName,
 				classification, createdBy, workFlowStatus, start, size,
 				formDAO, noRecordsFound);
+		}
 
 		if (noRecordsFound) {
+			xmlFileBuffer = new StringBuffer("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<Message>No Records Found</Message>\n");
 			return Response.ok(xmlFileBuffer.toString()).header("Content-Disposition", "application/xml").build();
 		}
 
@@ -107,10 +115,10 @@ public class FormRetrieverImpl implements FormRetriever{
 				workFlowStatus, registrationStatus, start, size, total, format,
 				formDAO);
 		
-		if ( format.equals("XML")) {
+		if ( format.toUpperCase().equals("XML")) {
 			return Response.ok(xmlFileBuffer.toString()).header("Content-Disposition", "application/xml").build();
 		}
-		else if ( format.equals("CSV")) {
+		else if ( format.toUpperCase().equals("CSV")) {
 			String csvFile = FilesTransformation.transformFormToCSV(xmlFileBuffer.toString());
 			return Response.ok(csvFile).header("Content-Disposition", "attachment; filename=download.csv").build();
 		}
@@ -231,7 +239,14 @@ public class FormRetrieverImpl implements FormRetriever{
 			else
 			{
 				if (!isEmptyAllParams(formLongName, protocolIdSeq, contextIdSeq, workFlowStatus, classificationIdSeq, formPublicId, version, createdBy)) {
-					count = formDAO.getFormCount(formLongName, protocolIdSeq, contextIdSeq, workFlowStatus, "", "", classificationIdSeq, "", formPublicId, version, "", "", createdBy);
+					try
+					{
+						count = formDAO.getFormCount(formLongName, protocolIdSeq, contextIdSeq, workFlowStatus, "", "", classificationIdSeq, "", formPublicId, version, "", "", createdBy);
+					}
+					catch (Exception e)
+					{
+						count = 0;
+					}
 				}
 			}
 			total = String.valueOf(count);

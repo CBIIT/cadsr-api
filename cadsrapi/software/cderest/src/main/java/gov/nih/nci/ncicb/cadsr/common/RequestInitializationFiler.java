@@ -167,13 +167,17 @@ public class RequestInitializationFiler implements Filter {
     			StringTokenizer classtokenizer = new StringTokenizer(context, ",");
 
     			StringBuffer classBuffer = new StringBuffer();
+    			Context individualContext;
+    			String idSeq = "";
     			while (classtokenizer.hasMoreElements()) {
     				if( classBuffer.length() > 0 )
     				{
     					classBuffer.append(",");
     					searchMode = "At least one of the words";
     				}	
-    				String idSeq = (String) contextDao.getContextByName((String)classtokenizer.nextElement()).getConteIdseq();
+    				individualContext = contextDao.getContextByName((String)classtokenizer.nextElement());
+    				if ( individualContext != null )
+    				 idSeq = (String) individualContext.getConteIdseq();
 
     				if ( idSeq != null )
     					classBuffer.append("'").append(idSeq).append("'");
@@ -220,7 +224,12 @@ public class RequestInitializationFiler implements Filter {
     			 modifiableParameters.put("jspClassification", new String[]{classificationItemIdSeq} );
             	 modifiableParameters.put("jspBasicSearchType", new String[]{"classification"});
             	 modifiableParameters.put("jspNameSearchMode", new String[]{searchMode});
-            }            
+            }    
+            
+            if(request.getParameter("format") == null)
+            {
+            	modifiableParameters.put("format", new String[]{"XML"});
+            }
             	
         }
     	

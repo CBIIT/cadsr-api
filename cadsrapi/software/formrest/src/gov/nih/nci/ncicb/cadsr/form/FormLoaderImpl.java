@@ -75,6 +75,11 @@ public class FormLoaderImpl implements FormLoader {
 		aColl= contentValidator.validateXmlContent(aColl);
 
 		//Step 3: call load service
+		//aColl.setSelectAllForms(true);
+		for(FormDescriptor fd: forms)
+		{
+			fd.setSelected(true);
+		}
 		aColl = loadService.loadForms(aColl);
 		
 		//Step 4: check status
