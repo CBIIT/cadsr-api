@@ -209,6 +209,7 @@ L-->
 				<include name="**/*" />
 			</fileset>
 		</copy>
+		<copy file="${war.dir}/${PROJECT_NAME}rest.war" todir="${basedir}/dist" overwrite="true"/>
 	</target>
 	<target name="build:cderest">
 		<artifact:mvn pom="../cderest/pom.xml">
