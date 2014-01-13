@@ -183,6 +183,7 @@ L-->
 			<arg value="-Ddatabase.password=${CDEREST.DS.PSWD}"/>		    
   		</artifact:mvn>
 		<mkdir dir="${basedir}/dist/war/META-INF"/>
+		<mkdir dir="${basedir}/dist/freestyle_autorun" />
 		<copy file="${package.system.dir}/cadsrapi41.war" todir="${basedir}/dist/war" overwrite="true"/>
 		<copy file="../formrest/target/dist/formrest.war" todir="${basedir}/dist/war" overwrite="true"/>
 		<copy file="../cderest/target/cderest.war" todir="${basedir}/dist/war" overwrite="true"/>
@@ -203,6 +204,11 @@ L-->
 		<copy file="../freestyle-search/software/freestylesearch/deployment-artifacts/jboss/freestyle-oracle-ds.xml" todir="${basedir}/dist" overwrite="true"/>
 		<copy file="../freestyle-search/software/freestylesearch/deployment-artifacts/jboss/freestyle-log4j-appender.xml" todir="${basedir}/dist" overwrite="true"/>
 		<copy file="../freestyle-search/software/freestylesearch/deployment-artifacts/jboss/freestyle-log4j-category.xml" todir="${basedir}/dist" overwrite="true"/>
+		<copy todir="${basedir}/dist/freestyle_autorun" overwrite="true">
+			<fileset dir="../freestyle-search/software/freestylesearch/deployment-artifacts/bin">
+				<include name="**/*" />
+			</fileset>
+		</copy>
 	</target>
 	<target name="build:cderest">
 		<artifact:mvn pom="../cderest/pom.xml">
