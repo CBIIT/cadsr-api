@@ -34,16 +34,17 @@ public class FormLoaderTest {
  
     @Test
     public void testSuccess() {
-    	WebClient client = WebClient.create("http://localhost:8080/formrest/services/formLoad/");
+    	WebClient client = WebClient.create("http://ncias-d941-v.nci.nih.gov:29180/formrest/services/formLoad/");
     	
 		//String userName = "FORMBUILDER";
 		//String password = "FORMBUILDER";
 		String u = "formloader";
-		String p = "f0rmloader";
+		String p = "F0rmloader";
 		String base64encodedUsernameAndPassword = new String(Base64.encodeBase64((u + ":" + p).getBytes()));
 		client.header("Authorization", "Basic "	+ base64encodedUsernameAndPassword);
 
-		String xmlFileString = readFile("load_forms-5.xml");
+		String file = "newForm.xml";
+		String xmlFileString = readFile(file);
 		//String xmlFileString = readFile("forms-malformed.xml");
 		//String xmlFileString = readFile("invalid-publicid.xml");
 		//String xmlFileString = readFile("invalid-context.xml");
@@ -72,13 +73,13 @@ public class FormLoaderTest {
 			out.setFormat(Format.getPrettyFormat());
 			String renderedDoc = out.outputString(jDoc);
 			
-			assertTrue(renderedDoc.contains("3643954"));
+			assertTrue(renderedDoc.contains("Loaded"));
 
 			}
 	}
     
     private static String readFile(String fileName) {
-		String filePath = "/local/content/cadsrapi/formloader/data/";
+		String filePath = "/local/content/formloader/data/";
 		File xmlFile = new File(filePath + fileName);
 		BufferedReader br = null;
 		StringBuffer sBuffer = new StringBuffer();

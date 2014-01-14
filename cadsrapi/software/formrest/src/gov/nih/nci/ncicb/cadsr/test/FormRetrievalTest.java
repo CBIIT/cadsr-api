@@ -28,7 +28,7 @@ public class FormRetrievalTest {
  
     @Test
     public void testSuccess() {
-    	WebClient client = WebClient.create("http://localhost:8080/formrest/services/formRetrieve?protocol=GOG-0221,GOG-0264");
+    	WebClient client = WebClient.create("http://localhost:8080/formrest/services/formRetrieve?createdBy=JONGS");
 		client.type("application/xml").accept("application/xml");
 		Response r = client.get();
 		
@@ -50,7 +50,7 @@ public class FormRetrievalTest {
 		out.setFormat(Format.getPrettyFormat());
 		String renderedDoc = out.outputString(jDoc);   
 		
-		assertTrue(renderedDoc.contains("GOG-0221"));
+		assertTrue(renderedDoc.contains("JONGS"));
 	}
     
     @Test
