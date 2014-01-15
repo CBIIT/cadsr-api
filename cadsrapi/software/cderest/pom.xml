@@ -33,6 +33,15 @@
 	</repositories>
 
 	<dependencies>
+	
+		<!-- JUnit -->
+		<dependency>
+    			<groupId>junit</groupId>
+    			<artifactId>junit</artifactId>
+    			<version>1.0</version>
+    			<scope>system</scope>
+    			<systemPath>${project.basedir}/src/main/webapp/WEB-INF/lib/junit-4.10.jar</systemPath>
+		</dependency>
 
 		<!-- Jersey -->
 		<dependency>
