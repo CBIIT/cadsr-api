@@ -91,7 +91,8 @@ public class FormRetrieverImpl implements FormRetriever{
 		
 		setupProtocolIdSeq(protocol, applicationContext);
 		
-		total = setUpTotal(formPublicId, formLongName, classification, createdBy, workFlowStatus, total, formDAO);
+		if( total == null )
+			total = setUpTotal(formPublicId, formLongName, classification, createdBy, workFlowStatus, total, formDAO);
 		
 		boolean noRecordsFound = false;
 		if (total == null || Integer.valueOf(total) == 0)
