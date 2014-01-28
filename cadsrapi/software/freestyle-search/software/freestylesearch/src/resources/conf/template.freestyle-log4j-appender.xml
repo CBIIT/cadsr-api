@@ -15,7 +15,7 @@ L-->
 <!-- ============================ -->
 <appender name="FREESTYLESEARCH_FILE" class="org.jboss.logging.appender.RollingFileAppender">
   <errorHandler class="org.jboss.logging.util.OnlyOnceErrorHandler"/>
-  <param name="File" value="@JBOSS.LOG.DIR@/freestylesearch_log.txt"/>
+  <param name="File" value="${jboss.server.log.dir}/freestylesearch_log.txt"/>
   <param name="Append" value="true"/>
   <param name="MaxFileSize" value="200KB"/>
   <param name="MaxBackupIndex" value="3"/>
