@@ -23,7 +23,7 @@ L-->
 <datasources>
     <local-tx-datasource>
         <jndi-name>jdbc/freestylesearch</jndi-name>
-        <connection-url>jdbc:oracle:thin:@@CADSR.DS.URL@</connection-url>
+        <connection-url>@CADSR.DS.URL@</connection-url>
         <driver-class>oracle.jdbc.driver.OracleDriver</driver-class>
         <exception-sorter-class-name>org.jboss.resource.adapter.jdbc.vendor.OracleExceptionSorter</exception-sorter-class-name>
         <check-valid-connection-sql>select 1 from dual</check-valid-connection-sql>
