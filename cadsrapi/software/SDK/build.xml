@@ -36,7 +36,7 @@ L-->
 	<property name="project.output.dir" value="${basedir}/output" />
 	<property name="common.dir" value="${basedir}/common" />
 	<property name="conf.dir" value="${basedir}/conf" />
-
+	
 	<property file="build.properties" />
 	<property file="${conf.dir}/install.properties" />
 	<property name="project.home" location="${sdk.home.dir}/example-project" />
@@ -173,8 +173,8 @@ L-->
 		<ant antfile="build.xml" target="build-product" dir="../freestyle-search/software/freestylesearch" inheritall="false">
 			<property name="basedir" value="../freestyle-search/software/freestylesearch"/>
 			<property name="CADSR.DS.URL" value="jdbc:oracle:thin:@${CADSR.DS.TNS.HOST}:${CADSR.DS.TNS.PORT}:${CADSR.DS.TNS.SID}"/>
-			<property name="CADSR.DS.USER" value="${FREESTYLE.DS.USER}"/>
-			<property name="CADSR.DS.PSWD" value="${FREESTYLE.DS.PSWD}"/>
+			<property name="FREESTYLE.DS.USER" value="${FREESTYLE.DS.USER}"/>
+			<property name="FREESTYLE.DS.PSWD" value="${FREESTYLE.DS.PSWD}"/>
 		</ant>
 		<artifact:mvn pom="../cderest/pom.xml">
 			<arg value="package"/>
