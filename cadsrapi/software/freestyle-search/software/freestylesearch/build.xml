@@ -198,7 +198,7 @@ L-->
     	<copy todir="${root.dir}/css" filtering="true">
     	    <fileset dir="${basedir}/src/web/css" />
     	</copy>
-    	<copy todir="${root.dir}/images" filtering="true">
+    	<copy todir="${root.dir}/images">
     	   	<fileset dir="${basedir}/src/web/images" />
     	</copy>
     	<copy todir="${root.dir}/jsp" filtering="true">
