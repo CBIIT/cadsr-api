@@ -35,8 +35,8 @@ L-->
     <body onload="loaded();">
         <table width="100%" border="0" cellspacing="0" cellpadding="0" bgcolor="#A90101">
             <tr bgcolor="#A90101">
-                <td valign="center" align="left"><a href="http://www.cancer.gov" target="_blank" alt="NCI Logo"> <img src="/freestyle/images/brandtype.gif" border="0"></a></td>
-                <td valign="center" align="right"><a href="http://www.cancer.gov" target="_blank" alt="NCI Logo"> <img src="/freestyle/images/tagline_nologo.gif" border="0"></a></td>
+                <td valign="center" align="left"><a href="http://www.cancer.gov" target="_blank" alt="NCI Logo"> <img src="/freestyle/images/brandtype.gif" border="0" alt="Brand Type"></a></td>
+                <td valign="center" align="right"><a href="http://www.cancer.gov" target="_blank" alt="NCI Logo"> <img src="/freestyle/images/tagline_nologo.gif" border="0" alt="No Logo"></a></td>
             </tr>
         </table>
         <table class="secttable">
@@ -45,7 +45,7 @@ L-->
             </colgroup>
             <tbody class="secttbody" />
                 <tr>
-                    <td><a target="_blank" href="http://ncicb.nci.nih.gov/NCICB/infrastructure/cacore_overview/cadsr"><img style="border: 0px solid black" title="NCICB caDSR" src="/freestyle/images/freestyle_banner.gif"></a></td>
+                    <td><a target="_blank" href="http://ncicb.nci.nih.gov/NCICB/infrastructure/cacore_overview/cadsr"><img style="border: 0px solid black" alt="NCICB caDSR" src="/freestyle/images/freestyle_banner.gif"></a></td>
                 </tr>
                 <tr>
                     <td align="center"><p class="ttl18"><bean:message key="update.title" /></p></td>
