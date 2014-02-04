@@ -90,12 +90,12 @@ L-->
               <table width="100%" border="0" cellspacing="0" cellpadding="0" bgcolor="#A90101">
               <tr bgcolor="#A90101">
               <td valign="center" align="left"><a href="http://www.cancer.gov" target="_blank" alt="NCI Logo">
-              <img src="/freestyle/images/brandtype.gif" border="0"></a></td>
+              <img src="/freestyle/images/brandtype.gif" border="0" alt="Brand Type"></a></td>
               <td valign="center" align="right"><a href="http://www.cancer.gov" target="_blank" alt="NCI Logo">
-              <img src="/freestyle/images/tagline_nologo.gif" border="0"></a></td></tr>
+              <img src="/freestyle/images/tagline_nologo.gif" border="0" alt="No Logo"></a></td></tr>
               </table>
               <table class="secttable"><colgroup><col /></colgroup><tbody class="secttbody" />
-              <tr><td><a target="_blank" href="http://ncicb.nci.nih.gov/NCICB/infrastructure/cacore_overview/cadsr"><img style="border: 0px solid black" title="NCICB caDSR" src="/freestyle/images/freestyle_banner.gif"></a></td></tr>
+              <tr><td><a target="_blank" href="http://ncicb.nci.nih.gov/NCICB/infrastructure/cacore_overview/cadsr"><img style="border: 0px solid black" alt="NCICB caDSR" src="/freestyle/images/freestyle_banner.gif"></a></td></tr>
               <tr><td align="center"><p class="ttl18"><bean:message key="search.title"/></p></td></tr>
               </table>
     <html:form method="post" action="/search" focus="phrase">
@@ -130,15 +130,15 @@ L-->
         <html:radio property="matching" value="1"/>&nbsp;<bean:message key="option.matching1"/><br>
         <html:radio property="matching" value="2"/>&nbsp;<bean:message key="option.matching2"/>
         </p>
-        <p style="margin: 0.2in 0in 0in 0.2in"><bean:message key="option.results"/> <html:text property="limit" styleClass="std" style="width: 0.5in" maxlength="4"/>
+        <p style="margin: 0.2in 0in 0in 0.2in"><label for="limit"><bean:message key="option.results"/></label> <html:text property="limit" styleClass="std" style="width: 0.5in" maxlength="4" styleId="limit"/>
         </p>
-        <p style="margin: 0.2in 0in 0in 0.2in"><bean:message key="option.scores"/> <html:text property="score" styleClass="std" style="width: 0.5in" maxlength="3"/>
+        <p style="margin: 0.2in 0in 0in 0.2in"><label for="score"><bean:message key="option.scores"/></label> <html:text property="score" styleClass="std" style="width: 0.5in" maxlength="3" styleId="score"/>
         </p>
-        <p style="margin: 0.2in 0in 0in 0.2in"><html:checkbox property="excludeRetired" value="Y"/>&nbsp;<bean:message key="option.exclude1"/>
+        <p style="margin: 0.2in 0in 0in 0.2in"><html:checkbox property="excludeRetired" value="Y" styleId="excludeRetired"/>&nbsp;<label for="excludeRetired"><bean:message key="option.exclude1"/></label>
         </p>
-        <p style="margin: 0.2in 0in 0in 0.2in"><html:checkbox property="excludeTest" value="Y"/>&nbsp;<bean:message key="option.exclude2"/>
+        <p style="margin: 0.2in 0in 0in 0.2in"><html:checkbox property="excludeTest" value="Y" styleId="excludeTest"/>&nbsp;<label for="excludeTest"><bean:message key="option.exclude2"/></label>
         </p>
-        <p style="margin: 0.2in 0in 0in 0.2in"><html:checkbox property="excludeTrain" value="Y"/>&nbsp;<bean:message key="option.exclude3"/>
+        <p style="margin: 0.2in 0in 0in 0.2in"><html:checkbox property="excludeTrain" value="Y" styleId="excludeTrain"/>&nbsp;<label for="excludeTrain"><bean:message key="option.exclude3"/></label>
         </p>
         </td>
         <td style="vertical-align: top; padding-left: 0.2in">
@@ -149,13 +149,13 @@ L-->
         String restrict = "restrict" + i;
         String rtype = (String) pageContext.getRequest().getAttribute(restrict);
         String checked = (rtype != null) ? " checked " : "";
-        %><input type="checkbox" name="<%=restrict%>" value="Y"<%=checked%>/>&nbsp;<%=types[i]%><br><%
+        %><input type="checkbox" name="<%=restrict%>" id="<%=restrict%>" value="Y"<%=checked%>/><label for="<%=restrict%>">&nbsp;<%=types[i]%></label><br><%
     }
 %></p>
         </td>
         </tr></table>
         <hr></div>
-        <p style="text-align: center"><html:text property="phrase" styleClass="std" style="width: 5in" />&nbsp;&nbsp;
+        <p style="text-align: center"><html:text property="phrase" styleClass="std" style="width: 5in" styleId="phrase" /><label for="phrase">&nbsp;&nbsp;</label>
         <html:button property="search" styleClass="but2" onclick="doSearch();"><bean:message key="search.btn"/></html:button><br/><span id="workingmsg" style="color: #0000ff; font-weight: bold">&nbsp;</span></p><hr/>
         <html:errors />
 <%

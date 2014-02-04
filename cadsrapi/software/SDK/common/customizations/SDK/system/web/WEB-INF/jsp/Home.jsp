@@ -15,6 +15,7 @@ L--%>
 <%@ page import="org.acegisecurity.userdetails.UserDetails"%>
 <%@ page import="gov.nih.nci.system.web.util.JSPUtils"%>
 <%
+	String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+"/";
 			String lastUserKey = (String) session
 			.getAttribute(AuthenticationProcessingFilter.ACEGI_SECURITY_LAST_USERNAME_KEY);
 	if (lastUserKey == null || lastUserKey.equalsIgnoreCase("null")) {
@@ -147,8 +148,17 @@ This is the principal caDSR API, and it is based on the ISO 11179 information mo
 				The initial users of the Object Cart application are the CDE Browser and Forms Builder applications, allowing users to share their collections of objects 
 				(Administered Components, CDEs, etc...) amongst the two applications while keeping the CDE Browser and Forms Builder decoupled.
 
-<br><br><b><u>caDSR UML project model:</u></b></b>
+<br><br><b><u>caDSR UML project model:</u></b><br>
 This API presents a UML Model view of the underlying caDSR metadata. The API objects are mapped to a set of materialized views views in the underlying database.
+
+			<br><br><b><u><a href="<%=basePath%>freestyle/" target="_blank">Freestyle Search:</a></u></b> <br>
+				The caDSR Freestyle Search engine performs weighted semantic searches on the content of Administered Items in the caDSR. Freestyle Search is packaged as an API 
+				and also includes a sample UI accessible from a web browser.
+				
+				The Administered Items searched by Freestyle Search are Data Element, Data Element Concept, Value Domain, Object Class, Property, Concept, Conceptual Domain and
+				Value Meaning. The attributes searched on each are Version, Long Name, Preferred Name, Name, Preferred Definition, Question, Public ID, Latest Version Indicator,
+				Created By, Modified By, Workflow Status, Registration Status, Context, Alternate Name, Definition Source and Origin.
+
 
 				<br>
 				<br>
