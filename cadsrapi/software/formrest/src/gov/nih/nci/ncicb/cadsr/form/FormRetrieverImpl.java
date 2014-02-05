@@ -83,10 +83,10 @@ public class FormRetrieverImpl implements FormRetriever{
 		
 		size = setupSize(size);
 		
-		workFlowStatus = setupWorkflowStatus(context, workFlowStatus);
-		
 		setupContextIdSeq(context, applicationContext);
 		
+		workFlowStatus = setupWorkflowStatus(context, workFlowStatus);
+
 		setupClassificationIdSeq(classification, applicationContext);
 		
 		setupProtocolIdSeq(protocol, applicationContext);
@@ -135,7 +135,7 @@ public class FormRetrieverImpl implements FormRetriever{
 	}
 
 	private String setupWorkflowStatus(String context, String workFlowStatus) {
-		if ( StringUtils.doesValueExist(context) & !StringUtils.doesValueExist(workFlowStatus) )
+		if ( StringUtils.doesValueExist(contextIdSeq) & !StringUtils.doesValueExist(workFlowStatus) )
 			workFlowStatus = "RELEASED";
 		return workFlowStatus;
 	}
@@ -231,7 +231,7 @@ public class FormRetrieverImpl implements FormRetriever{
 			String total, JDBCFormDAOV2 formDAO) {
 		if ( !StringUtils.doesValueExist(total) ) {
 			int count = 0;
-
+			
 			if ( StringUtils.doesValueExist(classification) ) {
 				if( StringUtils.doesValueExist(classificationIdSeq)) {
 					count = formDAO.getFormClassificationCount(classificationIdSeq);
@@ -277,6 +277,9 @@ public class FormRetrieverImpl implements FormRetriever{
 			}
 			//protocolIdSeq = ((Protocol)protocolDAO.getProtocolByName(protocol)).getProtoIdseq();
 			protocolIdSeq = protocolBuffer.toString();
+			
+			if (protocolIdSeq.endsWith(","))
+				protocolIdSeq = protocolIdSeq.substring(0,protocolIdSeq.length()-1);			
 		}
 	}
 
@@ -301,6 +304,9 @@ public class FormRetrieverImpl implements FormRetriever{
 					classBuffer.append("'").append(idSeq).append("'");
 			}
 			classificationIdSeq = classBuffer.toString();
+			
+			if (classificationIdSeq.endsWith(","))
+				classificationIdSeq = classificationIdSeq.substring(0,classificationIdSeq.length()-1);
 		}
 	}
 
@@ -327,7 +333,13 @@ public class FormRetrieverImpl implements FormRetriever{
 
 			//contextIdSeq = ((Context)contextDAO.getContextByName(context)).getConteIdseq();
 			contextIdSeq = contextBuffer.toString();
-			version = "latestVersion";
+			
+			if (StringUtils.doesValueExist(contextIdSeq)) {
+				if (contextIdSeq.endsWith(","))
+					contextIdSeq = contextIdSeq.substring(0,contextIdSeq.length()-1);
+				
+				version = "latestVersion";
+			}
 			
 		}
 	}
