@@ -16,7 +16,7 @@ http://cxf.apache.org/schemas/jaxrs.xsd">
 	<jaxrs:server id="formRESTService" address="/">
 		<jaxrs:serviceBeans>
 			<ref bean="formRetrieve" />
-			<ref bean="formLoad" />
+			<!-- ref bean="formLoad" / -->
 		</jaxrs:serviceBeans>
 		<jaxrs:extensionMappings>
 			<entry key="xml" value="application/xml" />

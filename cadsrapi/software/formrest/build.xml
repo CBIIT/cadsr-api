@@ -78,6 +78,7 @@
 		
 		<copy file="conf/formbuilder.xslt" todir="${war.dir}" overwrite="true" />
 		<copy file="conf/transform.properties" todir="${war.dir}" overwrite="true" />
+		<copy file="conf/ConvertFormCartV1ExtendedToV2.xsl" todir="${war.dir}" overwrite="true" />
 
 	</target>
 	
