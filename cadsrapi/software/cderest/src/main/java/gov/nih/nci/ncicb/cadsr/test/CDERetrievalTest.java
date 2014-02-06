@@ -10,6 +10,7 @@ import static org.junit.Assert.*;
 
 public class CDERetrievalTest {
 	public static String testURL = "http://cadsrapi-dev.nci.nih.gov/cderest/rest/services/getDataElement?";
+	//public static String testURL = "http://localhost:8080/cderest/rest/services/getDataElement?";
 
     @Before
     public void setUp() {
@@ -86,7 +87,7 @@ public class CDERetrievalTest {
  
 		String output = retrieveOutput(response);  
 		
-		assertTrue(output.contains("6665-RTOG"));
+		assertTrue(output.contains("Phase II"));
 	}    
     
     @Test
@@ -98,7 +99,7 @@ public class CDERetrievalTest {
  
 		String output = retrieveOutput(response);  
 		
-		assertTrue(output.contains("6665-RTOG"));
+		assertTrue(output.contains("Phase II"));
 	}
     
     @Test

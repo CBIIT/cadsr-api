@@ -21,6 +21,7 @@ import static org.junit.Assert.*;
 
 public class FormRetrievalTest {
 	public static String testURL = "http://cadsrapi-dev.nci.nih.gov/formrest/services/formRetrieve?";
+	//public static String testURL = "http://localhost:8080/formrest/services/formRetrieve?";
 
     @Before
     public void setUp() {
@@ -62,7 +63,7 @@ public class FormRetrievalTest {
 		
 		String renderedDoc = retrieveDoc(r);   
 		
-		assertTrue(renderedDoc.contains("3360022"));
+		assertTrue(renderedDoc.contains("2392775"));
 	}    
     
     @Test
