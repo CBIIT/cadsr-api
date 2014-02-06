@@ -131,7 +131,7 @@ public class RequestInitializationFiler implements Filter {
         			//ClassificationSchemeDAOCDERest classificationDAO =  (ClassificationSchemeDAOCDERest) daoFactory.getClassificationSchemeDAO();
     			StringTokenizer classtokenizer = new StringTokenizer(classification, ",");
 
-    			StringBuffer classBuffer = new StringBuffer();
+    			StringBuffer classBuffer = new StringBuffer("");
     			while (classtokenizer.hasMoreElements()) {
     				Classification classific = null;
     				String idSeq = null;
@@ -148,6 +148,8 @@ public class RequestInitializationFiler implements Filter {
     					classBuffer.append("'").append(idSeq).append("'");
     			}
     			classificationIdSeq = classBuffer.toString();
+    			if (classificationIdSeq.endsWith(","))
+    				classificationIdSeq = classificationIdSeq.substring(0,classificationIdSeq.length()-1);
     			modifiableParameters.put("classificationIdSeq",new String[]{classificationIdSeq});
 //    			 modifiableParameters.put("jspClassification", new String[]{classificationIdSeq} );
 //            	 modifiableParameters.put("jspBasicSearchType", new String[]{"classification"});
@@ -166,7 +168,7 @@ public class RequestInitializationFiler implements Filter {
         			//ClassificationSchemeDAOCDERest classificationDAO =  (ClassificationSchemeDAOCDERest) daoFactory.getClassificationSchemeDAO();
     			StringTokenizer classtokenizer = new StringTokenizer(context, ",");
 
-    			StringBuffer classBuffer = new StringBuffer();
+    			StringBuffer classBuffer = new StringBuffer("");
     			Context individualContext;
     			String idSeq = "";
     			while (classtokenizer.hasMoreElements()) {
@@ -183,6 +185,8 @@ public class RequestInitializationFiler implements Filter {
     					classBuffer.append("'").append(idSeq).append("'");
     			}
     			contextIdSeq = classBuffer.toString();
+    			if (contextIdSeq.endsWith(","))
+					contextIdSeq = contextIdSeq.substring(0,contextIdSeq.length()-1);
     			modifiableParameters.put("contextIdSeq",new String[]{contextIdSeq});
 //    			 modifiableParameters.put("jspClassification", new String[]{classificationIdSeq} );
 //            	 modifiableParameters.put("jspBasicSearchType", new String[]{"classification"});
@@ -202,7 +206,7 @@ public class RequestInitializationFiler implements Filter {
         			//ClassificationSchemeDAOCDERest classificationDAO =  (ClassificationSchemeDAOCDERest) daoFactory.getClassificationSchemeDAO();
     			StringTokenizer classtokenizer = new StringTokenizer(classificationItem, ",");
 
-    			StringBuffer classBuffer = new StringBuffer();
+    			StringBuffer classBuffer = new StringBuffer("");
     			while (classtokenizer.hasMoreElements()) {
     				ClassSchemeItem classSchemeItem = null;
     				String idSeq = null;
@@ -220,6 +224,8 @@ public class RequestInitializationFiler implements Filter {
     					classBuffer.append("'").append(idSeq).append("'");
     			}
     			classificationItemIdSeq = classBuffer.toString();
+    			if (classificationItemIdSeq.endsWith(","))
+    				classificationItemIdSeq = classificationItemIdSeq.substring(0,classificationItemIdSeq.length()-1);
     			//modifiableParameters.put("classificationIdSeq",new String[]{classificationIdSeq});
     			 modifiableParameters.put("jspClassification", new String[]{classificationItemIdSeq} );
             	 modifiableParameters.put("jspBasicSearchType", new String[]{"classification"});

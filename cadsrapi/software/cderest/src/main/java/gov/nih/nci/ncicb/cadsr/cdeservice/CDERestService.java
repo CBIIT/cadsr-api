@@ -102,6 +102,16 @@ public class CDERestService {
 	    	}
         	queryBuilder = new SearchQueryBuilder( httpRequest, "CLASSIFICATION", httpRequest.getParameter("classificationIdSeq") , httpRequest.getParameter("classificationIdSeq"), desb);
         }
+        else if(httpRequest.getParameter("classificationItem") != null)
+        {
+        	String classificationItemIdSeq = httpRequest.getParameter("jspClassification");
+	    	if( classificationItemIdSeq == null || classificationItemIdSeq.equals("")) 
+	    	{
+	    		StringBuffer xmlFileBuffer = new StringBuffer("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<Message>No Records Found</Message>\n");
+				return Response.ok(xmlFileBuffer.toString()).header("Content-Disposition", "application/xml").build();
+	    	}
+	    	queryBuilder = new SearchQueryBuilder( httpRequest, null, null , null, desb);
+        }        
         else        	
 			queryBuilder = new SearchQueryBuilder( httpRequest, null, null , null, desb);
         
