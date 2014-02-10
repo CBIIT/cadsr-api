@@ -125,12 +125,12 @@ L--%>
 																				</tr>
 																				<tr>
 																					<td class="welcomeContent" valign="top">
-											caDSR API domain class browser includes three major components: caDSR domain model, Object Cart model and caDSR UML project model.<br><br>
+											caDSR API domain class browser includes three major components: caDSR domain model, Object Cart model and caDSR UML project model. In addition, Freestyle Search is part of caDSR API.<br><br>
 											 
-                                                                                        caDSR is the Cancer Data Standards Repository of Common Data Elements (CDEs), a database managed at NCICB. CDEs are used as data descriptors (metadata) for NCI-sponsored research.
+                                                                                        caDSR is the Cancer Data Standards Repository of Common Data Elements (CDEs), a database managed at NCI CBIIT. CDEs are used as data descriptors (metadata) for NCI-sponsored research.
                                                                                         <br>
                                                                                         <br>
-CDEs are based on EVS thesauri and standard vocabularies and are developed by NCICB and partner organizations including participants in caBIG(tm). The caDSR tools are used to create, edit and deploy CDEs. caCORE application web services provide programmatic access to caDSR content.
+CDEs are based on EVS thesauri and standard vocabularies and are developed by NCI CBIIT and partner organizations including participants in caBIG(tm). The caDSR tools are used to create, edit and deploy CDEs. caCORE application web services provide programmatic access to caDSR content.
                                                                                         <br>
                                                                                         <br>
 caCORE objects are represented by UML Models. A UML Model is used to facilitate a semi-automated load from caCORE UML into ISO/IEC 11179 Administered Components. This is discussed in more detail on the caCORE SDK wiki page.
@@ -157,7 +157,10 @@ This API presents a UML Model view of the underlying caDSR metadata. The API obj
 				
 				The Administered Items searched by Freestyle Search are Data Element, Data Element Concept, Value Domain, Object Class, Property, Concept, Conceptual Domain and
 				Value Meaning. The attributes searched on each are Version, Long Name, Preferred Name, Name, Preferred Definition, Question, Public ID, Latest Version Indicator,
-				Created By, Modified By, Workflow Status, Registration Status, Context, Alternate Name, Definition Source and Origin.
+				Created By, Modified By, Workflow Status, Registration Status, Context, Alternate Name, Definition Source and Origin.<br><br>
+				
+				To access the Freestyle Search UI, please <b><u><a href="<%=basePath%>freestyle/" target="_blank">click here.</a></u></b><br>
+				To access the Wiki documentation and download the associated files for using Freestyle Search API, please <b><u><a href="https://wiki.nci.nih.gov/display/caDSR/caDSR+Freestyle+Search+FAQs#caDSRFreestyleSearchFAQs-HowistheFreestyleAPIused" target="_blank">click here.</a></u></b>
 
 
 				<br>
@@ -174,7 +177,7 @@ This API presents a UML Model view of the underlying caDSR metadata. The API obj
 					</li>
 					<li>
 <a  target="_blank"
-							href="http://ncicb.nci.nih.gov/NCICB/infrastructure/cacore_overview/cadsr">caDSR
+							href="http://cbiit.nci.nih.gov/ncip/biomedical-informatics-resources/interoperability-and-semantics/metadata-and-models">caDSR
 							Information Home</a> - Contains documents,
 						information, and downloads for the caDSR
 					</li>
