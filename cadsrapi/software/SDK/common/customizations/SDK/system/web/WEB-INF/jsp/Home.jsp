@@ -336,12 +336,18 @@ This API presents a UML Model view of the underlying caDSR metadata. The API obj
 																								<td class="sidebarContent">
 																									<ul>
 																										<li>
-																											Merged caDSR API domain model with secure Object Cart
+																											Merged caDSR API domain model with secure Object Cart 
 																										</li>
 
 																										<li>
-																											508 Compliance
+																											Added Support for enhanced CDE and form retrieval RESTful services
 																										</li>
+<li>
+																											Made caDSR Freestyle Search part of the caDSR API
+																										</li>
+<li>
+																											Enhanced support for 508 Compliance
+																										</li>																										
 
 																										
 																									</ul>
