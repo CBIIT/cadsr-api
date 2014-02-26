@@ -266,6 +266,8 @@ L-->
         </copy>
         <fixcrlf srcdir="${artifacts.dir}" eol="lf" includes="**/*.sh, **/*.xml, **/*.properties" />
     	<replaceregexp file="${artifacts.dir}/bin/application-config-client.xml" match="@service_url@" replace="${api.url}" flags="g"/>
+    	<replaceregexp file="${web.dir}/web.xml" match="@CADSR.DS.USER@" replace="${FREESTYLE.DS.USER}" flags="g"/>
+    	<replaceregexp file="${web.dir}/web.xml" match="@CADSR.DS.PSWD@" replace="${FREESTYLE.DS.PSWD}" flags="g"/>
     </target>
 
     <target name="-cjsp" depends="-assemble,-prop-check" description="Compiles the project JSP files to verify syntax.">

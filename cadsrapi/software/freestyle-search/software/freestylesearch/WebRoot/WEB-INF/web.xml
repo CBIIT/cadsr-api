@@ -31,11 +31,11 @@ L-->
     </init-param>
     <init-param>
       <param-name>DSusername</param-name>
-      <param-value>${FREESTYLE.DS.USER}</param-value>
+      <param-value>freestylesearch</param-value>
     </init-param>
     <init-param>
       <param-name>DSpassword</param-name>
-      <param-value>${FREESTYLE.DS.PSWD}</param-value>
+      <param-value>search0608</param-value>
     </init-param>
     <!-- 
     <init-param>
