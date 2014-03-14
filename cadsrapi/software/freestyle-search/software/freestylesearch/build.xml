@@ -43,6 +43,7 @@ L-->
         PROP.FILE = ${PROP.FILE}
 
         CADSR.DS.URL = ${CADSR.DS.URL}
+        FREESTYLE.DS.URL = ${FREESTYLE.DS.URL}
         FREESTYLE.DS.USER = ${FREESTYLE.DS.USER}
     	FREESTYLE.DS.PSWD = ${FREESTYLE.DS.PSWD}
         CADSR.DS.TNS.ENTRY=${CADSR.DS.TNS.ENTRY}
@@ -82,6 +83,7 @@ L-->
             <isset property="FREESTYLE.DS.PSWD" />
             <isset property="CADSR.DS.TNS.ENTRY" />
             <isset property="CADSR.TOOL.URL" />
+            <isset property="FREESTYLE.DS.URL" />
             <isset property="CADSR.TOOL.USER" />
             <isset property="CADSR.TOOL.PSWD" />
             <isset property="TIER" />
@@ -133,6 +135,7 @@ L-->
     </condition>
 
     <filter token="CADSR.DS.URL" value="${CADSR.DS.URL}" />
+    <filter token="FREESTYLE.DS.USER" value="${FREESTYLE.DS.URL}" />
     <filter token="FREESTYLE.DS.USER" value="${FREESTYLE.DS.USER}" />
     <filter token="FREESTYLE.DS.PSWD" value="${FREESTYLE.DS.PSWD}" />
     <filter token="CADSR.TOOL.URL" value="${CADSR.TOOL.URL}" />
@@ -268,6 +271,9 @@ L-->
     	<replaceregexp file="${artifacts.dir}/bin/application-config-client.xml" match="@service_url@" replace="${api.url}" flags="g"/>
     	<replaceregexp file="${web.dir}/web.xml" match="@CADSR.DS.USER@" replace="${FREESTYLE.DS.USER}" flags="g"/>
     	<replaceregexp file="${web.dir}/web.xml" match="@CADSR.DS.PSWD@" replace="${FREESTYLE.DS.PSWD}" flags="g"/>
+    	<replaceregexp file="${artifacts.dir}/bin/seed.xml" match="@FREESTYLE.DS.URL@" replace="${FREESTYLE.DS.URL}" flags="g"/>
+    	<replaceregexp file="${artifacts.dir}/bin/seed.xml" match="@FREESTYLE.DS.USER@" replace="${FREESTYLE.DS.USER}" flags="g"/>
+    	<replaceregexp file="${artifacts.dir}/bin/seed.xml" match="@FREESTYLE.DS.PSWD@" replace="${FREESTYLE.DS.PSWD}" flags="g"/>
     </target>
 
     <target name="-cjsp" depends="-assemble,-prop-check" description="Compiles the project JSP files to verify syntax.">

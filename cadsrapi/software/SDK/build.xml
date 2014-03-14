@@ -173,6 +173,7 @@ L-->
 		<ant antfile="build.xml" target="build-product" dir="../freestyle-search/software/freestylesearch" inheritall="false">
 			<property name="basedir" value="../freestyle-search/software/freestylesearch"/>
 			<property name="CADSR.DS.URL" value="jdbc:oracle:thin:@${CADSR.DS.TNS.HOST}:${CADSR.DS.TNS.PORT}:${CADSR.DS.TNS.SID}"/>
+			<property name="FREESTYLE.DS.URL" value="${CADSR.DS.TNS.HOST}:${CADSR.DS.TNS.PORT}:${CADSR.DS.TNS.SID}"/>
 			<property name="FREESTYLE.DS.USER" value="${FREESTYLE.DS.USER}"/>
 			<property name="FREESTYLE.DS.PSWD" value="${FREESTYLE.DS.PSWD}"/>
 		</ant>

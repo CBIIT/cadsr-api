@@ -15,15 +15,15 @@ L-->
     
         <!-- The index database access values
         -->
-        <entry key="index.DSurl">@CADSR.TOOL.URL@</entry>
-        <entry key="index.DSusername">@CADSR.TOOL.USER@</entry>
-        <entry key="index.DSpassword">@CADSR.TOOL.PSWD@</entry>
+        <entry key="index.DSurl">@FREESTYLE.DS.URL@</entry>
+        <entry key="index.DSusername">@FREESTYLE.DS.USER@</entry>
+        <entry key="index.DSpassword">@FREESTYLE.DS.PSWD@</entry>
         <entry key="index.DSschema">sbrext</entry>
     
         <!-- The caDSR referenced by the index database access values
         -->
-        <entry key="data.DSurl">@CADSR.TOOL.URL@</entry>
-        <entry key="data.DSusername">@CADSR.TOOL.USER@</entry>
-        <entry key="data.DSpassword">@CADSR.TOOL.PSWD@</entry>
+        <entry key="data.DSurl">@FREESTYLE.DS.URL@</entry>
+        <entry key="data.DSusername">@FREESTYLE.DS.USER@</entry>
+        <entry key="data.DSpassword">@FREESTYLE.DS.PSWD@</entry>
 
 </properties>

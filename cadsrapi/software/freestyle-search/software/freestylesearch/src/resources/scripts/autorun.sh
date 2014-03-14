@@ -5,7 +5,7 @@ echo "\$Header: /share/content/gforge/freestylesearch/freestylesearch/scripts/au
 echo "\$Name: not supported by cvs2svn $"
 
 DATE=`date +%Y%m%d`
-JAVA_HOME=/usr/jdk1.5.0_10
+JAVA_HOME=/usr/jdk1.6.0_71
 BASE_DIR=/local/content/freestyle/bin
 
 export JAVA_HOME BASE_DIR
