@@ -61,7 +61,7 @@ public class JDBCClassificationSchemeDAOCDERest extends JDBCClassificationScheme
       }
 
       public void setSql(String longName){
-        super.setSql("select cs_idseq from sbr.classification_Schemes_view where long_name  = '" + longName + "'");
+        super.setSql("select cs_idseq from sbr.classification_Schemes_view where upper(long_name)  = '" + longName.toUpperCase() + "'");
     	 // super.setSql("select csv.CS_CSI_IDSEQ from sbr.cs_csi_view csv, sbr.cs_items_view csi where csv.CSI_IDSEQ= csi.CSI_IDSEQ and csi.LONG_NAME = '" + longName + "'"); 
        }
      /**
@@ -108,7 +108,7 @@ public class JDBCClassificationSchemeDAOCDERest extends JDBCClassificationScheme
 
       public void setSql(String longName){
         //super.setSql("select cs_idseq from sbr.classification_Schemes_view where long_name  = '" + longName + "'");
-    	 super.setSql("select csv.CS_CSI_IDSEQ from sbr.cs_csi_view csv, sbr.cs_items_view csi where csv.CSI_IDSEQ= csi.CSI_IDSEQ and csi.LONG_NAME = '" + longName + "'"); 
+    	 super.setSql("select csv.CS_CSI_IDSEQ from sbr.cs_csi_view csv, sbr.cs_items_view csi where csv.CSI_IDSEQ= csi.CSI_IDSEQ and upper(csi.LONG_NAME) = '" + longName.toUpperCase() + "'"); 
        }
      /**
       * 

@@ -1,7 +1,10 @@
 package gov.nih.nci.ncicb.cadsr.test;
 
 import gov.nih.nci.ncicb.cadsr.form.FormRetrieverImpl;
+
 import javax.ws.rs.core.Response;
+
+
 
 
 import java.io.IOException;
@@ -10,6 +13,8 @@ import java.io.InputStream;
 import javax.ws.rs.core.Response;
 
 import org.apache.cxf.jaxrs.client.WebClient;
+import org.apache.cxf.transport.http.HTTPConduit;
+import org.apache.cxf.transports.http.configuration.HTTPClientPolicy;
 import org.jdom2.Document;
 import org.jdom2.JDOMException;
 import org.jdom2.input.SAXBuilder;
@@ -20,12 +25,13 @@ import org.junit.*;
 import static org.junit.Assert.*;
 
 public class FormRetrievalTest {
-	public static String testURL = "http://cadsrapi-dev.nci.nih.gov/formrest/services/formRetrieve?";
+	public static String testURL = "http://localhost:8080/formrest/services/formRetrieve?";
 	//public static String testURL = "http://localhost:8080/formrest/services/formRetrieve?";
 
     @Before
     public void setUp() {
         System.out.println("@Before - setUp");
+        System.out.println(testURL);
     }
  
     @After
@@ -114,6 +120,14 @@ public class FormRetrievalTest {
     public void testContexts() {
     	WebClient client = WebClient.create(testURL + "context=NCIP,CTEP");
 		client.type("application/xml").accept("application/xml");
+		
+		HTTPConduit conduit = (HTTPConduit)WebClient.getConfig(client).getConduit();
+		HTTPClientPolicy httpClientPolicy = new HTTPClientPolicy(); 
+		httpClientPolicy.setConnectionTimeout(540000); 
+		httpClientPolicy.setAllowChunking(false); 
+		httpClientPolicy.setReceiveTimeout(540000); 
+		conduit.setClient(httpClientPolicy); 
+		
 		Response r = client.get();
 		
 		String renderedDoc = retrieveDoc(r);   

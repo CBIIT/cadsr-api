@@ -82,6 +82,12 @@ public class CDERestService {
 			e.printStackTrace();
 			return Response.status(400).build();
 		}
+		
+		if (isEmptyAllParams(httpRequest)) {
+			StringBuffer xmlFileBuffer = new StringBuffer("<?xml version=\"1.0\" encoding=\"UTF-8\"?><Message>Please supply a valid Parameter: <Attribute>name </Attribute><Attribute>publicId </Attribute><Attribute>registrationStatus </Attribute><Attribute>workflowStatus </Attribute><Attribute>context </Attribute><Attribute>classification </Attribute><Attribute>classificationItem </Attribute></Message>");
+			return Response.ok(xmlFileBuffer.toString()).header("Content-Disposition", "application/xml").build();
+		}
+		
         if(httpRequest.getParameter("context") != null)   
         {
         	String contextIdSeq = httpRequest.getParameter("contextIdSeq");
@@ -133,55 +139,55 @@ public class CDERestService {
 //        if(httpRequest.getParameter("size") != null)
 //        	size = Integer.parseInt(httpRequest.getParameter("size"));
         
-        	int end = start + size;
-        	String query = queryBuilder.getSQLWithoutOrderBy();        	
-			StringBuffer queryStmt = new StringBuffer();
-			String orderBy = queryBuilder.getOrderBy();
-			queryStmt.append("select * from ("+ query.replaceFirst("SELECT distinct", "SELECT distinct rownum rn,") + ") where rn >= " + start  + " and rn < " + end);
-			System.out.println("- Query stmt is " + queryStmt);
-			
-			String nextPage= Integer.toString(start+size);
-			String prevPage= Integer.toString(start-size);
-			String nextParams = constructParams(httpRequest.getParameter("publicId"), httpRequest.getParameter("name"), httpRequest.getParameter("context"), httpRequest.getParameter("classification"), httpRequest.getParameter("classificationItem"), httpRequest.getParameter("workflowStatus"), httpRequest.getParameter("registrationStatus"), nextPage, httpRequest.getParameter("size"), String.valueOf(totalCount), httpRequest.getParameter("format"));
-			String prevParams = constructParams(httpRequest.getParameter("publicId"), httpRequest.getParameter("name"), httpRequest.getParameter("context"), httpRequest.getParameter("classification"), httpRequest.getParameter("classificationItem"), httpRequest.getParameter("workflowStatus"), httpRequest.getParameter("registrationStatus"), prevPage, httpRequest.getParameter("size"), String.valueOf(totalCount), httpRequest.getParameter("format"));
-			String currParams = constructParams(httpRequest.getParameter("publicId"), httpRequest.getParameter("name"), httpRequest.getParameter("context"), httpRequest.getParameter("classification"), httpRequest.getParameter("classificationItem"), httpRequest.getParameter("workflowStatus"), httpRequest.getParameter("registrationStatus"), String.valueOf(start), httpRequest.getParameter("size"), String.valueOf(totalCount), httpRequest.getParameter("format"));
-			String url = context.getAbsolutePath().toASCIIString().substring(0,context.getAbsolutePath().toASCIIString().indexOf("/cderest"));
-			
-			StringBuffer xmlFileBuffer = new StringBuffer("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<DataElementsList>\n");
-			if( Integer.valueOf(totalCount) >= start+size) {
-				xmlFileBuffer.append("<link ref='next' type='application/xml' href=").append("'").append(url).append("/cderest/rest/services/getDataElement?").append(nextParams).append("'/>\n");
-			}
-			if( start-size > 0 ) {
-				xmlFileBuffer.append("<link ref='prev' type='application/xml' href=").append("'").append(url).append("/cderest/rest/services/getDataElement?").append(prevParams).append("'/>\n");
-			}
-			xmlFileBuffer.append("<link ref='self' type='application/xml' href=").append("'").append(url).append("/cderest/rest/services/getDataElement?").append(currParams).append("'/>\n");
+    	int end = start + size;
+    	String query = queryBuilder.getSQLWithoutOrderBy();        	
+		StringBuffer queryStmt = new StringBuffer();
+		String orderBy = queryBuilder.getOrderBy();
+		queryStmt.append("select * from ("+ query.replaceFirst("SELECT distinct", "SELECT distinct rownum rn,") + ") where rn >= " + start  + " and rn < " + end);
+		System.out.println("- Query stmt is " + queryStmt);
+		
+		String nextPage= Integer.toString(start+size);
+		String prevPage= Integer.toString(start-size);
+		String nextParams = constructParams(httpRequest.getParameter("publicId"), httpRequest.getParameter("name"), httpRequest.getParameter("context"), httpRequest.getParameter("classification"), httpRequest.getParameter("classificationItem"), httpRequest.getParameter("workflowStatus"), httpRequest.getParameter("registrationStatus"), nextPage, httpRequest.getParameter("size"), String.valueOf(totalCount), httpRequest.getParameter("format"));
+		String prevParams = constructParams(httpRequest.getParameter("publicId"), httpRequest.getParameter("name"), httpRequest.getParameter("context"), httpRequest.getParameter("classification"), httpRequest.getParameter("classificationItem"), httpRequest.getParameter("workflowStatus"), httpRequest.getParameter("registrationStatus"), prevPage, httpRequest.getParameter("size"), String.valueOf(totalCount), httpRequest.getParameter("format"));
+		String currParams = constructParams(httpRequest.getParameter("publicId"), httpRequest.getParameter("name"), httpRequest.getParameter("context"), httpRequest.getParameter("classification"), httpRequest.getParameter("classificationItem"), httpRequest.getParameter("workflowStatus"), httpRequest.getParameter("registrationStatus"), String.valueOf(start), httpRequest.getParameter("size"), String.valueOf(totalCount), httpRequest.getParameter("format"));
+		String url = context.getAbsolutePath().toASCIIString().substring(0,context.getAbsolutePath().toASCIIString().indexOf("/cderest"));
+		
+		StringBuffer xmlFileBuffer = new StringBuffer("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<DataElementsList>\n");
+		if( Integer.valueOf(totalCount) >= start+size) {
+			xmlFileBuffer.append("<link ref='next' type='application/xml' href=").append("'").append(url).append("/cderest/rest/services/getDataElement?").append(nextParams).append("'/>\n");
+		}
+		if( start-size > 0 ) {
+			xmlFileBuffer.append("<link ref='prev' type='application/xml' href=").append("'").append(url).append("/cderest/rest/services/getDataElement?").append(prevParams).append("'/>\n");
+		}
+		xmlFileBuffer.append("<link ref='self' type='application/xml' href=").append("'").append(url).append("/cderest/rest/services/getDataElement?").append(currParams).append("'/>\n");
 
 
-			String resultXML = cdeSearchBo.getDataElements(queryStmt+ " order by  " + orderBy,httpRequest);
-			if(resultXML == null)
-			{
-				 //return Response.status(404).build();
-				StringBuffer xmlNoFileBuffer = new StringBuffer("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<Message>No Records Found</Message>\n");
-				return Response.ok(xmlNoFileBuffer.toString()).header("Content-Disposition", "application/xml").build();
+		String resultXML = cdeSearchBo.getDataElements(queryStmt+ " order by  " + orderBy,httpRequest);
+		if(resultXML == null)
+		{
+			 //return Response.status(404).build();
+			StringBuffer xmlNoFileBuffer = new StringBuffer("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<Message>No Records Found</Message>\n");
+			return Response.ok(xmlNoFileBuffer.toString()).header("Content-Disposition", "application/xml").build();
+		}
+		
+		String format = (String) httpRequest.getParameter("format");
+		if ( null != format && format.toUpperCase().equals("XML")) {
+			int column = resultXML.indexOf("<DataElement ");
+			if ( column > 0) {
+				resultXML = xmlFileBuffer.append(resultXML.substring(column)).toString();
 			}
-			
-			String format = (String) httpRequest.getParameter("format");
-			if ( null != format && format.toUpperCase().equals("XML")) {
-				int column = resultXML.indexOf("<DataElement ");
-				if ( column > 0) {
-					resultXML = xmlFileBuffer.append(resultXML.substring(column)).toString();
-				}
-				return Response.ok(resultXML).header("Content-Disposition", "application/xml").build();
-			}
-			else if (null != format &&  format.toUpperCase().equals("CSV")) {
-				String csvFile = FilesTransformation.transformCdeToCSV(resultXML);
-				return Response.ok(csvFile).header("Content-Disposition", "attachment; filename=download.csv").build();
-			}
-			else {
-				XMLSerializer xmlSerializer = new XMLSerializer();                 
-				JSON json = xmlSerializer.read( resultXML );  
-		        return Response.ok(json.toString(2)).type("application/json").build();
-			}			
+			return Response.ok(resultXML).header("Content-Disposition", "application/xml").build();
+		}
+		else if (null != format &&  format.toUpperCase().equals("CSV")) {
+			String csvFile = FilesTransformation.transformCdeToCSV(resultXML);
+			return Response.ok(csvFile).header("Content-Disposition", "attachment; filename=download.csv").build();
+		}
+		else {
+			XMLSerializer xmlSerializer = new XMLSerializer();                 
+			JSON json = xmlSerializer.read( resultXML );  
+	        return Response.ok(json.toString(2)).type("application/json").build();
+		}			
 		//return Response.status(200).entity(json.toString(2)).type("text/XML").build();
 
 	}
@@ -244,9 +250,9 @@ public class CDERestService {
 			String name, 
 			String context,
 			String classification,
+			String classificationItem,
 			String workflowStatus,
 			String registrationStatus,
-			String classificationItem,
 			String start,
 			String size,
 			String total,
@@ -377,5 +383,40 @@ public class CDERestService {
 		  
 		    return size;
 		}
+	
+	private boolean isEmptyAllParams(HttpServletRequest httpRequest) {
+		String publicId = httpRequest.getParameter("publicId");
+		String name = httpRequest.getParameter("name");
+		String registrationStatus = httpRequest.getParameter("registrationStatus");
+		String workFlowStatus = httpRequest.getParameter("workflowStatus");
+		String context = httpRequest.getParameter("context");
+		String classification = httpRequest.getParameter("classification");
+		String classificationItem = httpRequest.getParameter("classificationItem");
+		boolean empty = true;
+	
+		if ( StringUtils.doesValueExist(name) )
+			empty = false;
+		
+		if ( StringUtils.doesValueExist(context) )
+			empty = false;
+		
+		if ( StringUtils.doesValueExist(workFlowStatus) )
+			empty = false;
+		
+		if ( StringUtils.doesValueExist(classification) )
+			empty = false;
+		
+		if ( StringUtils.doesValueExist(publicId) )
+			empty = false;
+		
+		if ( StringUtils.doesValueExist(classificationItem) )
+			empty = false;
+		
+		if ( StringUtils.doesValueExist(registrationStatus) )
+			empty = false;
+		
+		return empty;
+		
+	}
 
 }

@@ -9,12 +9,13 @@ import org.junit.*;
 import static org.junit.Assert.*;
 
 public class CDERetrievalTest {
-	public static String testURL = "http://cadsrapi-dev.nci.nih.gov/cderest/rest/services/getDataElement?";
+	public static String testURL = "http://localhost:8080/cderest/rest/services/getDataElement?";
 	//public static String testURL = "http://localhost:8080/cderest/rest/services/getDataElement?";
 
     @Before
     public void setUp() {
         System.out.println("@Before - setUp");
+        System.out.println(testURL);
     }
  
     @After
@@ -75,7 +76,7 @@ public class CDERetrievalTest {
  
 		String output = retrieveOutput(response);  
 		
-		assertTrue(output.contains("Proposed"));
+		assertTrue(output.contains("Standard"));
 	}  
     
     @Test
@@ -105,7 +106,7 @@ public class CDERetrievalTest {
     @Test
     public void testClassification() {
     	Client client = Client.create();
-		WebResource webResource = client.resource( testURL + "classification=Phase");
+		WebResource webResource = client.resource( testURL + "classification=pHASE");
  
 		ClientResponse response = webResource.accept("application/xml").get(ClientResponse.class);
  
@@ -208,6 +209,18 @@ public class CDERetrievalTest {
 		String output = retrieveOutput(response);  
 		
 		assertTrue(output.contains("No Records Found"));
-	}      
+	} 
+    
+    @Test
+    public void testEmptyParam() {
+    	Client client = Client.create();
+		WebResource webResource = client.resource( testURL );
+ 
+		ClientResponse response = webResource.accept("application/xml").get(ClientResponse.class);
+ 
+		String output = retrieveOutput(response);  
+		
+		assertTrue(output.contains("Please supply a valid Parameter"));
+	}
 
 }

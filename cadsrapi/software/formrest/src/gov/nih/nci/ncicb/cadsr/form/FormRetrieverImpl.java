@@ -90,6 +90,11 @@ public class FormRetrieverImpl implements FormRetriever{
 		
 		setupProtocolIdSeq(protocol, applicationContext);
 		
+		if (isEmptyAllParams(formLongName, protocol, context, workFlowStatus, classification, formPublicId, version, createdBy)) {
+			StringBuffer xmlFileBuffer = new StringBuffer("<?xml version=\"1.0\" encoding=\"UTF-8\"?><Message>Please supply a valid Parameter: <Attribute>formLongName </Attribute><Attribute>formPublicId </Attribute><Attribute>protocol </Attribute><Attribute>workflowStatus </Attribute><Attribute>context </Attribute><Attribute>classification </Attribute><Attribute>version </Attribute><Attribute>createdBy </Attribute></Message>");
+			return Response.ok(xmlFileBuffer.toString()).header("Content-Disposition", "application/xml").build();
+		}
+		
 		if( total == null || total.length() == 0)
 			total = setUpTotal(formPublicId, formLongName, classification, createdBy, workFlowStatus, total, formDAO);
 		
@@ -441,22 +446,22 @@ public class FormRetrieverImpl implements FormRetriever{
 		return paramBuffer.toString();
 	}
 	
-	private boolean isEmptyAllParams(String formLongName, String protocolIdSeq, String contextIdSeq, String workFlowStatus, String classificationIdSeq, String formPublicId, String version, String createdBy) {
+	private boolean isEmptyAllParams(String formLongName, String protocol, String context, String workFlowStatus, String classification, String formPublicId, String version, String createdBy) {
 		boolean empty = true;
 		
 		if ( StringUtils.doesValueExist(formLongName) )
 			empty = false;
 		
-		if ( StringUtils.doesValueExist(protocolIdSeq) )
+		if ( StringUtils.doesValueExist(protocol) )
 			empty = false;
 		
-		if ( StringUtils.doesValueExist(contextIdSeq) )
+		if ( StringUtils.doesValueExist(context) )
 			empty = false;
 		
 		if ( StringUtils.doesValueExist(workFlowStatus) )
 			empty = false;
 		
-		if ( StringUtils.doesValueExist(classificationIdSeq) )
+		if ( StringUtils.doesValueExist(classification) )
 			empty = false;
 		
 		if ( StringUtils.doesValueExist(formPublicId) )

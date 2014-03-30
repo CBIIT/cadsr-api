@@ -5,8 +5,10 @@ import gov.nih.nci.ncicb.cadsr.common.persistence.dao.AbstractDAOFactory;
 import gov.nih.nci.ncicb.cadsr.common.persistence.dao.ClassificationSchemeDAO;
 import gov.nih.nci.ncicb.cadsr.common.persistence.dao.ClassificationSchemeDAOCDERest;
 import gov.nih.nci.ncicb.cadsr.common.persistence.dao.ContextDAO;
+import gov.nih.nci.ncicb.cadsr.common.persistence.dao.ContextDAOCDERest;
 import gov.nih.nci.ncicb.cadsr.common.persistence.dao.jdbc.JDBCClassificationSchemeDAO;
 import gov.nih.nci.ncicb.cadsr.common.persistence.dao.jdbc.JDBCClassificationSchemeDAOCDERest;
+import gov.nih.nci.ncicb.cadsr.common.persistence.dao.jdbc.JDBCContextDAOCDERest;
 import gov.nih.nci.ncicb.cadsr.common.servicelocator.ServiceLocator;
 import gov.nih.nci.ncicb.cadsr.common.servicelocator.ServiceLocatorFactory;
 import gov.nih.nci.ncicb.cadsr.common.resource.ClassSchemeItem;
@@ -158,8 +160,9 @@ public class RequestInitializationFiler implements Filter {
             if(request.getParameter("context") != null)
             {
   			  	ServiceLocator locator = ServiceLocatorFactory.getLocator(CaDSRConstants.CDEBROWSER_SERVICE_LOCATOR_CLASSNAME);
-  			    AbstractDAOFactory daoFactory = AbstractDAOFactory.getDAOFactory(locator);
-  			  	ContextDAO contextDao = daoFactory.getContextDAO();
+  			    //AbstractDAOFactory daoFactory = AbstractDAOFactory.getDAOFactory(locator);
+  			  	//ContextDAO contextDao = daoFactory.getContextDAO();
+  			    ContextDAOCDERest  contextDao = new JDBCContextDAOCDERest(locator);
   			  
 				String context = request.getParameter("context");
 				String contextIdSeq = null;
