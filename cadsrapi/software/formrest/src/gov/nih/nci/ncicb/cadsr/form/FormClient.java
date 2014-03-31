@@ -25,7 +25,8 @@ public class FormClient {
 	public static void main(String[] args){
 		String request = "POST";
 		if (request.equals("POST")) {
-			WebClient client = WebClient.create("http://localhost:8080/formrest/services/formLoad/");
+			WebClient client = WebClient.create("http://ncias-d941-v.nci.nih.gov:29180/formrest/services/formLoad/");
+//			WebClient client = WebClient.create("http://localhost:8080/formrest/services/formLoad/");
 	
 			//String userName = "FORMBUILDER";
 			//String password = "FORMBUILDER";
@@ -93,7 +94,7 @@ public class FormClient {
 		}
 
 	private static String readFile(String fileName) {
-		String filePath = "/local/content/cadsrapi/formloader/data/";
+		String filePath = "/local/content/formloader/data/";
 		File xmlFile = new File(filePath + fileName);
 		BufferedReader br = null;
 		StringBuffer sBuffer = new StringBuffer();

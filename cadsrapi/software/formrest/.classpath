@@ -13,7 +13,7 @@
 	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/commons-logging-1.1.1.jar"/>
 	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/commons-pool-1.5.2.jar"/>
 	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/CSVTransformer.jar" sourcepath="/transform/src"/>
-	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/cxf-2.7.6.jar"/>
+	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/cxf-2.7.6.jar" sourcepath="C:/Users/prakasht/.m2/repository/org/apache/cxf/cxf-bundle/2.7.6/cxf-bundle-2.7.6-sources.jar"/>
 	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/cxf-manifest.jar"/>
 	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/cxf-services-sts-core-2.7.6.jar"/>
 	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/cxf-services-ws-discovery-api-2.7.6.jar"/>
@@ -27,7 +27,7 @@
 	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/geronimo-jms_1.1_spec-1.1.1.jar"/>
 	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/geronimo-stax-api_1.0_spec-1.0.1.jar"/>
 	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/geronimo-ws-metadata_2.0_spec-1.1.2.jar"/>
-	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/javax.ws.rs-api-2.0-m10.jar"/>
+	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/javax.ws.rs-api-2.0-m10.jar" sourcepath="C:/Users/prakasht/.m2/repository/javax/ws/rs/javax.ws.rs-api/2.0-m10/javax.ws.rs-api-2.0-m10-sources.jar"/>
 	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/jaxb-api-2.2.6.jar"/>
 	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/jaxb-impl-2.2.6.jar"/>
 	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/jaxen-1.1.1.jar"/>
@@ -145,5 +145,6 @@
 	<classpathentry kind="lib" path="C:/caDSRWorkspace/cadsr-api/cadsrapi/software/SDK/bin/output/cadsrapi41/package/local-client/lib/slf4j-api-1.4.3.jar"/>
 	<classpathentry kind="lib" path="C:/caDSRWorkspace/cadsr-api/cadsrapi/software/SDK/bin/output/cadsrapi41/package/local-client/lib/slf4j-log4j12-1.4.3.jar"/>
 	<classpathentry kind="lib" path="C:/caDSRWorkspace/cadsr-api/cadsrapi/software/SDK/bin/output/cadsrapi41/package/local-client/lib/xercesImpl-2.8.1.jar"/>
+	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/FormLoader-services.jar" sourcepath="/FormLoader"/>
 	<classpathentry kind="output" path="build/WEB-INF/classes"/>
 </classpath>

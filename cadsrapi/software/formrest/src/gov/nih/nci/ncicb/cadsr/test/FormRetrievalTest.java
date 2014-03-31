@@ -76,6 +76,7 @@ public class FormRetrievalTest {
     public void testClassification() {
     	WebClient client = WebClient.create(testURL + "classification=Phase");
 		client.type("application/xml").accept("application/xml");
+		WebClient.getConfig(client).getHttpConduit().getClient().setReceiveTimeout(6000000);
 		Response r = client.get();
 		
 		String renderedDoc = retrieveDoc(r);   
@@ -87,6 +88,7 @@ public class FormRetrievalTest {
     public void testClassifications() {
     	WebClient client = WebClient.create(testURL + "classification=Phase,Therapeutic");
 		client.type("application/xml").accept("application/xml");
+		WebClient.getConfig(client).getHttpConduit().getClient().setReceiveTimeout(6000000);
 		Response r = client.get();
 		
 		String renderedDoc = retrieveDoc(r);   
