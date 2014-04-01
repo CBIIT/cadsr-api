@@ -200,6 +200,7 @@ L-->
 		<copy file="../formrest/target/dist/formrest-oracle-ds.xml" todir="${basedir}/dist" overwrite="true"/>
 		<copy file="../formrest/target/dist/formbuilder.xslt" todir="${basedir}/dist" overwrite="true"/>
 		<copy file="../formrest/target/dist/transform.properties" todir="${basedir}/dist" overwrite="true"/>
+		<copy file="../formrest/target/dist/cadsrutil.properties" todir="${basedir}/dist" overwrite="true"/>
 		<copy file="../cderest/target/cderest-oracle-ds.xml" todir="${basedir}/dist" overwrite="true"/>
 		<copy file="../cderest/target/cdebrowser.xslt" todir="${basedir}/dist" overwrite="true"/>
 		<copy file="../freestyle-search/software/freestylesearch/deployment-artifacts/jboss/freestyle-oracle-ds.xml" todir="${basedir}/dist" overwrite="true"/>
