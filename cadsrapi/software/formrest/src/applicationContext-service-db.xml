@@ -23,26 +23,20 @@
     	<property name="connectionCachingEnabled" value="true"/>
 	</bean> -->
 	
-	<!--  bean id="loadingService"
+
+ <!-- 	<bean id="loadService"
 		class="gov.nih.nci.cadsr.formloader.service.impl.LoadingServiceImpl"> 
-		<property name="repository">
-			<ref local="repository" />
-		</property>
-	</bean> -->
-	
-	<bean id="loadService"
-		class="gov.nih.nci.cadsr.formloader.service.impl.LoadingServiceImpl"> 
-		<property name="repository">
-			<ref local="repository" />
+		<property name="loadRepository">
+			<ref local="loadRepository" />
 		</property>
 	</bean>
 	
 	<bean id="unloadService"
 		class="gov.nih.nci.cadsr.formloader.service.impl.UnloadingServiceImpl">
-		<property name="repository">
-			<ref local="repository" />
+		<property name="loadRepository">
+			<ref local="loadRepository" />
 		</property>
-	</bean>
+	</bean>   
 	
 	<bean id="collectionRetrievalService"
 		class="gov.nih.nci.cadsr.formloader.service.impl.CollectionRetrievalServiceImpl">
@@ -63,7 +57,7 @@
          <property name="repository">
                 <ref local="repository" />
          </property>
-     </bean>
+     </bean>  -->
 	
 	
 	<bean id="transactionManager"
@@ -72,7 +66,7 @@
 	</bean>
 	
 	<bean id="repository"
-		class="gov.nih.nci.cadsr.formloader.repository.FormLoaderRepositoryImpl"> 
+		class="gov.nih.nci.cadsr.formloader.repository.impl.FormLoaderRepositoryImpl"> 
 		<property name="formV2Dao">
 			<ref bean="formV2Dao" />
 		</property>
@@ -103,9 +97,59 @@
 		<property name="referenceDocV2Dao">
 			<ref bean="referenceDocV2Dao" />
 		</property>
-	
-		
+		<property name="moduleInstructionV2Dao">
+			<ref bean="moduleInstructionV2Dao" />
+		</property>
+		<property name="protocolV2Dao">
+			<ref bean="protocolV2Dao" />
+		</property>
+		<property name="classificationSchemeDao">
+			<ref bean="classificationSchemeDao" />
+		</property>
 	</bean>
+	
+	<bean id="loadRepository"
+		class="gov.nih.nci.cadsr.formloader.repository.impl.LoadServiceRepositoryImpl"> 
+		<property name="formV2Dao">
+			<ref bean="formV2Dao" />
+		</property>
+		<property name="moduleV2Dao">
+			<ref bean="moduleV2Dao" />
+		</property>
+		<property name="questionV2Dao">
+			<ref bean="questionV2Dao" />
+		</property>
+		<property name="valueDomainV2Dao">
+			<ref bean="valueDomainV2Dao" />
+		</property>
+		<property name="formInstructionV2Dao">
+			<ref bean="formInstructionV2Dao" />
+		</property>
+		<property name="questInstructionV2Dao">
+			<ref bean="questInstructionV2Dao" />
+		</property>
+		<property name="formValidValueV2Dao">
+			<ref bean="formValidValueV2Dao" />
+		</property>
+		<property name="formValidValueInstructionV2Dao">
+			<ref bean="formValidValueInstructionV2Dao" />
+		</property>
+		<property name="collectionDao">
+			<ref bean="collectionDao" />
+		</property>
+		<property name="referenceDocV2Dao">
+			<ref bean="referenceDocV2Dao" />
+		</property>
+		<property name="moduleInstructionV2Dao">
+			<ref bean="moduleInstructionV2Dao" />
+		</property>
+		<property name="designationDao">
+			<ref bean="designationDao" />
+		</property>
+		<property name="definitionDao">
+			<ref bean="definitionDao" />
+		</property>
+	</bean>	
 	
 	
 	

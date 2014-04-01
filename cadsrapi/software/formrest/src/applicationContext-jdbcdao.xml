@@ -69,12 +69,12 @@
     <bean id="formValidValueInstructionV2Dao" class="gov.nih.nci.ncicb.cadsr.common.persistence.dao.jdbc.JDBCFormValidValueInstructionDAOV2">
 		<constructor-arg ref="dataSource"/>       
     </bean>
-   
-   	<bean id="contextV2Dao" class="gov.nih.nci.ncicb.cadsr.common.persistence.dao.jdbc.JDBCContextDAOV2">
+    
+    <bean id="referenceDocV2Dao" class="gov.nih.nci.ncicb.cadsr.common.persistence.dao.jdbc.JDBCReferenceDocumentDAOV2">
 		<constructor-arg ref="dataSource"/>       
     </bean>
-    
-    <bean id="classificationV2Dao" class="gov.nih.nci.ncicb.cadsr.common.persistence.dao.jdbc.JDBCClassificationSchemeDAOV2">
+   
+   <bean id="moduleInstructionV2Dao" class="gov.nih.nci.ncicb.cadsr.common.persistence.dao.jdbc.JDBCModuleInstructionDAOV2">
 		<constructor-arg ref="dataSource"/>       
     </bean>
     
@@ -82,10 +82,23 @@
 		<constructor-arg ref="dataSource"/>       
     </bean>
     
-    <bean id="referenceDocV2Dao" class="gov.nih.nci.ncicb.cadsr.common.persistence.dao.jdbc.JDBCReferenceDocumentDAOV2">
+    <bean id="designationDao" class="gov.nih.nci.ncicb.cadsr.common.persistence.dao.jdbc.JDBCDesignationDAO">
+		<constructor-arg ref="dataSource"/>       
+    </bean>
+    <bean id="definitionDao" class="gov.nih.nci.ncicb.cadsr.common.persistence.dao.jdbc.JDBCDefinitionDAO">
+		<constructor-arg ref="dataSource"/>       
+    </bean>
+    <bean id="classificationSchemeDao" class="gov.nih.nci.ncicb.cadsr.common.persistence.dao.jdbc.JDBCClassificationSchemeDAOV2">
 		<constructor-arg ref="dataSource"/>       
     </bean>
    
+    <bean id="contextV2Dao" class="gov.nih.nci.ncicb.cadsr.common.persistence.dao.jdbc.JDBCContextDAOV2">
+		<constructor-arg ref="dataSource"/>       
+    </bean>
+    
+    <bean id="classificationV2Dao" class="gov.nih.nci.ncicb.cadsr.common.persistence.dao.jdbc.JDBCClassificationSchemeDAOV2">
+		<constructor-arg ref="dataSource"/>       
+    </bean>
 
 </beans>
 
