@@ -298,7 +298,7 @@
 				    <phase>compile</phase>
 				    <configuration>
 				      <tasks>
-				      	<copy file="src/main/java/gov/nih/nci/ncicb/cadsr/common/ConvertCDE.xslt" tofile="${project.build.outputDirectory}/gov/nih/nci/ncicb/cadsr/common/ConvertCDE.xslt"/>				      
+				      	<!-- <copy file="src/main/java/gov/nih/nci/ncicb/cadsr/common/ConvertCDE.xslt" tofile="${project.build.outputDirectory}/gov/nih/nci/ncicb/cadsr/common/ConvertCDE.xslt"/> -->
 				      </tasks>
 				    </configuration>
 				    <goals>
@@ -318,6 +318,7 @@
 						</filterset>
 						</copy>
 						<copy file="conf/cdebrowser.xslt" tofile="${project.build.outputDirectory}/../cdebrowser.xslt" overwrite="true" />
+						<copy file="src/main/java/gov/nih/nci/ncicb/cadsr/common/ConvertCDE.xslt" tofile="${project.build.outputDirectory}/../ConvertCDE.xslt"/>
 				      </tasks>
 				    </configuration>
 				    <goals>

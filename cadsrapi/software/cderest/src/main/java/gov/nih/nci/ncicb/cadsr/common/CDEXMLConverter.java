@@ -14,8 +14,11 @@ import javax.xml.transform.*;
 import javax.xml.transform.stream.*;
 
 import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.InputStream;
 import java.io.StringReader;
+
+
 
 
 
@@ -30,6 +33,7 @@ public class CDEXMLConverter
 
 	static private CDEXMLConverter _instance = null;
 	public static final String CDEFormatStyleSheet = "ConvertCDE.xslt";
+	public static final String path = "/local/content/cadsrapi/transform/xslt/";
 	protected Transformer cdeTransformer = null;
 
 	public String convertFormToXML (List<DataElement> listDE) throws MarshalException, ValidationException, TransformerException
@@ -94,8 +98,10 @@ public class CDEXMLConverter
 		StreamSource xslSource = null;
 		try
 		{
-			InputStream xslStream = this.getClass().getResourceAsStream(CDEFormatStyleSheet);
-			xslSource = new StreamSource(xslStream);
+			//InputStream xslStream = this.getClass().getResourceAsStream(CDEFormatStyleSheet);
+			//xslSource = new StreamSource(xslStream);
+			File tf = new File(path,CDEFormatStyleSheet);
+			xslSource = new StreamSource(tf);
 		}
 		catch(Exception e) {
 			System.out.println("CDEXMLConverter error loading conversion xsl: " + CDEFormatStyleSheet + " exc: "+ e);

@@ -18,22 +18,29 @@
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="lib" path="src/main/webapp/WEB-INF/lib/cadsrapi40-beans.jar"/>
 	<classpathentry kind="lib" path="src/main/webapp/WEB-INF/lib/cdebrowser.jar" sourcepath="/CDEBrowser"/>
-	<classpathentry kind="lib" path="src/main/webapp/WEB-INF/lib/classes12.jar"/>
 	<classpathentry kind="lib" path="src/main/webapp/WEB-INF/lib/commons-lang-2.4.jar"/>
-	<classpathentry kind="lib" path="src/main/webapp/WEB-INF/lib/servlet.jar"/>
 	<classpathentry kind="lib" path="src/main/webapp/WEB-INF/lib/cle20.jar"/>
 	<classpathentry kind="lib" path="src/main/webapp/WEB-INF/lib/xsu12.jar"/>
-	<classpathentry kind="lib" path="src/main/webapp/WEB-INF/lib/jboss-common-jdbc-wrapper-3.2.3.jar"/>
-	<classpathentry kind="lib" path="C:/tools/jboss-4.0.5.GA/server/default/lib/jboss-j2ee.jar"/>
 	<classpathentry kind="lib" path="src/main/webapp/WEB-INF/lib/castor-1.0.2.jar"/>
 	<classpathentry kind="lib" path="src/main/webapp/WEB-INF/lib/saxon9he.jar"/>
-	<classpathentry kind="lib" path="C:/Users/narra/.m2/repository/org/springframework/spring-jdbc/3.0.5.RELEASE/spring-jdbc-3.0.5.RELEASE.jar"/>
-	<classpathentry kind="lib" path="C:/Users/narra/.m2/repository/org/springframework/spring-tx/3.0.5.RELEASE/spring-tx-3.0.5.RELEASE.jar"/>
 	<classpathentry kind="lib" path="src/main/webapp/WEB-INF/lib/CSVTransformer.jar" sourcepath="/transform"/>
 	<classpathentry kind="lib" path="src/main/webapp/WEB-INF/lib/json-lib-2.4-jdk15.jar"/>
-	<classpathentry kind="lib" path="C:/Users/narra/.m2/repository/com/sun/jersey/contribs/jersey-spring/1.17/jersey-spring-1.17.jar"/>
-	<classpathentry kind="lib" path="C:/Users/narra/.m2/repository/com/sun/jersey/jersey-core/1.17/jersey-core-1.17.jar"/>
-	<classpathentry kind="lib" path="C:/Users/narra/.m2/repository/com/sun/jersey/jersey-server/1.17/jersey-server-1.17.jar"/>
-	<classpathentry kind="lib" path="C:/Users/narra/.m2/repository/com/sun/jersey/jersey-client/1.17/jersey-client-1.17.jar"/>
-	<classpathentry kind="output" path="target/classes"/>
+	<classpathentry kind="lib" path="jars/servlet.jar"/>
+	<classpathentry kind="lib" path="jars/jersey-client-1.17.jar" sourcepath="C:/Users/prakasht/.m2/repository/com/sun/jersey/jersey-client/1.17/jersey-client-1.17-sources.jar"/>
+	<classpathentry kind="lib" path="jars/jersey-core-1.17.jar"/>
+	<classpathentry kind="lib" path="jars/jersey-server-1.17.jar"/>
+	<classpathentry kind="lib" path="jars/jersey-servlet-1.17.jar"/>
+	<classpathentry kind="lib" path="jars/jersey-spring-1.17.jar"/>
+	<classpathentry kind="lib" path="jars/spring-aop-2.5.6.jar"/>
+	<classpathentry kind="lib" path="jars/spring-asm-3.0.5.RELEASE.jar"/>
+	<classpathentry kind="lib" path="jars/spring-beans-3.0.5.RELEASE.jar"/>
+	<classpathentry kind="lib" path="jars/spring-context-3.0.5.RELEASE.jar"/>
+	<classpathentry kind="lib" path="jars/spring-core-3.0.5.RELEASE.jar"/>
+	<classpathentry kind="lib" path="jars/spring-expression-3.0.5.RELEASE.jar"/>
+	<classpathentry kind="lib" path="jars/spring-jdbc-3.0.5.RELEASE.jar"/>
+	<classpathentry kind="lib" path="jars/spring-orm-3.0.5.RELEASE.jar"/>
+	<classpathentry kind="lib" path="jars/spring-tx-3.0.5.RELEASE.jar"/>
+	<classpathentry kind="lib" path="jars/spring-web-3.0.5.RELEASE.jar"/>
+	<classpathentry kind="lib" path="src/main/webapp/WEB-INF/lib/junit-4.10.jar"/>
+	<classpathentry kind="output" path="target/cderest/WEB-INF/classes"/>
 </classpath>
