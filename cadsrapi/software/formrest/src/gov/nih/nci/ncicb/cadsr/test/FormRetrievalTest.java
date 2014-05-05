@@ -209,6 +209,17 @@ public class FormRetrievalTest {
 		String renderedDoc = retrieveDoc(r);   
 		
 		assertTrue(renderedDoc.contains("No Records Found"));
+	}  
+    
+    @Test
+    public void testEmptyParam() {
+    	WebClient client = WebClient.create(testURL);
+		client.type("application/xml").accept("application/xml");
+		Response r = client.get();
+		
+		String renderedDoc = retrieveDoc(r);   
+		
+		assertTrue(renderedDoc.contains("Please supply a valid Parameter"));
 	}    
 
 }
