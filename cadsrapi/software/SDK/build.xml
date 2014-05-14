@@ -151,7 +151,7 @@ L-->
 		<delete file="${sdk.home.dir}/software/target/modules/lib/compile/struts2-dojo-plugin-2.3.15.1.jar" quiet="true" />
 		<delete file="${sdk.home.dir}/software/target/modules/lib/compile/xwork-core-2.3.15.1.jar" quiet="true" />
 		
-		<!-- copy struts 2.3.16.1 files -->
+		<!-- copy struts 2.3.16.3 files -->
 		<copy todir="${sdk.home.dir}/software/lib/compile" overwrite="true">
 					<fileset dir="${lib.dir}">
 						<include name="struts*.jar" />
