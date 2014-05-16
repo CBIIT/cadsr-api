@@ -125,7 +125,7 @@ L--%>
 																				</tr>
 																				<tr>
 																					<td class="welcomeContent" valign="top">
-											caDSR API domain class browser includes three major components: caDSR domain model, Object Cart model and caDSR UML project model. In addition, Freestyle Search is part of caDSR API.<br><br>
+											caDSR API domain class browser includes two major components: caDSR domain model and caDSR UML project model. In addition, Freestyle Search is part of caDSR API.<br><br>
 											 
                                                                                         caDSR is the Cancer Data Standards Repository of Common Data Elements (CDEs), a database managed at NCI CBIIT. CDEs are used as data descriptors (metadata) for NCI-sponsored research.
                                                                                         <br>
@@ -140,14 +140,7 @@ CDEs address a significant problem in biomedical data management--the many and v
 <br><br><b><u>caDSR domain model:</u></b>
 This is the principal caDSR API, and it is based on the ISO 11179 information model as extended to capture caDSR semantics.
 <br><br>
-			<b><u>Object Cart model:</u></b> <br>
-				The Object Cart application is a an application built on top of the caCORE SDK with the purpose of providing shopping cart type operations for data objects.  
-			    The Object Cart provides a client API that client applications can utilize to create instance of object "carts" to be able to store, retrieve, update, and delete data objects.  
-				Both Java objects adhering to the JavaBean specification and XML documents representing data objects can be passed to the client API.  
-
-				The initial users of the Object Cart application are the CDE Browser and Forms Builder applications, allowing users to share their collections of objects 
-				(Administered Components, CDEs, etc...) amongst the two applications while keeping the CDE Browser and Forms Builder decoupled.
-
+			
 <br><br><b><u>caDSR UML project model:</u></b><br>
 This API presents a UML Model view of the underlying caDSR metadata. The API objects are mapped to a set of materialized views views in the underlying database.
 
@@ -340,7 +333,7 @@ This API presents a UML Model view of the underlying caDSR metadata. The API obj
 																										</li>
 
 																										<li>
-																											Added Support for enhanced CDE and form retrieval RESTful services
+																											Added Support for enhanced CDE RESTful services
 																										</li>
 <li>
 																											Made caDSR Freestyle Search part of the caDSR API
