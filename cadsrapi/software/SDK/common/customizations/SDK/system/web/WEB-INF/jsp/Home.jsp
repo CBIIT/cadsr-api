@@ -139,7 +139,6 @@ caCORE objects are represented by UML Models. A UML Model is used to facilitate 
 CDEs address a significant problem in biomedical data management--the many and varied ways that similar or identical concepts are described. CDEs provide consistent data descriptors (metadata), making it possible to aggregate and manage both modest-sized and large data sets in order to be able to ask and answer basic questions.
 <br><br><b><u>caDSR domain model:</u></b>
 This is the principal caDSR API, and it is based on the ISO 11179 information model as extended to capture caDSR semantics.
-<br><br>
 			
 <br><br><b><u>caDSR UML project model:</u></b><br>
 This API presents a UML Model view of the underlying caDSR metadata. The API objects are mapped to a set of materialized views views in the underlying database.

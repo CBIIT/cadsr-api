@@ -144,9 +144,14 @@ L-->
 		<delete file="${sdk.home.dir}/software/lib/runtime/struts2-core-2.3.15.1.jar" quiet="true" />
 		<delete file="${sdk.home.dir}/software/lib/runtime/struts2-dojo-plugin-2.3.15.1.jar" quiet="true" />
 		<delete file="${sdk.home.dir}/software/lib/runtime/xwork-core-2.3.15.1.jar" quiet="true" />
+		<delete file="${sdk.home.dir}/software/lib/runtime/commons-io-2.0.1.jar" quiet="true" />
+		<delete file="${sdk.home.dir}/software/lib/runtime/commons-fileupload-1.2.1.jar" quiet="true" />
 		<delete file="${sdk.home.dir}/software/target/modules/lib/runtime/struts2-core-2.3.15.1.jar" quiet="true" />
 		<delete file="${sdk.home.dir}/software/target/modules/lib/runtime/struts2-dojo-plugin-2.3.15.1.jar" quiet="true" />
 		<delete file="${sdk.home.dir}/software/target/modules/lib/runtime/xwork-core-2.3.15.1.jar" quiet="true" />
+		<delete file="${sdk.home.dir}/software/target/modules/lib/runtime/commons-io-2.0.1.jar" quiet="true" />
+		<delete file="${sdk.home.dir}/software/target/modules/lib/runtime/commons-logging-1.1.1.jar" quiet="true" />
+		<delete file="${sdk.home.dir}/software/target/modules/lib/runtime/commons-fileupload-1.2.1.jar" quiet="true" />
 		<delete file="${sdk.home.dir}/software/target/modules/lib/compile/struts2-core-2.3.15.1.jar" quiet="true" />
 		<delete file="${sdk.home.dir}/software/target/modules/lib/compile/struts2-dojo-plugin-2.3.15.1.jar" quiet="true" />
 		<delete file="${sdk.home.dir}/software/target/modules/lib/compile/xwork-core-2.3.15.1.jar" quiet="true" />
@@ -158,6 +163,9 @@ L-->
 					</fileset>
 					<fileset dir="${lib.dir}">
 						<include name="xwork*.jar" />
+					</fileset>
+					<fileset dir="${lib.dir}">
+						<include name="commons*.jar" />
 					</fileset>					
 		</copy>
 		<copy todir="${sdk.home.dir}/software/lib/runtime" overwrite="true">
