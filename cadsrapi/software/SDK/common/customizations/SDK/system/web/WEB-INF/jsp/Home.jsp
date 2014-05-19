@@ -326,11 +326,7 @@ This API presents a UML Model view of the underlying caDSR metadata. The API obj
 																							</tr>
 																							<tr>
 																								<td class="sidebarContent">
-																									<ul>
-																										<li>
-																											Merged caDSR API domain model with secure Object Cart 
-																										</li>
-
+																									<ul>																										
 																										<li>
 																											Added Support for enhanced CDE RESTful services
 																										</li>
