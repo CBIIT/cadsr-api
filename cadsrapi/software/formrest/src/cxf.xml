@@ -13,10 +13,10 @@ http://cxf.apache.org/schemas/jaxrs.xsd">
 	<import resource="classpath:META-INF/cxf/cxf.xml" />
 	<import resource="classpath:META-INF/cxf/cxf-servlet.xml" />
 	
-	<jaxrs:server id="formRESTService" address="/">
+	<!-- jaxrs:server id="formRESTService" address="/">
 		<jaxrs:serviceBeans>
 			<ref bean="formRetrieve" />
-			<!-- ref bean="formLoad" / -->
+			<ref bean="formLoad" />
 		</jaxrs:serviceBeans>
 		<jaxrs:extensionMappings>
 			<entry key="xml" value="application/xml" />
@@ -26,13 +26,9 @@ http://cxf.apache.org/schemas/jaxrs.xsd">
 		</jaxrs:extensionMappings>
 		<jaxrs:providers>        
 			<ref bean="authenticationHandler"/> 
-			<!-- bean class="org.apache.cxf.jaxrs.provider.json.JSONProvider">
-	        	<property name="dropRootElement" value="true" />
-	        	<property name="supportUnwrapped" value="true" />
-	    	</bean -->   
 		</jaxrs:providers>
 		
-	</jaxrs:server>
+	</jaxrs:server -->
 	
 	
 	
