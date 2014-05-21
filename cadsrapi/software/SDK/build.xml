@@ -241,6 +241,7 @@ L-->
 			<property name="FREESTYLE.DS.URL" value="${CADSR.DS.TNS.HOST}:${CADSR.DS.TNS.PORT}:${CADSR.DS.TNS.SID}.nci.nih.gov"/>
 			<property name="FREESTYLE.DS.USER" value="${FREESTYLE.DS.USER}"/>
 			<property name="FREESTYLE.DS.PSWD" value="${FREESTYLE.DS.PSWD}"/>
+			<property name="tier" value="${tier}"/>
 		</ant>
 		<artifact:mvn pom="../cderest/pom.xml">
 			<arg value="package"/>
