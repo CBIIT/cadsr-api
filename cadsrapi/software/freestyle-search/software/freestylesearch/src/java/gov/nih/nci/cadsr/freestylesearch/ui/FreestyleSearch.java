@@ -78,8 +78,6 @@ public class FreestyleSearch extends Action
             pstmt.close();
             pstmt = null;
             
-            url = "http://ncias-d941-v.nci.nih.gov:29180/cadsrapi41";
-
             pstmt = conn.prepareStatement("select value from sbrext.tool_options_view_ext where tool_name = 'CADSRAPI' and property = 'ACQUERY'");
             rs = pstmt.executeQuery();
             if (rs.next())
