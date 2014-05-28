@@ -136,7 +136,7 @@ public class caDSRAPIServiceImpl extends ApplicationServiceImpl implements caDSR
 		}
 
 		cart.getCartObjectCollection().addAll(cartObjects);
-		return updateCart(cart);
+		return storeCart(cart);
 	}
 
 	public Cart addObject(Integer cartId, CartObject cartObject) throws ApplicationException, ValidatorException {
@@ -150,7 +150,7 @@ public class caDSRAPIServiceImpl extends ApplicationServiceImpl implements caDSR
 
 		cart.getCartObjectCollection().add(cartObject);
 
-		return updateCart(cart);
+		return storeCart(cart);
 	}
 
 	public Cart associateCart(String newUserId, String oldUserId, String cartName) throws ApplicationException {
@@ -247,7 +247,7 @@ public class caDSRAPIServiceImpl extends ApplicationServiceImpl implements caDSR
 
 		try
 		{
-			return dao.storeCart(cart);
+			return dao.storeCart2(cart);
 
 		} catch(DAOException daoException) {
 			log.error("Error while getting and storing Cart in DAO",daoException);
@@ -261,7 +261,7 @@ public class caDSRAPIServiceImpl extends ApplicationServiceImpl implements caDSR
 		}
 	}
 
-	
+
 
 	private void expireCart(Cart cart) throws ApplicationException {
 
