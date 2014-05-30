@@ -247,7 +247,7 @@ public class caDSRAPIServiceImpl extends ApplicationServiceImpl implements caDSR
 
 		try
 		{
-			return dao.storeCart2(cart);
+			return dao.storeCart(cart);
 
 		} catch(DAOException daoException) {
 			log.error("Error while getting and storing Cart in DAO",daoException);

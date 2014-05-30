@@ -21,7 +21,6 @@ import gov.nih.nci.system.dao.DAOException;
 public interface CartDAO extends DAO {
 
 	public Cart storeCart(Cart newCart) throws DAOException, Exception;
-	public Cart storeCart2(Cart newCart) throws DAOException, Exception;
 	public Cart updateCart(Cart newCart) throws DAOException, Exception;
 	public List<Cart> cartSearch(Cart newCart) throws DAOException, Exception;
 	public List<CartObject> cartObjectSearchByType(Cart exampleCart, String type) throws DAOException, Exception;

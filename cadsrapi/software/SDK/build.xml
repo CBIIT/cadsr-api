@@ -28,6 +28,8 @@ L-->
 	<property name="build.classes.dir" location="${basedir}/build/classes" />
 	<property name="dist.dir" location="${basedir}/dist" />
 	<property name="output.client.remote.dir" location="${basedir}/dist/remote" />
+	<property name="objectcart.orm.dir" location="${basedir}/conf/ORM/gov/nih/nci/objectCart/domain" />
+	
 
 	<property name="download.dir" value="${basedir}/download" />
 	<property name="web.dir" value="${basedir}/web" />
@@ -370,6 +372,13 @@ L-->
 		<replace file="${web.dir}/WEB-INF/classes/application-config-security.xml" token="@CADSR.DS.URL@" value="${CADSR.DS.URL}" />
 		<replace file="${web.dir}/WEB-INF/classes/application-config-security.xml" token="@CADSR.DS.USER@" value="${CADSR.DS.USER}" />
 		<replace file="${web.dir}/WEB-INF/classes/application-config-security.xml" token="@CADSR.DS.PSWD@" value="${CADSR.DS.PSWD}" />
+		
+		<touch file="${objectcart.orm.dir}/Cart.hbm.xml"/>
+		<touch file="${objectcart.orm.dir}/CartObject.hbm.xml"/>
+		<jar destfile="${web.dir}/WEB-INF/lib/cadsrapi41-orm.jar" update="true">
+			<zipfileset file="${objectcart.orm.dir}/Cart.hbm.xml" prefix="gov/nih/nci/cadsr/objectcart/domain/" />
+			<zipfileset file="${objectcart.orm.dir}/CartObject.hbm.xml" prefix="gov/nih/nci/cadsr/objectcart/domain/" />
+		</jar>
 
 		<war destfile="${package.system.dir}/${PROJECT_NAME}.war" webxml="${web.dir}\WEB-INF\web.xml">
 

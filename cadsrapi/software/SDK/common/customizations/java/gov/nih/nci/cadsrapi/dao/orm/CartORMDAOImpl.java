@@ -7,18 +7,21 @@
 
 package gov.nih.nci.cadsrapi.dao.orm;
 
+import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 import org.apache.log4j.Logger;
+import org.hibernate.HibernateException;
 import org.hibernate.JDBCException;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.cfg.Configuration;
+import org.springframework.orm.hibernate3.HibernateCallback;
 
 import gov.nih.nci.cadsr.objectcart.domain.Cart;
 import gov.nih.nci.cadsr.objectcart.domain.CartObject;
@@ -49,7 +52,7 @@ public class CartORMDAOImpl extends WritableORMDAOImpl implements CartDAO {
 
 		try
 		{
-			insert(newCart, true);
+			saveOrUpdate(newCart, true);
 
 		} catch (JDBCException ex){
 			log.error("JDBC Exception in ORMDAOImpl ", ex);
@@ -299,4 +302,38 @@ public class CartORMDAOImpl extends WritableORMDAOImpl implements CartDAO {
 		}
 		return results;
 	}
+	
+	protected HibernateCallback getSaveOrUpdateHibernateCallback(final Object obj)
+	{
+		HibernateCallback callBack = new HibernateCallback(){
+
+			public Object doInHibernate(Session session) throws HibernateException, SQLException {
+				try
+				{
+					Transaction tx = session.beginTransaction();
+					session.saveOrUpdate(obj);
+					tx.commit();
+					//session.flush();
+					return obj;
+				}
+				finally
+				{
+					//session.close();
+				}
+			}
+		};
+		return callBack;
+	}	
+	
+	public void saveOrUpdate(Object o, boolean commit)
+	{
+		log.info("In the writable DAO. executing the Update query*********");
+		//System.out.println("updating: "+o.toString());
+		if(commit)
+		{
+			getFlushAutoHibernateTemplate().execute(getSaveOrUpdateHibernateCallback(o));
+		}
+		else
+			getFlushAutoHibernateTemplate().update(o);
+	}		
 }
