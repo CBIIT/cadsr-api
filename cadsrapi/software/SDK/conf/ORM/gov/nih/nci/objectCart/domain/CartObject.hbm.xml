@@ -21,6 +21,6 @@
 								
 		<property name="type" type="string" column="TYPE" />
 								
-			<many-to-one name="cart" class="gov.nih.nci.cadsr.objectcart.domain.Cart" column="CART_ID" lazy="proxy" not-null="true" cascade="none" insert="true" update="true" />
+
 	</class>
 </hibernate-mapping>
