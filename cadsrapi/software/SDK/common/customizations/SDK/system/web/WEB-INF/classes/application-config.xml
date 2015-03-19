@@ -42,7 +42,7 @@ L-->
 
 	<bean name="ORMDAO" class="gov.nih.nci.cadsrapi.dao.orm.CartORMDAOImpl">
 		<property name="caseSensitive" value="false" />
-		<property name="resultCountPerQuery" value="1000" />
+		<property name="resultCountPerQuery" value="10000" />
 		
 		<property name="securityHelper">
 			<ref bean="SecurityInitializationHelper" />
