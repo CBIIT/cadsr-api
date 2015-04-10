@@ -61,22 +61,34 @@ public class CleanerDAO extends HibernateDaoSupport {
 		try {
 			int temp = Integer.valueOf(PropertiesLoader.getProperty("cart.time.expiration.minutes"));
 			expirationInterval = temp;
-		} catch (Exception e) { log.error(e); }
+		} catch (Exception e) { 
+			log.error(e);
+			e.printStackTrace();
+		}
 		
 		try {
 			int temp = Integer.valueOf(PropertiesLoader.getProperty("cart.cleaner.sleep.minutes"));
 			sleepTime = temp;
-		} catch (Exception e) { log.error(e); }
+		} catch (Exception e) { 
+			log.error(e);
+			e.printStackTrace();
+		}
 		
 		try {
 			int temp = Integer.valueOf(PropertiesLoader.getProperty("cart.public.empty.expiration.minutes"));
 			publicEmptyExpirationDays = temp;
-		} catch (Exception e) { log.error(e); }
+		} catch (Exception e) { 
+			log.error(e);
+			e.printStackTrace();
+		}
 		
 		try {
 			int temp = Integer.valueOf(PropertiesLoader.getProperty("cart.public.full.expiration.minutes"));
 			publicFullExpirationDays = temp;
-		} catch (Exception e) { log.error(e); }
+		} catch (Exception e) { 
+			log.error(e); 
+			e.printStackTrace();
+		}
 		
 		
 		//Timestamps are in milliseconds
@@ -137,12 +149,25 @@ public class CleanerDAO extends HibernateDaoSupport {
 		
 		try
 		{	
-			int resetResults = updateActiveCarts.executeUpdate();
-				if (resetResults > 0)
+			int resetResults = -1;
+			
+			try {
+				resetResults = updateActiveCarts.executeUpdate();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+
+			if (resetResults > 0)
 					log.debug("Reset expiration date for "+resetResults+"active carts");
 				log.debug("Reset expiration date for "+resetResults+"active carts");
 			/* GF 28500 */
-			int expResults = initPublicCarts.executeUpdate();
+			int expResults = -1;
+			
+			try {
+				expResults = initPublicCarts.executeUpdate();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 			if (expResults > 0)
 				log.debug("Expiration date set for "+expResults+" PublicUser carts");			
 			int expNEPCResults = expNonEmptyPublicCarts.executeUpdate();
@@ -150,9 +175,19 @@ public class CleanerDAO extends HibernateDaoSupport {
 				log.debug("Expiration date set for "+expNEPCResults+" PublicUser carts");			
 			/* GF 28500 */
 			
-			int results = deleteCartQuery.executeUpdate();
-			if (results > 0)
+			int results = -1;
+			
+			try {
+				results = deleteCartQuery.executeUpdate();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			if (results > 0) {
 				log.debug("Deleted "+results+" carts at "+now.toString());
+				System.out.println("Deleted "+results+" carts at "+now.toString());
+			} else {
+				System.out.println("****** Nothing is deleted! ********");
+			}
 			
 		} catch (JDBCException ex){
 			log.error("JDBC Exception in ORMDAOImpl ", ex);

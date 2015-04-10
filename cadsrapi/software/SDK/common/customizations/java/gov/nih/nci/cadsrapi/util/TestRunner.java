@@ -5,6 +5,11 @@ import gov.nih.nci.cadsrapi.dao.orm.CleanerDAO;
 /**
  * This is just a test runner and should not be used in production.
  * @comment created specifically for https://tracker.nci.nih.gov/browse/CADSRAPI-208
+ * 
+ * Setup:
+ * 
+ * Please add cadsr-objectcart/objectCart/software/src/resources/conf/system/web/WEB-INF/classes 
+ * into the classpath before running this runner.
  */
 public class TestRunner {
 	private static int sleepTime = 60;
@@ -22,7 +27,7 @@ public class TestRunner {
 			try {
 				System.out.println("Cleaner running");
 				cleaner.clean();
-				System.out.println("Cleaner stopped");
+				System.out.println("Cleaner stopped (sleeping...)");
 				Thread.sleep(sleepTime*60*1000);  //Put thread to sleep, converting minutes to milliseconds
 			} catch (InterruptedException ie){
 				System.out.println(ie.getMessage());
