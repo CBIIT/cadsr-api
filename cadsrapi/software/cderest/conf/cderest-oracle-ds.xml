@@ -10,7 +10,7 @@
 <!-- ==================================================================== -->
 <datasources>
 - <local-tx-datasource>
-  <jndi-name>jdbc/CDEBrowserDS</jndi-name> 
+  <jndi-name>jboss/datasources/CDEBrowserDS</jndi-name> 
   <connection-url>@DATABASE_URL@</connection-url> 
   <driver-class>oracle.jdbc.driver.OracleDriver</driver-class> 
   <user-name>@DATABASE_USERNAME@</user-name> 

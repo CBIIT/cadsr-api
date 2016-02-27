@@ -10,8 +10,8 @@ http://www.springframework.org/schema/util/spring-util-2.0.xsd
 http://cxf.apache.org/jaxrs
 http://cxf.apache.org/schemas/jaxrs.xsd">
 
-	<import resource="classpath:META-INF/cxf/cxf.xml" />
-	<import resource="classpath:META-INF/cxf/cxf-servlet.xml" />
+<!-- 	<import resource="classpath:META-INF/cxf/cxf.xml" />
+	<import resource="classpath:META-INF/cxf/cxf-servlet.xml" />  -->
 	
 	<!-- jaxrs:server id="formRESTService" address="/">
 		<jaxrs:serviceBeans>
@@ -34,5 +34,5 @@ http://cxf.apache.org/schemas/jaxrs.xsd">
 	
 	<bean id="formRetrieve" class="gov.nih.nci.ncicb.cadsr.form.FormRetrieverImpl" />
 	<bean id="formLoad" class="gov.nih.nci.ncicb.cadsr.form.FormLoaderImpl" />
-	<bean id="authenticationHandler" class="gov.nih.nci.ncicb.cadsr.form.AuthenticationHandler" />    
+	<!--  <bean id="authenticationHandler" class="gov.nih.nci.ncicb.cadsr.form.AuthenticationHandler" />  -->    
 </beans>

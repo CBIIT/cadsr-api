@@ -7,6 +7,8 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+
+import javax.annotation.Resource;
 import javax.sql.DataSource;
 //import oracle.jdbc.OracleConnection;
 //import org.jboss.resource.adapter.jdbc.WrappedConnection;
@@ -16,7 +18,7 @@ import javax.sql.DataSource;
 
 public class CDERestDBUtil  {
 	
- 
+@Resource(lookup="jdbc/CDEBrowserDS")  	
 DataSource dataSource;
 
 public void setDataSource(DataSource dataSource) {

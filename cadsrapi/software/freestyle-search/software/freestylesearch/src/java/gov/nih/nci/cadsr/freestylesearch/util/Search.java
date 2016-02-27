@@ -1135,7 +1135,7 @@ public class Search
         // Set the index tables access
         clearIndexConnectionDescriptions();
         _indexDS = ds_;
-
+        _logger.debug("********** Datasource : " + ds_.toString());
         // If the data access isn't set then make them the same
         if (_dataDS == null)
         {
@@ -1215,6 +1215,7 @@ public class Search
     public void setDataDescription(DataSource ds_)
     {
         // Set the data tables access
+    	_logger.debug("********** Datasource 2 : " + ds_.toString());
         clearDataConnectionDescriptions();
         _dataDS = ds_;
 

@@ -27,7 +27,8 @@ L-->
     </init-param>
     <init-param>
       <param-name>jbossDataSource</param-name>
-      <param-value>jdbc/freestylesearch</param-value>
+      <!--   <param-value>jdbc/freestylesearch</param-value> -->
+      <param-value>jboss/datasources/FreestyleDS</param-value>      
     </init-param>
     <init-param>
       <param-name>DSusername</param-name>

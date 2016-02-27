@@ -54,6 +54,7 @@
 			<fileset dir="${lib.dir}">
 				<patternset>
 					<include name="*.jar"/>
+					<exclude name="cxf-*.jar"/>
 				</patternset>
 			</fileset>
 		</copy>

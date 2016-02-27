@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jboss-web>
     <resource-ref>
-        <res-ref-name>jdbc/CDEBrowserDS</res-ref-name>
+        <res-ref-name>jboss/datasources/CDEBrowserDS</res-ref-name>
         <res-type>javax.sql.DataSource</res-type>
-        <jndi-name>java:jdbc/CDEBrowserDS</jndi-name>
+        <jndi-name>jdbc/CDEBrowserDS</jndi-name>
+		<lookup-name>jdbc/CDEBrowserDS</lookup-name>         
     </resource-ref>
 	<env-entry>
 		<description>

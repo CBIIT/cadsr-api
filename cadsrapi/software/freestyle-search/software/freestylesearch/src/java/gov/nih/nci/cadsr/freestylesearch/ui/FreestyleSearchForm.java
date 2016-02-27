@@ -354,7 +354,7 @@ public class FreestyleSearchForm extends ActionForm
             MessageResources msgs = (MessageResources) request_.getSession().getServletContext().getAttribute(Globals.MESSAGES_KEY);
             String temp = msgs.getMessage(Search._vers);
             //String jboss = Version.getInstance().getMajor() + "." + Version.getInstance().getMinor() + "." + Version.getInstance().getRevision();
-            String jboss = "5.1.0";
+            String jboss = "8.2";
             _footer = 
                 "<table class=\"table3\"><colgroup></colgroup><tbody class=\"secttbody\" />\n"
                     + "<tr><td class=\"ncifmenu\"><span style=\"color: #dddddd\">&nbsp;v&nbsp;"
@@ -362,7 +362,7 @@ public class FreestyleSearchForm extends ActionForm
                     + "&nbsp;(" + jboss + "/" + System.getProperty("java.version") + ")"
                     + "</span></td></tr>\n"
                     + "<tr>\n<td class=\"nciftrtable\">\n"
-                    + "<a href=\"mailto:ncicb@pop.nci.nih.gov?subject=caDSR%20Freestyle%20Search\"><img border=\"0\" src=\"/freestyle/images/email_icon.gif\" alt=\"Email NCI Help Desk\" title=\"Email NCI Help Desk\"></a>\n"
+                    + "<a href=\"mailto:ncicbiit@mail.nih.gov?subject=caDSR%20Freestyle%20Search\"><img border=\"0\" src=\"/freestyle/images/email_icon.gif\" alt=\"Email NCI Help Desk\" title=\"Email NCI Help Desk\"></a>\n"
                     + "<a target=\"_blank\" href=\"http://www.cancer.gov/\"><img border=\"0\" src=\"/freestyle/images/footer_nci.gif\" alt=\"National Cancer Institute Logo\" title=\"National Cancer Institute\"></a>\n"
                     + "<a target=\"_blank\" href=\"http://www.dhhs.gov/\"><img border=\"0\" src=\"/freestyle/images/footer_hhs.gif\" alt=\"Department of Health and Human Services Logo\" title=\"Department of Health and Human Services\"></a>\n"
                     + "<a target=\"_blank\" href=\"http://www.nih.gov/\"><img border=\"0\" src=\"/freestyle/images/footer_nih.gif\" alt=\"National Institutes of Health Logo\" title=\"National Institutes of Health\"></a>\n"
