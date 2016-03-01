@@ -79,7 +79,7 @@ public class FreestylePlugIn implements PlugIn
         try 
         {
             envContext = new InitialContext();
-            _ds = (DataSource)envContext.lookup("java:/" + _dataSource);
+            _ds = (DataSource)envContext.lookup("java:" + _dataSource);
             if (_ds == null)
             {
                 _logger.error("Context lookup failed for DataSource. " + _dataSource);

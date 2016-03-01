@@ -27,16 +27,17 @@ L-->
     </init-param>
     <init-param>
       <param-name>jbossDataSource</param-name>
-      <!--   <param-value>jdbc/freestylesearch</param-value> -->
       <param-value>jboss/datasources/FreestyleDS</param-value>      
     </init-param>
     <init-param>
       <param-name>DSusername</param-name>
-      <param-value>@CADSR.DS.USER@</param-value>
+      <param-value>freestylesearch</param-value>
+      <!--   <param-value>@CADSR.DS.USER@</param-value> -->
     </init-param>
     <init-param>
       <param-name>DSpassword</param-name>
-      <param-value>@CADSR.DS.PSWD@</param-value>
+      <param-value>search0608</param-value>
+      <!-- <param-value>@CADSR.DS.PSWD@</param-value>   -->
     </init-param>
     <!-- 
     <init-param>
