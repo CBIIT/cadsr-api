@@ -282,17 +282,11 @@ L-->
 		
 		<jar jarfile="${basedir}/dist/cadsrapi41.ear" basedir="${basedir}/dist/war" />
 		<delete dir="${basedir}/dist/war" quiet="true" />
-		<!-- <copy file="${project.dist.dir}/jboss/cadsrapi-oracle-ds.xml" todir="${basedir}/dist" overwrite="true"/> -->
-		<!-- <copy file="../formrest/target/dist/formrest-oracle-ds.xml" todir="${basedir}/dist" overwrite="true"/> -->
 		<copy file="../formrest/target/dist/formbuilder.xslt" todir="${basedir}/dist" overwrite="true"/>
 		<copy file="../formrest/target/dist/transform.properties" todir="${basedir}/dist" overwrite="true"/>
 		<copy file="../formrest/target/dist/cadsrutil.properties" todir="${basedir}/dist" overwrite="true"/>
-		<!-- <copy file="../cderest/target/cderest-oracle-ds.xml" todir="${basedir}/dist" overwrite="true"/> -->
 		<copy file="../cderest/target/cdebrowser.xslt" todir="${basedir}/dist" overwrite="true"/>
 		<copy file="../cderest/target/ConvertCDE.xslt" todir="${basedir}/dist" overwrite="true"/>
-		<!-- <copy file="../freestyle-search/software/freestylesearch/deployment-artifacts/jboss/freestyle-oracle-ds.xml" todir="${basedir}/dist" overwrite="true"/> -->
-		<!-- <copy file="../freestyle-search/software/freestylesearch/deployment-artifacts/jboss/freestyle-log4j-appender.xml" todir="${basedir}/dist" overwrite="true"/> -->
-		<!-- <copy file="../freestyle-search/software/freestylesearch/deployment-artifacts/jboss/freestyle-log4j-category.xml" todir="${basedir}/dist" overwrite="true"/> -->
 		<copy file="${conf.dir}/cadsrapi_modules.cli" todir="${basedir}/dist" overwrite="true" filtering="true"/>
 		<copy file="${conf.dir}/cadsrapi_setup_deploy.cli" todir="${basedir}/dist" overwrite="true" filtering="true"/>		
 		<copy todir="${basedir}/dist/freestyle_autorun" overwrite="true">
