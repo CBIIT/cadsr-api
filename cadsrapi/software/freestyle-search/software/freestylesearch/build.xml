@@ -253,7 +253,7 @@ L-->
             <fileset file="${lib.dir}/cglib-2.1_3.jar" />
             <fileset file="${lib.dir}/hibernate-3.2.0.ga-modified.jar" />
             <fileset file="${lib.dir}/log4j-1.2.16.jar" />
-            <fileset file="${lib.dir}/ojdbc14.jar" />
+            <fileset file="${lib.dir}/ojdbc6.jar" />
             <fileset file="${wlib.dir}/sdk-system-client-4.5.jar" />
         	<fileset file="${wlib.dir}/sdk-writable-api-client-4.5.jar" />
             <fileset file="${wlib.dir}/org.springframework.beans-3.0.5.RELEASE.jar" />
