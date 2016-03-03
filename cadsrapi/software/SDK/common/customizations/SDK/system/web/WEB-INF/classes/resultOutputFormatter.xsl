@@ -18,38 +18,36 @@
 				<table summary="" cellpadding="0" cellspacing="0" border="0"
 					width="100%" height="100%">
 
-					<!-- nci hdr begins -->
-					<tr>
-						<td>
-							<table width="100%" border="0" cellspacing="0" cellpadding="0"
-								class="hdrBG">
-								<tr>
-									<td width="283" height="37" align="left">
-										<a href="http://www.cancer.gov">
-											<img alt="National Cancer Institute" src="images/logotype.gif"
-												width="283" height="37" border="0" />
-										</a>
-									</td>
-									<td>&nbsp;
-									</td>
-									<td width="295" height="37" align="right">
-										<a href="http://www.cancer.gov">
-											<img alt="U.S. National Institutes of Health | www.cancer.gov"
-												src="images/tagline.gif" width="295" height="37" border="0" />
-										</a>
-									</td>
-								</tr>
-							</table>
-						</td>
-					</tr>
-					<!-- nci hdr ends -->
-
-					<tr>
+				<!-- nci hdr begins -->
+				<tr>
+				  <td valign="center">
+				    <table width="100%" border="0" cellspacing="0" cellpadding="0" >
+				      <tr>
+				        <td width="283" height="37" align="left" valign="center" ><a target="_blank" href="http://www.cancer.gov"><img alt="National Cancer Institute" src="images/CBIIT-36px-Logo-COLOR_contrast.png" width="283" height="37" border="0"/></a></td>
+				        <td width="295" height="37" align="right" valign="center" ><a target="_blank" href="http://www.nih.gov/">U.S. National Institutes of Health</a></td>
+				      </tr>
+				    </table>
+				  </td>
+				</tr>
+				<tr>
+					<td>
+						<table>
+							<tr>
+								<td><a target="_blank" href="http://cbiit.nci.nih.gov/ncip/biomedical-informatics-resources/interoperability-and-semantics/metadata-and-models">
+									<img style="border: 0px solid black" alt="NCICB caDSR" src="images/caDSR_logo2_contrast.png" /></a>
+								</td>
+							</tr>
+				       </table>
+				    </td>
+				</tr>
+				
+				<!-- nci hdr ends -->
+ 					<tr>
 						<td height="100%" align="center" valign="top">
 							<table summary="" cellpadding="0" cellspacing="0" border="0"
 								height="100%" width="771">
 								<!-- application hdr begins -->
-								<tr>
+<!--								<tr>
 									<td height="50">
 										<table width="100%" height="50" border="0" cellspacing="0"
 											cellpadding="0" class="subhdrBG">
@@ -63,7 +61,7 @@
 											</tr>
 										</table>
 									</td>
-								</tr>
+								</tr> -->
 								<!-- application hdr ends -->
 								<tr>
 									<td valign="top">
