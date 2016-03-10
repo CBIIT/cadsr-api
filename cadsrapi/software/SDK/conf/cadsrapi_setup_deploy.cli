@@ -1,3 +1,5 @@
 connect
 
 deploy --force /local/content/cadsrapi/bin/cadsrapi41.ear
+
+deploy --force /local/content/cadsrapi/bin/cadsrapi41rest.war
