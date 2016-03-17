@@ -289,7 +289,7 @@ L-->
 		<copy file="../cderest/target/ConvertCDE.xslt" todir="${basedir}/dist" overwrite="true"/>
 		<copy file="${conf.dir}/cadsrapi_modules.cli" todir="${basedir}/dist" overwrite="true" filtering="true"/>
 		<copy file="${conf.dir}/cadsrapi_setup_deploy.cli" todir="${basedir}/dist" overwrite="true" filtering="true"/>
-		<copy file="${conf.dir}/ojdbc6.jar" todir="${basedir}/dist" overwrite="true" filtering="true"/>		
+		<copy file="${lib.dir}/ojdbc6.jar" todir="${basedir}/dist" overwrite="true"/>		
 		<copy todir="${basedir}/dist/freestyle_autorun" overwrite="true">
 			<fileset dir="../freestyle-search/software/freestylesearch/deployment-artifacts/bin">
 				<include name="**/*" />
