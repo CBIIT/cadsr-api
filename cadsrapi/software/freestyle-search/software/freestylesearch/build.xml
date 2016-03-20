@@ -251,6 +251,7 @@ L-->
             <fileset file="${lib.dir}/asm-3.1.jar" />
             <fileset file="${wlib.dir}/cadsrapi41-beans.jar" />
             <fileset file="${lib.dir}/cglib-2.1_3.jar" />
+            <fileset file="${lib.dir}/cglib-2.2.jar" />        	
             <fileset file="${lib.dir}/hibernate-3.2.0.ga-modified.jar" />
             <fileset file="${lib.dir}/log4j-1.2.16.jar" />
             <fileset file="${lib.dir}/ojdbc6.jar" />
