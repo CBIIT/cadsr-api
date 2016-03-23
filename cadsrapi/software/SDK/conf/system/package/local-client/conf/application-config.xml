@@ -19,7 +19,7 @@ L-->
 		<property name="daoList">
 			<list>
 				<!--  Add any DAO's here -->
-				<ref bean="ORMDAO" />
+				<!--<ref bean="ORMDAO" /> -->
 			</list>
 		</property>
 	</bean>
