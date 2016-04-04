@@ -77,7 +77,7 @@ L-->
 	<path id="classpath">
 		<fileset dir="${lib.dir}">
 			<include name="*.jar" />
-			<exclude name="asm-*.jar" />
+			<exclude name="asm-*.jar"/>			
 		</fileset>
 		<fileset dir="${package.local}/lib">
 			<include name="*.jar" />
@@ -161,6 +161,10 @@ L-->
 		<delete file="${sdk.home.dir}/software/target/modules/lib/compile/struts2-core-2.3.15.1.jar" quiet="true" />
 		<delete file="${sdk.home.dir}/software/target/modules/lib/compile/struts2-dojo-plugin-2.3.15.1.jar" quiet="true" />
 		<delete file="${sdk.home.dir}/software/target/modules/lib/compile/xwork-core-2.3.15.1.jar" quiet="true" />
+		<delete file="${sdk.home.dir}/software/lib/compile/asm-1.5.3.jar" quiet="true" />
+		<delete file="${sdk.home.dir}/software/lib/runtime/asm-1.5.3.jar" quiet="true" />
+		<delete file="${sdk.home.dir}/software/target/modules/lib/compile/asm-1.5.3.jar" quiet="true" />
+		<delete file="${sdk.home.dir}/software/target/modules/lib/runtime/asm-1.5.3.jar" quiet="true" />
 		
 		<!-- copy struts 2.3.16.3 files -->
 		<copy todir="${sdk.home.dir}/software/lib/compile" overwrite="true">
@@ -233,6 +237,9 @@ L-->
 	<target name="build:system" description="Builds the entire system. This is used mostly by development team or BDA certification team" depends="retrieve:cacore-sdk,load-sdk,load-project">
 		<ant antfile="${project.build.home}/build.xml" inheritall="false" inheritrefs="false" target="build:SDK" />
 		<antcall target="package-webapp" />
+		<delete file="${output.package.local.dir}/lib/asm-1.5.3.jar" quiet="true" />		
+		<delete file="${output.package.remote.dir}/lib/asm-1.5.3.jar" quiet="true" />				
+		<delete file="${web.dir}/WEB-INF/lib/asm-1.5.3.jar" quiet="true" />		
 		<antcall target="-build-client-jar" />
 		<antcall target="-copy-client-jar" />
 		<ant antfile="build.xml" target="war" dir="../formrest" inheritall="false">
@@ -395,7 +402,11 @@ L-->
 			<zipfileset file="${objectcart.orm.dir}/Cart.hbm.xml" prefix="gov/nih/nci/cadsr/objectcart/domain/" />
 			<zipfileset file="${objectcart.orm.dir}/CartObject.hbm.xml" prefix="gov/nih/nci/cadsr/objectcart/domain/" />
 		</jar>
-
+		<delete file="${web.dir}/WEB-INF/lib/asm-1.5.3.jar" quiet="true" />		
+		<delete file="${web.dir}/WEB-INF/lib/asm-3.1.jar" quiet="true" />					
+		<delete file="${web.dir}/WEB-INF/lib/ojdbc14-10.2.0.3.0.jar" quiet="true" />		
+		<delete file="${web.dir}/WEB-INF/lib/cglib-2.1_3.jar" quiet="true" />				
+		<delete file="${web.dir}/WEB-INF/lib/cglib-nodep-3.1.jar" quiet="true" />
 		<war destfile="${package.system.dir}/${PROJECT_NAME}.war" webxml="${web.dir}\WEB-INF\web.xml">
 
 			<manifest>
@@ -406,7 +417,6 @@ L-->
 				<include name="**/*" />
 
 			</fileset>
-
 		</war>
 
 		<copy todir="${project.dist.dir}/jboss" overwrite="true">
