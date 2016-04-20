@@ -1,5 +1,11 @@
 connect
 
+
+module remove --name=com.oracle.jdbc6
+data-source remove --name=CDEBrowserDS
+data-source remove --name=FreestyleDS
+/subsystem=datasources/jdbc-driver=oracle:remove
+
 #1 add the jdbc module it doesn't matter if it's already there
 # configure datasource
 # is the driver in standalone.xml?
