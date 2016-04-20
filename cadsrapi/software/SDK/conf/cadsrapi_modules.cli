@@ -1,7 +1,7 @@
 connect
 
 
-module remove --name=com.oracle.jdbc6
+#module remove --name=com.oracle.jdbc6
 data-source remove --name=CDEBrowserDS
 data-source remove --name=FreestyleDS
 /subsystem=datasources/jdbc-driver=oracle:remove
