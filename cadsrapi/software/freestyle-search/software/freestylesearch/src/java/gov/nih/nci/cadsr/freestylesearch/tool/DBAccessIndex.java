@@ -345,9 +345,13 @@ public class DBAccessIndex
             _pstmt.setInt(2, type_);
             _pstmt.setString(3, col_);
             _pstmt.setString(4, term_);
+            if (term_.length() < 257) {
+            	_pstmt.execute();
+            	_needCommit = true;
+            } else {
+                _logger.info(" term size greater than 256 :: idseq_:"+idseq_+" type_: "+type_+" col_: "+col_+" term: "+term_);
+            }
             
-            _pstmt.execute();
-            _needCommit = true;
         }
         
         catch (SQLException ex)

@@ -802,7 +802,7 @@ public class DBAccess
                         
                     // This is the 'version' column so remember the original value
                     // and append a '.0' when necessary.
-                    case VERSION:
+                    case VERSION:                    	
                         dbWrite_.insertTerm(type, idseq, cols[i], temp);
                         if (tokens.length == 1)
                         {
@@ -854,6 +854,7 @@ public class DBAccess
                                     continue;
                                 
                                 // Write the token.
+                                _logger.debug("temp "+temp+"****** size: "+temp.length());
                                 dbWrite_.insertTerm(type, idseq, cols[i], lower);
                                 
                                 // Some words are different because they are hyphenated or
