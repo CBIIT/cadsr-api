@@ -175,12 +175,12 @@ This API presents a UML Model view of the underlying caDSR metadata. The API obj
 					</li>
 					<li>
 <a  target="_blank"
-							href="https://wiki.nci.nih.gov/display/caDSR/caDSR+API+4.1+Release+Notes">caDSR
-							4.1 Release Notes</a>
+							href="https://wiki.nci.nih.gov/display/caDSR/caDSR+API+4.1.2+Release+Notes">caDSR
+							4.1.2 Release Notes</a>
 					</li>
 					<li>
 <a  target="_blank"
-						    href="docs/index.html">caDSR 4.1
+						    href="docs/index.html">caDSR 4.1.2
 							javadocs</a>
 					</li>
 				</ul>
