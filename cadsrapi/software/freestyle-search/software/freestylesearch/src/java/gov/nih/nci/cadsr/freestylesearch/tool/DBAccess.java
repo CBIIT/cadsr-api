@@ -484,7 +484,6 @@ public class DBAccess
         Vector<SearchResults> results = new Vector<SearchResults>();
         if (list_ == null || list_.size() == 0)
             return results;
-        
         ResultsAC obj;
         String data = "";
         String uall = "union all ";
@@ -508,7 +507,7 @@ public class DBAccess
         {
             // Set the database id for each sub-select.
             _pstmt = _conn.prepareStatement(select);
-            
+            _logger.info("In getSearchResults - Query : "+select);
             // Get the display and save for later.
             _rs = _pstmt.executeQuery();
             while (_rs.next())
