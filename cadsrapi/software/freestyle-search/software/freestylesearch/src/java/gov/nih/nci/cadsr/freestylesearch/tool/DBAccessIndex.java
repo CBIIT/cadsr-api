@@ -573,7 +573,7 @@ public class DBAccessIndex
         try
         {
             // Look for matches.
-        	_logger.debug(" Select Query for Phrase " + phrase_ + ": "+select);        	
+        	_logger.info(" Select Query for Phrase " + phrase_ + ": "+select);        	
             _pstmt = _conn.prepareStatement(select);
             _rs = _pstmt.executeQuery();
             copyResults(var);
@@ -650,7 +650,7 @@ public class DBAccessIndex
         try
         {
             // Look for matches.
-        	_logger.debug(" Select partial Query for Phrase " + phrase_ + ": "+select);        	
+        	_logger.info(" Select partial Query for Phrase " + phrase_ + ": "+select);        	
             _pstmt = _conn.prepareStatement(select);
             _rs = _pstmt.executeQuery();
             copyResults(var);
