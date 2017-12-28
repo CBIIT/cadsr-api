@@ -28,10 +28,9 @@ public class FormClient {
 			WebClient client = WebClient.create("http://ncias-d941-v.nci.nih.gov:29180/formrest/services/formLoad/");
 //			WebClient client = WebClient.create("http://localhost:8080/formrest/services/formLoad/");
 	
-			//String userName = "FORMBUILDER";
-			//String password = "FORMBUILDER";
+
 			String userName = "SBREXT";
-			String password = "jjuser";
+			String password = "";
 			String base64encodedUsernameAndPassword = new String(Base64.encodeBase64((userName + ":" + password).getBytes()));
 			client.header("Authorization", "Basic "	+ base64encodedUsernameAndPassword);
 	

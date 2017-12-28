@@ -29,9 +29,9 @@ L-->
         <check-valid-connection-sql>select 1 from dual</check-valid-connection-sql>
         <blocking-timeout-millis>10000</blocking-timeout-millis>
         <idle-timeout-minutes>5</idle-timeout-minutes>
-        <max-pool-size>85</max-pool-size>
+        <max-pool-size>85</max-pool-size>	
         <min-pool-size>1</min-pool-size>
-        <user-name>@FREESTYLE.DS.USER@</user-name> 
-        <password>@FREESTYLE.DS.PSWD@</password> 
+        <user-name>@@-Put the value here-@@</user-name> 
+        <password>@@-Put the value here-@@</password> 
     </local-tx-datasource>
 </datasources>

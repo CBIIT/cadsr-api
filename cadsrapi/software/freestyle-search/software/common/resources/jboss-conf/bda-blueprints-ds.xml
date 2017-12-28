@@ -21,11 +21,11 @@ L-->
 
 <datasources>
 	<local-tx-datasource>
-		<jndi-name>@application.context.name@</jndi-name>
+		<jndi-name>@put value here@</jndi-name>
 		<use-java-context>false</use-java-context>
-		<connection-url>@database.url@</connection-url>
-		<user-name>@database.user@</user-name>
-		<password>@database.password@</password>
-		<driver-class>@database.driver@</driver-class>
+		<connection-url>@put value here@</connection-url>
+		<user-name>@put value here@</user-name>
+		<password>@put value here@</password>
+		<driver-class>@put value here@</driver-class>
 	</local-tx-datasource>
 </datasources>

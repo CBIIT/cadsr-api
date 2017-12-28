@@ -87,6 +87,12 @@ L-->
     </head>
 
 <body onload="loaded();" onkeyup="checkEnter(event);">
+		    <div style="position:absolute;">
+				<a href="#skip">
+				<img src="/freestyle/images/skipnav.gif" border="0" height="1" width="1" alt="Skip Navigation" title="Skip Navigation" />
+		 		</a>
+			</div>
+			<a name="skip" id="skip"></a>			
               <table width="100%" border="0" cellspacing="0" cellpadding="0">
               <tr>
               <td valign="center" align="left"><a href="http://www.cancer.gov" target="_blank" alt="NCI Logo">
@@ -155,7 +161,7 @@ L-->
         </td>
         </tr></table>
         <hr></div>
-        <p style="text-align: center"><html:text property="phrase" styleClass="std" style="width: 5in" styleId="phrase" /><label for="phrase">&nbsp;&nbsp;</label>
+        <p style="text-align: center"><label for="phrase" style="font-weight: bold">Search Term&nbsp;&nbsp;</label><html:text property="phrase" styleClass="std" style="width: 5in" styleId="phrase" />
         <html:button property="search" styleClass="but2" onclick="doSearch();"><bean:message key="search.btn"/></html:button><br/><span id="workingmsg" style="color: #0000ff; font-weight: bold">&nbsp;</span></p><hr/>
         <html:errors />
 <%

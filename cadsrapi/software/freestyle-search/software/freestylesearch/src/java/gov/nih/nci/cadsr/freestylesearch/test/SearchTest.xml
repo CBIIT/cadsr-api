@@ -23,17 +23,15 @@ L-->
             before processing. This makes the "default" profile the foundation for all tests. Use
             "default" in the profile list to execute the default settings with no changes.
     -->
-<!--     <entry key="default.index.DSurl">cbiodb2-d.nci.nih.gov:1521:CBDEV</entry> -->
-    <entry key="default.index.DSurl">cbiodb540.nci.nih.gov:1521:DSRDEV</entry>
-    <entry key="default.index.DSusername">guest</entry>
-    <entry key="default.index.DSpassword">guest</entry>
-    <entry key="default.index.DSschema">sbrext</entry>
-<!--     <entry key="default.data.DSurl">cbiodb2-d.nci.nih.gov:1521:CBDEV</entry> -->
-    <entry key="default.data.DSurl">cbiodb540.nci.nih.gov:1521:DSRDEV</entry>
-    <entry key="default.data.DSusername">guest</entry>
-    <entry key="default.data.DSpassword">guest</entry>
-    <entry key="default.freestyle.url">http://freestyle-dev.nci.nih.gov</entry>
-    <entry key="default.core.url">http://cadsrapi-dev.nci.nih.gov/cadsrapi40</entry>
+    <entry key="default.index.DSurl"></entry>
+    <entry key="default.index.DSusername"></entry>
+    <entry key="default.index.DSpassword"></entry>
+    <entry key="default.index.DSschema"></entry>
+    <entry key="default.data.DSurl"></entry>
+    <entry key="default.data.DSusername"></entry>
+    <entry key="default.data.DSpassword"></entry>
+    <entry key="default.freestyle.url"></entry>
+    <entry key="default.core.url"></entry>
     <entry key="default.access">remote</entry>
     <entry key="default.returns">0</entry>
     <entry key="default.matchType">2</entry>
@@ -58,9 +56,9 @@ L-->
 
     <entry key="dev2.phrase">cardiac arrest</entry>
     <entry key="dev2.scores">2</entry>
-    <entry key="dev2.freestyle.url">http://freestyle-qa.nci.nih.gov</entry>
+    <entry key="dev2.freestyle.url"></entry>
     <entry key="dev2.returns">1,2</entry>
-    <entry key="dev2.core.url">http://cbvapp-d1008.nci.nih.gov:19080/caDSR/http/applicationService</entry>
+    <entry key="dev2.core.url"></entry>
 
     <!-- ===================================================================
 

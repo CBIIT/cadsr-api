@@ -36,8 +36,6 @@ public class FormLoaderTest {
     public void testSuccess() {
     	WebClient client = WebClient.create("http://ncias-d941-v.nci.nih.gov:29180/formrest/services/formLoad/");
     	
-		//String userName = "FORMBUILDER";
-		//String password = "FORMBUILDER";
 		String u = "formloader";
 		String p = "F0rmloader";
 		String base64encodedUsernameAndPassword = new String(Base64.encodeBase64((u + ":" + p).getBytes()));

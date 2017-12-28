@@ -5,22 +5,6 @@
      - Application context definition for Express on Hibernate.
      -->
 <beans> 
-  <!-- Use the following def if you want to use apache DS -->     
-  <!--
-       <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource">
-         <property name="driverClassName"><value>oracle.jdbc.driver.OracleDriver</value></property>
-         <property name="url"><value>jdbc:oracle:thin:@cbiodb2-d.nci.nih.gov:1521:CBDEV</value></property>
-         <property name="username"><value>sbrext</value></property>
-         <property name="password"><value>jjuser</value></property>
-       </bean>
-  -->
-  <!-- use the following for Oracle DS -->    
-  <!--bean id="dataSource" class="oracle.jdbc.pool.OracleConnectionPoolDataSource">
-    <property name="driverType"><value>oracle.jdbc.driver.OracleDriver</value></property>
-    <property name="URL"><value>jdbc:oracle:thin:@cbiodb2-d.nci.nih.gov:1521:CBDEV</value></property>
-    <property name="user"><value>sbrext</value></property>
-    <property name="password"><value>jjuser</value></property>
-  </bean-->  
   <bean id="dataSource" class="org.springframework.jndi.JndiObjectFactoryBean">
       <property name="jndiName"><value>jdbc/CDEBrowserDS</value></property>
    </bean>

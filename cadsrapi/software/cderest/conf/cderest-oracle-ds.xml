@@ -10,11 +10,11 @@
 <!-- ==================================================================== -->
 <datasources>
 - <local-tx-datasource>
-  <jndi-name>jboss/datasources/CDEBrowserDS</jndi-name> 
-  <connection-url>@DATABASE_URL@</connection-url> 
-  <driver-class>oracle.jdbc.driver.OracleDriver</driver-class> 
-  <user-name>@DATABASE_USERNAME@</user-name> 
-  <password>@DATABASE_PASSWORD@</password> 
+  <jndi-name>@@-put jndi here-@@</jndi-name> 
+  <connection-url>@@-put url here-@@</connection-url> 
+  <driver-class>@@-put thin driver here-@@</driver-class> 
+  <user-name>@@-put here-@@</user-name> 
+  <password>@@-put here-@@</password> 
   <exception-sorter-class-name>org.jboss.resource.adapter.jdbc.vendor.OracleExceptionSorter</exception-sorter-class-name> 
   <new-connection-sql>select 1 from dual</new-connection-sql> 
   <check-valid-connection-sql>select 1 from dual</check-valid-connection-sql> 
