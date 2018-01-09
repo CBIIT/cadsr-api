@@ -91,18 +91,17 @@ L-->
 				<a href="#skip">
 				<img src="/freestyle/images/skipnav.gif" border="0" height="1" width="1" alt="Skip Navigation" title="Skip Navigation" />
 		 		</a>
-			</div>
-			<a name="skip" id="skip"></a>			
+			</div>			
               <table width="100%" border="0" cellspacing="0" cellpadding="0">
               <tr>
               <td valign="center" align="left"><a href="http://www.cancer.gov" target="_blank" alt="NCI Logo">
               <img src="/freestyle/images/CBIIT-36px-Logo-COLOR_contrast.png" border="0" alt="Brand Type"></a></td>
               <td align="center"><img style="border: 0px solid black" alt="Freestyle Logo" src="/freestyle/images/freestyle_banner_new.gif"></td>              
               <td align="right"><a target="_blank" href="http://www.nih.gov">U.S. National Institutes of Health</a></td></tr>
-              </table>
+              </table>              
               <table class="secttable"><colgroup><col /></colgroup><tbody class="secttbody" />
               <tr><td><a target="_blank" href="http://cbiit.nci.nih.gov/ncip/biomedical-informatics-resources/interoperability-and-semantics/metadata-and-models"><img style="border: 0px solid black" alt="NCICB caDSR" src="/freestyle/images/caDSR_logo2_contrast.png"></a></td></tr>
-              <tr><td align="center"><p class="ttl18"><bean:message key="search.title"/></p></td></tr>
+              <tr><td align="center"><a name="skip" id="skip"></a><p class="ttl18"><bean:message key="search.title"/></p></td></tr>
               </table>
     <html:form method="post" action="/search" focus="phrase">
         <html:hidden property="displayOptions"/>
