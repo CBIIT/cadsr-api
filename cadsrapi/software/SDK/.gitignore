@@ -1,10 +1,10 @@
 /bin
-
 /web
 /common/customizations/bin
 build
 cacore_sdk_45
 dist
 output
-
 /local.build.properties
+*.DS_Store
+**/.DS_Store
