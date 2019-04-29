@@ -21,5 +21,4 @@ services:
       debug: $debug
       tiername: $tiername
       tier: $tiername
-      host: $host
-      connectionUrl: $CADSR_DS_HOST:$CADSR_DS_PORT:$CADSR_DS_TNS_ENTRY
+      
