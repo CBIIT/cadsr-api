@@ -306,7 +306,7 @@ L-->
 		<!-- <copy file="${conf.dir}/jboss-deployment-structure.xml" todir="${basedir}/dist/war" overwrite="true"/> -->
 		<copy file="${package.system.dir}/cadsrapi41.war" todir="${basedir}/dist/war" overwrite="true"/>
 		<!-- <copy file="../formrest/target/dist/formrest.war" todir="${basedir}/dist/war" overwrite="true"/> -->
-		<copy file="../cderest/target/cderest.war" todir="${basedir}/dist/war" overwrite="true"/>
+		<!-- <copy file="../cderest/target/cderest.war" todir="${basedir}/dist/war" overwrite="true"/> -->
 		<copy file="../freestyle-search/software/freestylesearch/deployment-artifacts/freestyle.war" todir="${basedir}/dist/war" overwrite="true"/>
 		<copy todir="${basedir}/dist/war/META-INF" overwrite="true">
 			<fileset dir="${common.dir}/customizations/META-INF">
@@ -329,14 +329,14 @@ L-->
 		
 		<jar jarfile="${basedir}/dist/cadsrapi41.ear" basedir="${basedir}/dist/war" />
 		<delete dir="${basedir}/dist/war" quiet="true" />
-		<copy file="../formrest/target/dist/formbuilder.xslt" todir="${basedir}/dist" overwrite="true"/>
+		<!-- <copy file="../formrest/target/dist/formbuilder.xslt" todir="${basedir}/dist" overwrite="true"/>
 		<copy file="../formrest/target/dist/transform.properties" todir="${basedir}/dist" overwrite="true"/>
 		<copy file="../formrest/target/dist/cadsrutil.properties" todir="${basedir}/dist" overwrite="true"/>
 		<copy file="../cderest/target/cdebrowser.xslt" todir="${basedir}/dist" overwrite="true"/>
-		<copy file="../cderest/target/ConvertCDE.xslt" todir="${basedir}/dist" overwrite="true"/>
+		<copy file="../cderest/target/ConvertCDE.xslt" todir="${basedir}/dist" overwrite="true"/> -->
 		<copy file="${conf.dir}/cadsrapi_modules.cli" todir="${basedir}/dist" overwrite="true" filtering="true"/>
 		<copy file="${conf.dir}/cadsrapi_setup_deploy.cli" todir="${basedir}/dist" overwrite="true" filtering="true"/>
-		<!-- <copy file="${lib.dir}/ojdbc6.jar" todir="${basedir}/dist" overwrite="true"/> -->		
+		<copy file="${lib.dir}/ojdbc7.jar" todir="${basedir}/dist" overwrite="true"/>		
 		<copy todir="${basedir}/dist/freestyle_autorun" overwrite="true">
 			<fileset dir="../freestyle-search/software/freestylesearch/deployment-artifacts/bin">
 				<include name="**/*" />
@@ -360,9 +360,9 @@ L-->
 			<property name="database.password" value="${CADSR.DS.PSWD}"/>
 		</ant>
 	</target>	
-	<target name="deploy:cderest" depends="build:cderest">
+	<!-- <target name="deploy:cderest" depends="build:cderest">
 		<copy file="${basedir}/dist/cderest.war" todir="C:/bin/jboss-5.1.0.GA/server/default/deploy"/>
-	</target>
+	</target> -->
 	<target name="unzip:war">
 		<delete dir="${web.dir}" quiet="true" />
 		<mkdir dir="${web.dir}" />

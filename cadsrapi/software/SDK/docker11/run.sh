@@ -32,15 +32,11 @@ wait_for_server
 
 echo "=> deploying modules"
 cp dist/cadsrapi41.ear /local/content/cadsrapi/bin
-cp dist/ojdbc6.jar /local/content/cadsrapi/bin
+cp dist/ojdbc7.jar /local/content/cadsrapi/bin
 cp dist/cadsrapi_modules.cli /local/content/cadsrapi/bin
 cp dist/cadsrapi_setup_deploy.cli /local/content/cadsrapi/bin
-cp dist/cadsrutil.properties /local/content/cadsrapi/bin
-cp dist/transform.properties /local/content/cadsrapi/transform/config
-cp dist/cdebrowser.xslt /local/content/cadsrapi/transform/xslt
-cp dist/ConvertCDE.xslt /local/content/cadsrapi/transform/xslt
-cp dist/formbuilder.xslt /local/content/cadsrapi/transform/xslt
 cp dist/freestyle_autorun/*.* /local/content/freestyle/bin
+chmod 755 /local/content/freestyle/bin/autorun.sh 
 
 
 /opt/wildfly/bin/jboss-cli.sh -c --controller=localhost:9990 --file=/local/content/cadsrapi/bin/cadsrapi_modules.cli
