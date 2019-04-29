@@ -1,11 +1,11 @@
 version: '2'
 services:
   server:
-    container_name: cadsr-passwordchange11
-    image: cadsr-passwordchange11
+    container_name: cadsr-api11
+    image: cadsr-api11
     build: ./
     ports:
-     - "8090:8080"
+     - "8098:8080"
     environment:
       CADSR_DS_TNS_HOST: $CADSR_DS_HOST
       CADSR_DS_TNS_PORT: $CADSR_DS_PORT
@@ -21,5 +21,4 @@ services:
       debug: $debug
       tiername: $tiername
       tier: $tiername
-      host: $host
-      connectionUrl: $CADSR_DS_HOST:$CADSR_DS_PORT:$CADSR_DS_TNS_ENTRY
+      
