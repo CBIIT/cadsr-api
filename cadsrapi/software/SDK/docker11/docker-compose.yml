@@ -1,8 +1,8 @@
 version: '2'
 services:
   server:
-    container_name: cadsr-passwordchange11
-    image: cadsr-passwordchange11
+    container_name: cadsr-api11
+    image: cadsr-api11
     build: ./
     ports:
      - "8090:8080"
