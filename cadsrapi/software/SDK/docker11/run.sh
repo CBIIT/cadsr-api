@@ -20,8 +20,8 @@ function wait_for_server() {
 
 echo "=> build application"
 
-echo ant -buildfile build.xml build:system -DTOOL_BASE_DIR=${TOOL_BASE_DIR} -Dlocal-transform=${TOOL_BASE_DIR}/cadsrapi/transform -DCADSR_DS_TNS_PORT=${CADSR_DS_TNS_PORT} -DlogLevel=DEBUG -DFREESTYLE_DS_USER=${FREESTYLE_DS_USER} -DCADSR_DS_USER=${CADSR_DS_USER} -Dtiername=${tiername} -DCADSR_DS_TNS_SID=${CADSR_DS_TNS_SID} -DTEST=false -DCADSR_DS_TNS_HOST=${CADSR_DS_TNS_HOST} -DJDEBUG=off -DFREESTYLE_DS_PSWD=${FREESTYLE_DS_PSWD} -DCADSR_DS_PSWD=${CADSR_DS_PSWD}
-ant -buildfile build.xml build:system -DTOOL_BASE_DIR=${TOOL_BASE_DIR} -Dlocal-transform=${TOOL_BASE_DIR}/cadsrapi/transform -DCADSR_DS_TNS_PORT=${CADSR_DS_TNS_PORT} -DlogLevel=DEBUG -DFREESTYLE_DS_USER=${FREESTYLE_DS_USER} -DCADSR_DS_USER=${CADSR_DS_USER} -Dtiername=${tiername} -DCADSR_DS_TNS_SID=${CADSR_DS_TNS_SID} -DTEST=false -DCADSR_DS_TNS_HOST=${CADSR_DS_TNS_HOST} -DJDEBUG=off -DFREESTYLE_DS_PSWD=${FREESTYLE_DS_PSWD} -DCADSR_DS_PSWD=${CADSR_DS_PSWD}
+echo ant -buildfile build.xml build:system -DCADSR.DS.TNS.HOST=${CADSR_DS_TNS_HOST} -DCADSR.DS.TNS_PORT=${CADSR_DS_TNS_PORT} -DCADSR.DS.TNS.SID=${CADSR_DS_TNS_SID} -DCADSR.DS.USER=${CADSR_DS_USER} -DCADSR.DS.PSWD=${CADSR_DS_PSWD} -DFREESTYLE.DS.USER=${FREESTYLE_DS_USER} -DFREESTYLE.DS.PSWD=${FREESTYLE_DS_PSWD} -DTOOL.BASE.DIR=${TOOL_BASE_DIR} -Dlocal-transform=${TOOL_BASE_DIR}/cadsrapi/transform -DlogLevel=DEBUG -Dtiername=${tiername} -DJDEBUG=off -DTEST=false
+ant -buildfile build.xml build:system -DCADSR.DS.TNS.HOST=${CADSR_DS_TNS_HOST} -DCADSR.DS.TNS_PORT=${CADSR_DS_TNS_PORT} -DCADSR.DS.TNS.SID=${CADSR_DS_TNS_SID} -DCADSR.DS.USER=${CADSR_DS_USER} -DCADSR.DS.PSWD=${CADSR_DS_PSWD} -DFREESTYLE.DS.USER=${FREESTYLE_DS_USER} -DFREESTYLE.DS.PSWD=${FREESTYLE_DS_PSWD} -DTOOL.BASE.DIR=${TOOL_BASE_DIR} -Dlocal-transform=${TOOL_BASE_DIR}/cadsrapi/transform -DlogLevel=DEBUG -Dtiername=${tiername} -DJDEBUG=off -DTEST=false
 
 
 echo "=> starting wildfly in background"
@@ -40,6 +40,7 @@ cp dist/transform.properties /local/content/cadsrapi/transform/config
 cp dist/cdebrowser.xslt /local/content/cadsrapi/transform/xslt
 cp dist/ConvertCDE.xslt /local/content/cadsrapi/transform/xslt
 cp dist/formbuilder.xslt /local/content/cadsrapi/transform/xslt
+cp dist/freestyle_autorun/*.* /local/content/freestyle/bin
 
 
 /opt/wildfly/bin/jboss-cli.sh -c --controller=localhost:9990 --file=/local/content/cadsrapi/bin/cadsrapi_modules.cli
