@@ -5,7 +5,7 @@ services:
     image: cadsr-api11
     build: ./
     ports:
-     - "8090:8080"
+     - "8098:8080"
     environment:
       CADSR_DS_TNS_HOST: $CADSR_DS_HOST
       CADSR_DS_TNS_PORT: $CADSR_DS_PORT
