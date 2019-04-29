@@ -10,6 +10,6 @@ L-->
 <!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
 <beans default-lazy-init="false" default-dependency-check="none" default-autowire="no">
 
-	<bean name="cadsrapiService" class="gov.nih.nci.system.webservice.WSQueryImpl" singleton="true"/>
+	<bean name="cadsrapiService" class="gov.nih.nci.system.webservice.WSQueryImpl" />
 
 </beans>

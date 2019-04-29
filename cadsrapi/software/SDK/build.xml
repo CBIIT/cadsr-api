@@ -305,7 +305,7 @@ L-->
 		<mkdir dir="${basedir}/dist/freestyle_autorun" />
 		<!-- <copy file="${conf.dir}/jboss-deployment-structure.xml" todir="${basedir}/dist/war" overwrite="true"/> -->
 		<copy file="${package.system.dir}/cadsrapi41.war" todir="${basedir}/dist/war" overwrite="true"/>
-		<copy file="../formrest/target/dist/formrest.war" todir="${basedir}/dist/war" overwrite="true"/>
+		<!-- <copy file="../formrest/target/dist/formrest.war" todir="${basedir}/dist/war" overwrite="true"/> -->
 		<copy file="../cderest/target/cderest.war" todir="${basedir}/dist/war" overwrite="true"/>
 		<copy file="../freestyle-search/software/freestylesearch/deployment-artifacts/freestyle.war" todir="${basedir}/dist/war" overwrite="true"/>
 		<copy todir="${basedir}/dist/war/META-INF" overwrite="true">
@@ -336,7 +336,7 @@ L-->
 		<copy file="../cderest/target/ConvertCDE.xslt" todir="${basedir}/dist" overwrite="true"/>
 		<copy file="${conf.dir}/cadsrapi_modules.cli" todir="${basedir}/dist" overwrite="true" filtering="true"/>
 		<copy file="${conf.dir}/cadsrapi_setup_deploy.cli" todir="${basedir}/dist" overwrite="true" filtering="true"/>
-		<copy file="${lib.dir}/ojdbc6.jar" todir="${basedir}/dist" overwrite="true"/>		
+		<!-- <copy file="${lib.dir}/ojdbc6.jar" todir="${basedir}/dist" overwrite="true"/> -->		
 		<copy todir="${basedir}/dist/freestyle_autorun" overwrite="true">
 			<fileset dir="../freestyle-search/software/freestylesearch/deployment-artifacts/bin">
 				<include name="**/*" />
@@ -471,7 +471,24 @@ L-->
 		<delete file="${web.dir}/WEB-INF/lib/commons-codec-1.3.jar" quiet="true" />
 		<delete file="${web.dir}/WEB-INF/lib/commons-fileupload-1.3.jar" quiet="true" />		
 		<delete file="${web.dir}/WEB-INF/lib/commons-fileupload-1.3.3.jar" quiet="true" />		
-		<delete file="${web.dir}/WEB-INF/lib/axis.jar" quiet="true" />		
+		<delete file="${web.dir}/WEB-INF/lib/axis.jar" quiet="true" />
+		<delete file="${web.dir}/WEB-INF/lib/org.springframework.aop-3.0.5.RELEASE.jar" quiet="true" />
+		<delete file="${web.dir}/WEB-INF/lib/org.springframework.asm-3.0.5.RELEASE.jar" quiet="true" />
+		<delete file="${web.dir}/WEB-INF/lib/org.springframework.beans-3.0.5.RELEASE.jar" quiet="true" />
+		<delete file="${web.dir}/WEB-INF/lib/org.springframework.context-3.0.5.RELEASE.jar" quiet="true" />
+		<delete file="${web.dir}/WEB-INF/lib/org.springframework.context.support-3.0.5.RELEASE.jar" quiet="true" />
+		<delete file="${web.dir}/WEB-INF/lib/org.springframework.core-3.0.5.RELEASE.jar" quiet="true" />
+		<delete file="${web.dir}/WEB-INF/lib/org.springframework.expression-3.0.5.RELEASE.jar" quiet="true" />
+		<!-- <delete file="${web.dir}/WEB-INF/lib/org.springframework.jdbc-3.0.5.RELEASE.jar" quiet="true" />
+		<delete file="${web.dir}/WEB-INF/lib/org.springframework.orm-3.0.5.RELEASE.jar" quiet="true" />
+		<delete file="${web.dir}/WEB-INF/lib/org.springframework.transaction-3.0.5.RELEASE.jar" quiet="true" /> -->		
+		<delete file="${web.dir}/WEB-INF/lib/org.springframework.web-3.0.5.RELEASE.jar" quiet="true" />
+		<delete file="${web.dir}/WEB-INF/lib/org.springframework.web.servlet-3.0.5.RELEASE.jar" quiet="true" />
+		<delete file="${web.dir}/WEB-INF/lib/org.springframework.web.struts-3.0.5.RELEASE.jar" quiet="true" />
+		<delete file="${web.dir}/WEB-INF/lib/xalan-2.6.0.jar" quiet="true" />
+		<delete file="${web.dir}/WEB-INF/lib/ojdbc6.jar" quiet="true" />
+		<!-- <delete file="${web.dir}/WEB-INF/lib/axis-1.4.jar" quiet="true" /> -->
+		
 		<war destfile="${package.system.dir}/${PROJECT_NAME}.war" webxml="${web.dir}\WEB-INF\web.xml">
 
 			<manifest>

@@ -7,18 +7,6 @@
 			<context-root>/cadsrapi41</context-root>
 		</web>
 	</module>
-	<!-- <module id="cderest">
-		<web>
-			<web-uri>cderest.war</web-uri>
-			<context-root>/cderest</context-root>
-		</web>
-	</module> -->	
-	<module id="formrest">
-		<web>
-			<web-uri>formrest.war</web-uri>
-			<context-root>/formrest</context-root>
-		</web>
-	</module>
 	 <module id="freestyle">
 		<web>
 			<web-uri>freestyle.war</web-uri>
