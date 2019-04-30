@@ -54,3 +54,4 @@ echo "=> shutting wildfly down"
 /opt/wildfly/bin/jboss-cli.sh --connect command=:shutdown
 
 echo "=> starting wildfly in foreground"
+/opt/wildfly/bin/standalone.sh -b 0.0.0.0 -bmanagement 0.0.0.0 
