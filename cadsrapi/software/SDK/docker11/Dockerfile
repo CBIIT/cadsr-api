@@ -30,9 +30,8 @@ COPY run.sh /usr/bin/run.sh
 RUN chown wildfly /usr/bin/run.sh && chmod 700 /usr/bin/run.sh
 
 # create local content directories, change owner to wildfly #
-RUN mkdir -p /local/content/cadsrapi/bin /local/content/cadsrapi/transform/config \
-    /local/content/cadsrapi/transform/xslt /local/content/freestyle/bin \
-    && chown -RH wildfly /local/content/cadsrapi/
+RUN mkdir -p /local/content/cadsrapi/bin /local/content/cadsrapi/transform/config /local/content/cadsrapi/transform/xslt /local/content/freestyle/bin \
+    && chown -RH wildfly /local/content/cadsrapi
 
 # make directory for pulling code from github and change owner to wildfly #
 RUN mkdir /usr/src/cadsrapi && chown -RH wildfly: /usr/src/cadsrapi
