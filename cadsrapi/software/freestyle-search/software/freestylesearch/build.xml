@@ -26,7 +26,7 @@ L-->
 		<classpath refid="common.lib.classpath" />
 	</taskdef>
     
-    <property name="appl.release" value="4.1.6" />
+    <property name="appl.release" value="4.1.8" />
     <property name="appl.version" value="${appl.release}.${DSTAMP}${TSTAMP}"/>
 
     <property name="PROP.FILE" location="local.build.properties" />
