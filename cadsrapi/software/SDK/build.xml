@@ -69,6 +69,7 @@ L-->
 	<property name="CADSR.DS.USER" value="${CADSR.DS.USER}" />
 	<property name="CADSR.DS.PSWD" value="${CADSR.DS.PSWD}" />
 	<property name="PROJECT_NAME" value="${PROJECT_NAME}" />
+	<property name="CONNECTION.URL" value="jdbc:oracle:thin:@${CADSR.DS.URL}" /> <!-- Adding a single point connection string concatenation -->
 	<filter token="CADSR.DS.URL" value="${CADSR.DS.URL}" />
 	<filter token="CADSR.DS.USER" value="${CADSR.DS.USER}" />
 	<filter token="CADSR.DS.PSWD" value="${CADSR.DS.PSWD}" />
@@ -283,21 +284,21 @@ L-->
 		<antcall target="-copy-client-jar" />
 		<ant antfile="build.xml" target="war" dir="../formrest" inheritall="false">
 			<property name="basedir" value="../formrest"/>
-			<property name="database.url" value="jdbc:oracle:thin:@${CADSR.DS.TNS.HOST}:${CADSR.DS.TNS.PORT}:${CADSR.DS.TNS.SID}"/>
+			<property name="database.url" value="${CONNECTION.URL}"/>
 			<property name="database.user" value="${FORMREST.DS.USER}"/>
 			<property name="database.password" value="${FORMREST.DS.PSWD}"/>
 		</ant>
 		<ant antfile="build.xml" target="build-product" dir="../freestyle-search/software/freestylesearch" inheritall="false">
 			<property name="basedir" value="../freestyle-search/software/freestylesearch"/>
-			<property name="CADSR.DS.URL" value="jdbc:oracle:thin:@${CADSR.DS.TNS.HOST}:${CADSR.DS.TNS.PORT}:${CADSR.DS.TNS.SID}"/>
-			<property name="FREESTYLE.DS.URL" value="${CADSR.DS.TNS.HOST}:${CADSR.DS.TNS.PORT}:${CADSR.DS.TNS.SID}.nci.nih.gov"/>
+			<property name="CADSR.DS.URL" value="${CONNECTION.URL}"/>
+			<property name="FREESTYLE.DS.URL" value="${CONNECTION.URL}"/>
 			<property name="FREESTYLE.DS.USER" value="${FREESTYLE.DS.USER}"/>
 			<property name="FREESTYLE.DS.PSWD" value="${FREESTYLE.DS.PSWD}"/>
 			<property name="tier" value="${tier}"/>
 		</ant>
 		<artifact:mvn pom="../cderest/pom.xml">
 			<arg value="package"/>
-			<arg value="-Ddatabase.url=jdbc:oracle:thin:@${CADSR.DS.TNS.HOST}:${CADSR.DS.TNS.PORT}:${CADSR.DS.TNS.SID}"/>
+			<arg value="-Ddatabase.url=${CONNECTION.URL}"/>
 			<arg value="-Ddatabase.username=${CDEREST.DS.USER}"/>
 			<arg value="-Ddatabase.password=${CDEREST.DS.PSWD}"/>		    
   		</artifact:mvn>
@@ -347,7 +348,7 @@ L-->
 	<target name="build:cderest">
 		<artifact:mvn pom="../cderest/pom.xml">
 			<arg value="package"/>
-			<arg value="-Ddatabase.url=jdbc:oracle:thin:@${CADSR.DS.TNS.HOST}:${CADSR.DS.TNS.PORT}:${CADSR.DS.TNS.SID}"/>
+			<arg value="-Ddatabase.url=${CONNECTION.URL}"/>
 			<arg value="-Ddatabase.username=${CADSR.DS.USER}"/>
 			<arg value="-Ddatabase.password=${CADSR.DS.PSWD}"/>
   		</artifact:mvn>
@@ -355,7 +356,7 @@ L-->
 	<target name="build:formrest">
 		<ant antfile="build.xml" target="war" dir="../formrest" inheritall="false">
 			<property name="basedir" value="../formrest"/>
-			<property name="database.url" value="jdbc:oracle:thin:@${CADSR.DS.TNS.HOST}:${CADSR.DS.TNS.PORT}:${CADSR.DS.TNS.SID}"/>
+			<property name="database.url" value="${CONNECTION.URL}"/>
 			<property name="database.user" value="${CADSR.DS.USER}"/>
 			<property name="database.password" value="${CADSR.DS.PSWD}"/>
 		</ant>
