@@ -291,7 +291,7 @@ L-->
 		<ant antfile="build.xml" target="build-product" dir="../freestyle-search/software/freestylesearch" inheritall="false">
 			<property name="basedir" value="../freestyle-search/software/freestylesearch"/>
 			<property name="CADSR.DS.URL" value="${CONNECTION.URL}"/>
-			<property name="FREESTYLE.DS.URL" value="${CONNECTION.URL}"/>
+			<property name="FREESTYLE.DS.URL" value="${CADSR.DS.URL}.nci.nih.gov"/>
 			<property name="FREESTYLE.DS.USER" value="${FREESTYLE.DS.USER}"/>
 			<property name="FREESTYLE.DS.PSWD" value="${FREESTYLE.DS.PSWD}"/>
 			<property name="tier" value="${tier}"/>
