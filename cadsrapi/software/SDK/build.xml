@@ -273,7 +273,24 @@ L-->
 		<replace file="${project.build.home}/install.properties" token="@CADSR.DS.PSWD@" value="${CADSR.DS.PSWD}" />
 
 	</target>
-	<target name="build:system" description="Builds the entire system. This is used mostly by development team or BDA certification team" depends="retrieve:cacore-sdk,load-sdk,load-project">
+
+	<!-- The following two TARGET blocks are for replacing the install.xml file from caCORE SDK, conditionally based on the 
+		version of Oracle database (11g/12c) -->
+
+	<target name="prepare-copy" description="copy file based on condition"
+    	depends="prepare-copy-true">
+	</target>
+
+	<!--  If the build is for connecting to Oracle database 12c, then the parameter 'oracle' will be set at the time of the build
+	Based on this parameter the following copy operation (replacing the install.xml file from caCORE SDK) is performed -->
+	<target name="prepare-copy-true" description="copy file based on condition"
+    	if="oracle">
+			<echo message="Oracle 12c - Replacing install.xml from caCORE SDK with customized file for 12c" />
+			<copy file="${conf.dir}/install-sdk45-template-12c.xml" tofile="${sdk.home.dir}/software/build/install.xml" overwrite="true"/>
+	</target>
+
+
+	<target name="build:system" description="Builds the entire system. This is used mostly by development team or BDA certification team" depends="retrieve:cacore-sdk,load-sdk,load-project, prepare-copy">
 		<ant antfile="${project.build.home}/build.xml" inheritall="false" inheritrefs="false" target="build:SDK" />
 		<antcall target="package-webapp" />
 		<delete file="${output.package.local.dir}/lib/asm-1.5.3.jar" quiet="true" />		
