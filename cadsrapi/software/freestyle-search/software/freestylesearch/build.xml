@@ -256,7 +256,7 @@ L-->
             <!-- <fileset file="${lib.dir}/log4j-1.2.16.jar" /> -->        	
         	<fileset file="${lib.dir}/log4j-over-slf4j-1.7.30.jar" />
         	<fileset file="${lib.dir}/slf4j-api-1.7.30.jar" />
-        	<fileset file="${lib.dir}/slf4j-simple-1.7.30.jar" />        	
+        	<fileset file="${lib.dir}/slf4j-simple-1.7.30.jar" />
             <fileset file="${lib.dir}/ojdbc6.jar" />
             <fileset file="${wlib.dir}/sdk-system-client-4.5.jar" />
         	<fileset file="${wlib.dir}/sdk-writable-api-client-4.5.jar" />
@@ -271,6 +271,17 @@ L-->
             <fileset file="${basedir}/src/java/gov/nih/nci/cadsr/freestylesearch/test/SearchTest.xml" />
             <fileset dir="${basedir}/src/resources/sdkapi" includes="**/*" />
         </copy>
+
+        <delete file="${wlib.dir}/slf4j-api-1.4.3.jar" quiet="true" />
+        <delete file="${wlib.dir}/slf4j-log4j12-1.4.3.jar" quiet="true" />
+        <delete file="${web.dir}/lib/slf4j-api-1.4.3.jar" quiet="true" />
+        <delete file="${web.dir}/lib/slf4j-log4j12-1.4.3.jar" quiet="true" />
+        <copy todir="${web.dir}/lib" >
+            <fileset file="${lib.dir}/log4j-over-slf4j-1.7.30.jar" />
+            <fileset file="${lib.dir}/slf4j-api-1.7.30.jar" />
+            <fileset file="${lib.dir}/slf4j-simple-1.7.30.jar" />
+        </copy>                
+
         <fixcrlf srcdir="${artifacts.dir}" eol="lf" includes="**/*.sh, **/*.xml, **/*.properties" />
     	<replaceregexp file="${artifacts.dir}/bin/application-config-client.xml" match="@service_url@" replace="${api.url}" flags="g"/>
     	<replaceregexp file="${web.dir}/web.xml" match="@CADSR.DS.USER@" replace="${FREESTYLE.DS.USER}" flags="g"/>
