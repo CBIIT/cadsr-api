@@ -69,7 +69,7 @@ L-->
         <isset property="oracle"/>
     </condition>
 	
-    <condition property="FREESTYLE.URL" value="${CADSR.DS.URL}" else="${CADSR.DS.URL}.nci.nih.gov">
+    <condition property="FREESTYLE.URL" value="${CADSR.DS.TNS.HOST}:${CADSR.DS.TNS.PORT}:${CADSR.DS.TNS.SID}" else="${CADSR.DS.TNS.HOST}:${CADSR.DS.TNS.PORT}:${CADSR.DS.TNS.SID}.nci.nih.gov">
         <isset property="oracle"/>
     </condition>	
 	
