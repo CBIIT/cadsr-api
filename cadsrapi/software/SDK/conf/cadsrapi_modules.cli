@@ -1,5 +1,9 @@
 connect
 
+# We cannot remove old datasource without undeploying the applications
+if (outcome == success) of /deployment=cadsrapi41.ear:read-resource
+undeploy cadsrapi41.ear
+end-if
 
 #module remove --name=com.oracle.jdbc6
 #data-source remove --name=CDEBrowserDS
