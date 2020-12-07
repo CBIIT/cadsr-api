@@ -330,9 +330,13 @@ L-->
 		<mkdir dir="${basedir}/dist/freestyle_autorun" />
 		<!-- <copy file="${conf.dir}/jboss-deployment-structure.xml" todir="${basedir}/dist/war" overwrite="true"/> -->
 		<copy file="${package.system.dir}/cadsrapi41.war" todir="${basedir}/dist/war" overwrite="true"/>
+		<!-- Separating the API WAR out of the EAR -->
+		<copy file="${package.system.dir}/cadsrapi41.war" todir="${basedir}/dist" overwrite="true"/>
 		<copy file="../formrest/target/dist/formrest.war" todir="${basedir}/dist/war" overwrite="true"/>
 		<copy file="../cderest/target/cderest.war" todir="${basedir}/dist/war" overwrite="true"/>
 		<copy file="../freestyle-search/software/freestylesearch/deployment-artifacts/freestyle.war" todir="${basedir}/dist/war" overwrite="true"/>
+		<!-- Separating the Freestyle WAR out of the EAR -->		
+		<copy file="../freestyle-search/software/freestylesearch/deployment-artifacts/freestyle.war" todir="${basedir}/dist" overwrite="true"/>
 		<copy todir="${basedir}/dist/war/META-INF" overwrite="true">
 			<fileset dir="${common.dir}/customizations/META-INF">
 				<include name="**/*" />
