@@ -296,7 +296,7 @@ L-->
 			<copy file="${conf.dir}/install-sdk45-template-12c.xml" tofile="${sdk.home.dir}/software/build/install.xml" overwrite="true"/>
 	</target>
 
-
+	<!-- Full system build - caDSR API & Freestyle search -->
 	<target name="build:system" description="Builds the entire system. This is used mostly by development team or BDA certification team" depends="retrieve:cacore-sdk,load-sdk,load-project, prepare-copy">
 		<ant antfile="${project.build.home}/build.xml" inheritall="false" inheritrefs="false" target="build:SDK" />
 		<antcall target="package-webapp" />
@@ -365,6 +365,7 @@ L-->
 		<copy file="../cderest/target/ConvertCDE.xslt" todir="${basedir}/dist" overwrite="true"/>
 		<copy file="${conf.dir}/cadsrapi_modules.cli" todir="${basedir}/dist" overwrite="true" filtering="true"/>
 		<copy file="${conf.dir}/cadsrapi_setup_deploy.cli" todir="${basedir}/dist" overwrite="true" filtering="true"/>
+		<copy file="${conf.dir}/freestyle_setup_deploy.cli" todir="${basedir}/dist" overwrite="true" filtering="true"/>		
 		<copy file="${lib.dir}/ojdbc6.jar" todir="${basedir}/dist" overwrite="true"/>		
 		<copy todir="${basedir}/dist/freestyle_autorun" overwrite="true">
 			<fileset dir="../freestyle-search/software/freestylesearch/deployment-artifacts/bin">
@@ -373,6 +374,139 @@ L-->
 		</copy>
 		<copy file="${war.dir}/${PROJECT_NAME}rest.war" todir="${basedir}/dist" overwrite="true"/>
 	</target>
+	
+	<!-- caDSR API Standalone build -->
+	<target name="build:cadsrapi" description="Builds caDSR API application only." depends="retrieve:cacore-sdk,load-sdk,load-project, prepare-copy">
+		<ant antfile="${project.build.home}/build.xml" inheritall="false" inheritrefs="false" target="build:SDK" />
+		<antcall target="package-webapp" />
+		<delete file="${output.package.local.dir}/lib/asm-1.5.3.jar" quiet="true" />		
+		<delete file="${output.package.remote.dir}/lib/asm-1.5.3.jar" quiet="true" />
+		<delete file="${web.dir}/WEB-INF/lib/asm-1.5.3.jar" quiet="true" />
+		
+		<antcall target="-build-client-jar" />
+		<antcall target="-copy-client-jar" />
+		<ant antfile="build.xml" target="war" dir="../formrest" inheritall="false">
+			<property name="basedir" value="../formrest"/>
+			<property name="database.url" value="${CONNECTION.URL}"/>
+			<property name="database.user" value="${FORMREST.DS.USER}"/>
+			<property name="database.password" value="${FORMREST.DS.PSWD}"/>
+		</ant>
+		<artifact:mvn pom="../cderest/pom.xml">
+			<arg value="package"/>
+			<arg value="-Ddatabase.url=${CONNECTION.URL}"/>
+			<arg value="-Ddatabase.username=${CDEREST.DS.USER}"/>
+			<arg value="-Ddatabase.password=${CDEREST.DS.PSWD}"/>		    
+  		</artifact:mvn>
+		<mkdir dir="${basedir}/dist/war/META-INF"/>
+		<!-- <copy file="${conf.dir}/jboss-deployment-structure.xml" todir="${basedir}/dist/war" overwrite="true"/> -->
+		<copy file="${package.system.dir}/cadsrapi41.war" todir="${basedir}/dist/war" overwrite="true"/>
+		<!-- Separating the API WAR out of the EAR -->
+		<copy file="${package.system.dir}/cadsrapi41.war" todir="${basedir}/dist" overwrite="true"/>
+		<copy file="../formrest/target/dist/formrest.war" todir="${basedir}/dist/war" overwrite="true"/>
+		<copy file="../cderest/target/cderest.war" todir="${basedir}/dist/war" overwrite="true"/>
+		<copy todir="${basedir}/dist/war/META-INF" overwrite="true">
+			<fileset dir="${common.dir}/customizations/META-INF">
+				<include name="**/*" />
+			</fileset>
+		</copy>
+		
+		<filter token="connectionUrl" value="${CADSR.DS.URL}"/>
+		<echo>connectionUrl = ${connectionUrl}</echo>
+		<filter token="cdeBrowserUser" value="${CADSR.DS.USER}"/>
+		<echo>cdeBrowserUser = ${cdeBrowserUser}</echo>
+		<filter token="cdeBrowserPassword" value="${CADSR.DS.PSWD}"/>
+		<echo>cdeBrowserPassword not echoed</echo>		
+		<filter token="freestyleUser" value="${FREESTYLE.DS.USER}"/>
+		<echo>freestyleUser = ${freestyleUser}</echo>
+		<filter token="freestylePassword" value="${FREESTYLE.DS.PSWD}"/>
+		<echo>freestylePassword not echoed</echo>
+		<filter token="logLevel" value="INFO"/>
+
+		<delete dir="${basedir}/dist/war" quiet="true" />
+		<copy file="../formrest/target/dist/formbuilder.xslt" todir="${basedir}/dist" overwrite="true"/>
+		<copy file="../formrest/target/dist/transform.properties" todir="${basedir}/dist" overwrite="true"/>
+		<copy file="../formrest/target/dist/cadsrutil.properties" todir="${basedir}/dist" overwrite="true"/>
+		<copy file="../cderest/target/cdebrowser.xslt" todir="${basedir}/dist" overwrite="true"/>
+		<copy file="../cderest/target/ConvertCDE.xslt" todir="${basedir}/dist" overwrite="true"/>
+		<copy file="${conf.dir}/cadsrapi_modules.cli" todir="${basedir}/dist" overwrite="true" filtering="true"/>
+		<copy file="${conf.dir}/cadsrapi_setup_deploy.cli" todir="${basedir}/dist" overwrite="true" filtering="true"/>		
+		<copy file="${lib.dir}/ojdbc6.jar" todir="${basedir}/dist" overwrite="true"/>
+		<copy file="${war.dir}/${PROJECT_NAME}rest.war" todir="${basedir}/dist" overwrite="true"/>
+	</target>	
+	
+	<!-- Freestyle Search Standalone build -->
+	<target name="build:freestyle" description="Builds the freestyle search application and autorun job for updating indices." depends="retrieve:cacore-sdk,load-sdk,load-project, prepare-copy">
+		<delete file="${output.package.local.dir}/lib/asm-1.5.3.jar" quiet="true" />
+		<delete file="${output.package.remote.dir}/lib/asm-1.5.3.jar" quiet="true" />
+		<delete file="${web.dir}/WEB-INF/lib/asm-1.5.3.jar" quiet="true" />
+		
+		<antcall target="-build-client-jar" />
+		<antcall target="-copy-client-jar" />
+		<ant antfile="build.xml" target="war" dir="../formrest" inheritall="false">
+			<property name="basedir" value="../formrest"/>
+			<property name="database.url" value="${CONNECTION.URL}"/>
+			<property name="database.user" value="${FORMREST.DS.USER}"/>
+			<property name="database.password" value="${FORMREST.DS.PSWD}"/>
+		</ant>
+		<ant antfile="build.xml" target="build-product" dir="../freestyle-search/software/freestylesearch" inheritall="false">
+			<property name="basedir" value="../freestyle-search/software/freestylesearch"/>
+			<property name="CADSR.DS.URL" value="${CONNECTION.URL}"/>
+			<property name="FREESTYLE.DS.URL" value="${FREESTYLE.URL}"/>
+			<property name="FREESTYLE.DS.USER" value="${FREESTYLE.DS.USER}"/>
+			<property name="FREESTYLE.DS.PSWD" value="${FREESTYLE.DS.PSWD}"/>
+			<property name="tier" value="${tier}"/>
+		</ant>
+		<artifact:mvn pom="../cderest/pom.xml">
+			<arg value="package"/>
+			<arg value="-Ddatabase.url=${CONNECTION.URL}"/>
+			<arg value="-Ddatabase.username=${CDEREST.DS.USER}"/>
+			<arg value="-Ddatabase.password=${CDEREST.DS.PSWD}"/>		    
+  		</artifact:mvn>
+		<mkdir dir="${basedir}/dist/war/META-INF"/>
+		<mkdir dir="${basedir}/dist/freestyle_autorun" />
+		<!-- <copy file="${conf.dir}/jboss-deployment-structure.xml" todir="${basedir}/dist/war" overwrite="true"/> -->
+		<copy file="${package.system.dir}/cadsrapi41.war" todir="${basedir}/dist/war" overwrite="true"/>
+		<copy file="../formrest/target/dist/formrest.war" todir="${basedir}/dist/war" overwrite="true"/>
+		<copy file="../cderest/target/cderest.war" todir="${basedir}/dist/war" overwrite="true"/>
+		<copy file="../freestyle-search/software/freestylesearch/deployment-artifacts/freestyle.war" todir="${basedir}/dist/war" overwrite="true"/>
+		<!-- Separating the Freestyle WAR out of the EAR -->
+		<copy file="../freestyle-search/software/freestylesearch/deployment-artifacts/freestyle.war" todir="${basedir}/dist" overwrite="true"/>
+		<copy todir="${basedir}/dist/war/META-INF" overwrite="true">
+			<fileset dir="${common.dir}/customizations/META-INF">
+				<include name="**/*" />
+			</fileset>
+		</copy>
+		
+		<filter token="connectionUrl" value="${CADSR.DS.URL}"/>
+		<echo>connectionUrl = ${connectionUrl}</echo>
+		<filter token="cdeBrowserUser" value="${CADSR.DS.USER}"/>
+		<echo>cdeBrowserUser = ${cdeBrowserUser}</echo>
+		<filter token="cdeBrowserPassword" value="${CADSR.DS.PSWD}"/>
+		<echo>cdeBrowserPassword not echoed</echo>		
+		<filter token="freestyleUser" value="${FREESTYLE.DS.USER}"/>
+		<echo>freestyleUser = ${freestyleUser}</echo>
+		<filter token="freestylePassword" value="${FREESTYLE.DS.PSWD}"/>
+		<echo>freestylePassword not echoed</echo>
+		<filter token="logLevel" value="INFO"/>
+
+		<delete dir="${basedir}/dist/war" quiet="true" />
+		<copy file="../formrest/target/dist/formbuilder.xslt" todir="${basedir}/dist" overwrite="true"/>
+		<copy file="../formrest/target/dist/transform.properties" todir="${basedir}/dist" overwrite="true"/>
+		<copy file="../formrest/target/dist/cadsrutil.properties" todir="${basedir}/dist" overwrite="true"/>
+		<copy file="../cderest/target/cdebrowser.xslt" todir="${basedir}/dist" overwrite="true"/>
+		<copy file="../cderest/target/ConvertCDE.xslt" todir="${basedir}/dist" overwrite="true"/>
+		<copy file="${conf.dir}/cadsrapi_modules.cli" todir="${basedir}/dist" overwrite="true" filtering="true"/>
+		<copy file="${conf.dir}/cadsrapi_setup_deploy.cli" todir="${basedir}/dist" overwrite="true" filtering="true"/>
+		<copy file="${conf.dir}/freestyle_setup_deploy.cli" todir="${basedir}/dist" overwrite="true" filtering="true"/>		
+		<copy file="${lib.dir}/ojdbc6.jar" todir="${basedir}/dist" overwrite="true"/>		
+		<copy todir="${basedir}/dist/freestyle_autorun" overwrite="true">
+			<fileset dir="../freestyle-search/software/freestylesearch/deployment-artifacts/bin">
+				<include name="**/*" />
+			</fileset>
+		</copy>
+		<copy file="${war.dir}/${PROJECT_NAME}rest.war" todir="${basedir}/dist" overwrite="true"/>
+	</target>	
+	
 	<target name="build:cderest">
 		<artifact:mvn pom="../cderest/pom.xml">
 			<arg value="package"/>
