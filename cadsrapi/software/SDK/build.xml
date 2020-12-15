@@ -440,8 +440,6 @@ L-->
 		<delete file="${output.package.remote.dir}/lib/asm-1.5.3.jar" quiet="true" />
 		<delete file="${web.dir}/WEB-INF/lib/asm-1.5.3.jar" quiet="true" />
 		
-		<antcall target="-build-client-jar" />
-		<antcall target="-copy-client-jar" />
 		<ant antfile="build.xml" target="war" dir="../formrest" inheritall="false">
 			<property name="basedir" value="../formrest"/>
 			<property name="database.url" value="${CONNECTION.URL}"/>
