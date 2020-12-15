@@ -463,7 +463,6 @@ L-->
 		<mkdir dir="${basedir}/dist/war/META-INF"/>
 		<mkdir dir="${basedir}/dist/freestyle_autorun" />
 		<!-- <copy file="${conf.dir}/jboss-deployment-structure.xml" todir="${basedir}/dist/war" overwrite="true"/> -->
-		<copy file="${package.system.dir}/cadsrapi41.war" todir="${basedir}/dist/war" overwrite="true"/>
 		<copy file="../formrest/target/dist/formrest.war" todir="${basedir}/dist/war" overwrite="true"/>
 		<copy file="../cderest/target/cderest.war" todir="${basedir}/dist/war" overwrite="true"/>
 		<copy file="../freestyle-search/software/freestylesearch/deployment-artifacts/freestyle.war" todir="${basedir}/dist/war" overwrite="true"/>
@@ -502,7 +501,6 @@ L-->
 				<include name="**/*" />
 			</fileset>
 		</copy>
-		<copy file="${war.dir}/${PROJECT_NAME}rest.war" todir="${basedir}/dist" overwrite="true"/>
 	</target>	
 	
 	<target name="build:cderest">
