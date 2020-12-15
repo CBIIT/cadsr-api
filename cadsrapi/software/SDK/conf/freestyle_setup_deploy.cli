@@ -1,0 +1,11 @@
+connect
+
+if (outcome ==success) of /deployment=cadsrapi41.ear:read-resource
+undeploy cadsrapi41.ear
+end-if
+
+if (outcome ==success) of /deployment=freestyle.war:read-resource
+undeploy freestyle.war
+end-if
+
+deploy --force /local/content/cadsrapi/bin/freestyle.war
