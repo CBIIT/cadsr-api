@@ -8,4 +8,4 @@ if (outcome ==success) of /deployment=freestyle.war:read-resource
 undeploy freestyle.war
 end-if
 
-deploy --force /local/content/cadsrapi/bin/freestyle.war
+deploy --force /local/content/freestyle/bin/freestyle.war
