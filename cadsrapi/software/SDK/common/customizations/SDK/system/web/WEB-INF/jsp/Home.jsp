@@ -16,6 +16,7 @@ L--%>
 <%@ page import="gov.nih.nci.system.web.util.JSPUtils"%>
 <%
 	String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+"/";
+	String freestylePath = basePath.replace("cadsrapi","freestyle");
 			String lastUserKey = (String) session
 			.getAttribute(AuthenticationProcessingFilter.ACEGI_SECURITY_LAST_USERNAME_KEY);
 	if (lastUserKey == null || lastUserKey.equalsIgnoreCase("null")) {
@@ -143,7 +144,7 @@ This is the principal caDSR API, and it is based on the ISO 11179 information mo
 <br><br><b><u>caDSR UML project model:</u></b><br>
 This API presents a UML Model view of the underlying caDSR metadata. The API objects are mapped to a set of materialized views views in the underlying database.
 
-			<br><br><b><u><a href="<%=basePath%>freestyle/" target="_blank">Freestyle Search:</a></u></b> <br>
+			<br><br><b><u><a href="<%=freestylePath%>freestyle/" target="_blank">Freestyle Search:</a></u></b> <br>
 				The caDSR Freestyle Search engine performs weighted semantic searches on the content of Administered Items in the caDSR. Freestyle Search is packaged as an API 
 				and also includes a sample UI accessible from a web browser.
 				
@@ -151,7 +152,7 @@ This API presents a UML Model view of the underlying caDSR metadata. The API obj
 				Value Meaning. The attributes searched on each are Version, Long Name, Preferred Name, Name, Preferred Definition, Question, Public ID, Latest Version Indicator,
 				Created By, Modified By, Workflow Status, Registration Status, Context, Alternate Name, Definition Source and Origin.<br><br>
 				
-				To access the Freestyle Search UI, please <b><u><a href="<%=basePath%>freestyle/" target="_blank">click here.</a></u></b><br>
+				To access the Freestyle Search UI, please <b><u><a href="<%=freestylePath%>freestyle/" target="_blank">click here.</a></u></b><br>
 				To access the Wiki documentation and download the associated files for using Freestyle Search API, please <b><u><a href="https://wiki.nci.nih.gov/display/caDSR/caDSR+Freestyle+Search+FAQs#caDSRFreestyleSearchFAQs-HowistheFreestyleAPIused" target="_blank">click here.</a></u></b>
 
 
