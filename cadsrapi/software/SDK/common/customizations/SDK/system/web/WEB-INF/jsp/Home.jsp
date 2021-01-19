@@ -6,7 +6,6 @@
 L--%>
 
 <%@taglib prefix="s" uri="/struts-tags" %>
-<%@ taglib prefix="sx" uri="/struts-dojo-tags" %>
 <%@ page import="org.acegisecurity.ui.AbstractProcessingFilter"%>
 <%@ page
 	import="org.acegisecurity.ui.webapp.AuthenticationProcessingFilter"%>

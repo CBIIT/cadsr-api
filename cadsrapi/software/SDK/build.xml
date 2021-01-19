@@ -158,6 +158,11 @@ L-->
 		<delete file="${sdk.home.dir}/software/lib/compile/struts2-core-2.3.35.jar" quiet="true" />
 		<delete file="${sdk.home.dir}/software/lib/compile/struts2-dojo-plugin-2.3.35.jar" quiet="true" />
 		<delete file="${sdk.home.dir}/software/lib/compile/xwork-core-2.3.35.jar" quiet="true" />
+		<delete file="${sdk.home.dir}/software/lib/compile/struts2-core-2.3.37.jar" quiet="true" />
+		<delete file="${sdk.home.dir}/software/lib/compile/struts2-dojo-plugin-2.3.37.jar" quiet="true" />
+		<delete file="${sdk.home.dir}/software/lib/compile/xwork-core-2.3.37.jar" quiet="true" />
+		<delete file="${sdk.home.dir}/software/lib/compile/commons-lang3-3.2.jar" quiet="true" />
+		<delete file="${sdk.home.dir}/software/lib/compile/commons-logging-1.1.3.jar" quiet="true" />
 		<delete file="${sdk.home.dir}/software/lib/compile/struts2-core-2.3.34.jar" quiet="true" />
 		<delete file="${sdk.home.dir}/software/lib/compile/struts2-dojo-plugin-2.3.34.jar" quiet="true" />
 		<delete file="${sdk.home.dir}/software/lib/compile/xwork-core-2.3.34.jar" quiet="true" />		
@@ -170,6 +175,11 @@ L-->
 		<delete file="${sdk.home.dir}/software/lib/runtime/struts2-core-2.3.35.jar" quiet="true" />
 		<delete file="${sdk.home.dir}/software/lib/runtime/struts2-dojo-plugin-2.3.35.jar" quiet="true" />
 		<delete file="${sdk.home.dir}/software/lib/runtime/xwork-core-2.3.35.jar" quiet="true" />
+		<delete file="${sdk.home.dir}/software/lib/runtime/struts2-core-2.3.37.jar" quiet="true" />
+		<delete file="${sdk.home.dir}/software/lib/runtime/struts2-dojo-plugin-2.3.37.jar" quiet="true" />
+		<delete file="${sdk.home.dir}/software/lib/runtime/xwork-core-2.3.37.jar" quiet="true" />
+		<delete file="${sdk.home.dir}/software/lib/runtime/commons-lang3-3.2.jar" quiet="true" />
+		<delete file="${sdk.home.dir}/software/lib/runtime/commons-logging-1.1.3.jar" quiet="true" />
 		<delete file="${sdk.home.dir}/software/lib/runtime/struts2-core-2.3.32.jar" quiet="true" />
 		<delete file="${sdk.home.dir}/software/lib/runtime/struts2-dojo-plugin-2.3.32.jar" quiet="true" />
 		<delete file="${sdk.home.dir}/software/lib/runtime/xwork-core-2.3.32.jar" quiet="true" />		
@@ -185,6 +195,11 @@ L-->
 		<delete file="${sdk.home.dir}/software/target/modules/lib/runtime/struts2-core-2.3.35.jar" quiet="true" />
 		<delete file="${sdk.home.dir}/software/target/modules/lib/runtime/struts2-dojo-plugin-2.3.35.jar" quiet="true" />
 		<delete file="${sdk.home.dir}/software/target/modules/lib/runtime/xwork-core-2.3.35.jar" quiet="true" />
+		<delete file="${sdk.home.dir}/software/target/modules/lib/runtime/struts2-core-2.3.37.jar" quiet="true" />
+		<delete file="${sdk.home.dir}/software/target/modules/lib/runtime/struts2-dojo-plugin-2.3.37.jar" quiet="true" />
+		<delete file="${sdk.home.dir}/software/target/modules/lib/runtime/xwork-core-2.3.37.jar" quiet="true" />
+		<delete file="${sdk.home.dir}/software/target/modules/lib/runtime/commons-lang3-3.2.jar" quiet="true" />
+		<delete file="${sdk.home.dir}/software/target/modules/lib/runtime/commons-logging-1.1.3.jar" quiet="true" />
 		<delete file="${sdk.home.dir}/software/target/modules/lib/runtime/struts2-core-2.3.32.jar" quiet="true" />
 		<delete file="${sdk.home.dir}/software/target/modules/lib/runtime/struts2-dojo-plugin-2.3.32.jar" quiet="true" />
 		<delete file="${sdk.home.dir}/software/target/modules/lib/runtime/xwork-core-2.3.32.jar" quiet="true" />		
@@ -201,6 +216,11 @@ L-->
 		<delete file="${sdk.home.dir}/software/target/modules/lib/compile/struts2-core-2.3.35.jar" quiet="true" />
 		<delete file="${sdk.home.dir}/software/target/modules/lib/compile/struts2-dojo-plugin-2.3.35.jar" quiet="true" />
 		<delete file="${sdk.home.dir}/software/target/modules/lib/compile/xwork-core-2.3.35.jar" quiet="true" />
+		<delete file="${sdk.home.dir}/software/target/modules/lib/compile/struts2-core-2.3.37.jar" quiet="true" />
+		<delete file="${sdk.home.dir}/software/target/modules/lib/compile/struts2-dojo-plugin-2.3.37.jar" quiet="true" />
+		<delete file="${sdk.home.dir}/software/target/modules/lib/compile/xwork-core-2.3.37.jar" quiet="true" />
+		<delete file="${sdk.home.dir}/software/target/modules/lib/compile/commons-lang3-3.2.jar" quiet="true" />
+		<delete file="${sdk.home.dir}/software/target/modules/lib/compile/commons-logging-1.1.3.jar" quiet="true" />
 		<delete file="${sdk.home.dir}/software/target/modules/lib/compile/struts2-core-2.3.32.jar" quiet="true" />
 		<delete file="${sdk.home.dir}/software/target/modules/lib/compile/struts2-dojo-plugin-2.3.32.jar" quiet="true" />
 		<delete file="${sdk.home.dir}/software/target/modules/lib/compile/xwork-core-2.3.32.jar" quiet="true" />
@@ -609,6 +629,11 @@ L-->
 		<delete file="${web.dir}/WEB-INF/lib/struts2-dojo-plugin-2.3.16.3.jar" quiet="true" />
 		<delete file="${web.dir}/WEB-INF/lib/xwork-core-2.3.16.3.jar" quiet="true" />
 		<delete file="${web.dir}/WEB-INF/lib/ognl-3.0.6.jar" quiet="true" />
+		<delete file="${web.dir}/WEB-INF/lib/struts2-core-2.3.37.jar" quiet="true" />
+		<delete file="${web.dir}/WEB-INF/lib/struts2-dojo-plugin-2.3.37.jar" quiet="true" />
+		<delete file="${web.dir}/WEB-INF/lib/xwork-core-2.3.37.jar" quiet="true" />
+		<delete file="${web.dir}/WEB-INF/lib/commons-lang3-3.2.jar" quiet="true" />
+		<delete file="${web.dir}/WEB-INF/lib/commons-logging-1.1.3.jar" quiet="true" />
 		<delete file="${web.dir}/WEB-INF/lib/struts2-core-2.3.35.jar" quiet="true" />
 		<delete file="${web.dir}/WEB-INF/lib/struts2-dojo-plugin-2.3.35.jar" quiet="true" />
 		<delete file="${web.dir}/WEB-INF/lib/xwork-core-2.3.35.jar" quiet="true" />
